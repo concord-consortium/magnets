@@ -66,6 +66,7 @@
     "@types/enzyme-adapter-react-16": "^1.0.3",
     "@types/jest": "^23.3.10",
     "@types/lodash": "^4.14.119",
+    "@types/pixi.js": "^4.8.5",
     "@types/query-string": "^6.1.1",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
@@ -104,14 +105,16 @@
     "webpack-dev-server": "^3.1.10"
   },
   "dependencies": {
+    "@inlet/react-pixi": "^0.4.1",
     "immutable": "^3.8.2",
     "lodash": "^4.17.11",
     "mobx": "^5.8.0",
     "mobx-react": "^5.4.3",
     "mobx-state-tree": "^3.9.0",
+    "pixi.js": "^4.8.4",
     "query-string": "^6.2.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
     "uuid": "^3.3.2",
     "wait-on": "^3.2.0"
   }

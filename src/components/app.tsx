@@ -1,9 +1,9 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
-import { Text } from "./text";
 
 import "./app.sass";
+import { MagnetCanvas } from "./magnet/magnet-canvas";
 
 interface IProps extends IBaseProps {}
 interface IState {}
@@ -16,7 +16,9 @@ export class AppComponent extends BaseComponent<IProps, IState> {
     const {ui} = this.stores;
     return (
       <div className="app">
-        <Text text={ui.sampleText} />
+        <MagnetCanvas
+          width={800}
+          height={500}/>
       </div>
     );
   }
