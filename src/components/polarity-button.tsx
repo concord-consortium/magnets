@@ -23,6 +23,6 @@ export class PolarityButtonComponent extends BaseComponent<IProps, IState> {
   }
 
   private handleClickPolarityButton = () => {
-    console.log("implement click on polarity button");
+    // TODO: implement click on polarity button
   }
 }
