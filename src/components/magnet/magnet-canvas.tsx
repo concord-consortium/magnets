@@ -10,32 +10,67 @@ export interface IMagnetProps {
   length: number;
 }
 
+export type PossibleMagnet = IMagnetProps | undefined;
+
 interface IProps {
   width: number;
   height: number;
+  showMagnet1: boolean;
+  showMagnet2: boolean;
   showGradient: boolean;
   showVectors: boolean;
 }
 interface IState {
-  magnet: IMagnetProps;
+  magnet1?: IMagnetProps;
+  magnet2?: IMagnetProps;
 }
 
 export class MagnetCanvas extends React.Component<IProps, IState> {
 
+  public static getDerivedStateFromProps(props: IProps, state: IState) {
+    const newState: IState = {};
+
+    const y = props.height / 2;
+
+    if (props.showMagnet1) {
+      if (!state.magnet1) {
+        // add new magnet
+        const x = props.showMagnet2 ? props.width / 4 : props.width / 2;
+        newState.magnet1 = {
+          x,
+          y,
+          length: 120
+        };
+      } else {
+        newState.magnet1 = state.magnet1;
+      }
+    }
+
+    if (props.showMagnet2) {
+      if (!state.magnet2) {
+        // add new magnet
+        const x = props.showMagnet1 ? props.width * 3 / 4 : props.width / 2;
+        newState.magnet2 = {
+          x,
+          y,
+          length: 120
+        };
+      } else {
+        newState.magnet2 = state.magnet2;
+      }
+    }
+
+    return newState;
+  }
+
   constructor(props: IProps) {
     super(props);
-    this.state = {
-      magnet: {
-        x: props.width / 2,
-        y: props.height / 2,
-        length: 120
-      }
-    };
+    this.state = {};
   }
 
   public render() {
     const { width, height, showGradient, showVectors } = this.props;
-    const { magnet } = this.state;
+    const { magnet1, magnet2 } = this.state;
     const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x333,
       resolution: 2,
@@ -50,24 +85,30 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
       <Stage options={options} style={{width, height}}>
         {
           showGradient &&
-          <GradientField magnet={magnet} width={width} height={height} cellSize={20} />
+          <GradientField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={20} />
         }
         {
           showVectors &&
-          <VectorField magnet={magnet} width={width} height={height} cellSize={60} />
+          <VectorField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={30} />
         }
-        <Magnet magnet={magnet}
-          updatePosition={this.handleUpdateMagnetPosition} />
+        {
+          magnet1 &&
+          <Magnet magnet={magnet1} updatePosition={this.handleUpdateMagnetPosition(1)} />
+        }
+        {
+          magnet2 &&
+          <Magnet magnet={magnet2} updatePosition={this.handleUpdateMagnetPosition(2)} />
+        }
       </Stage>
     );
   }
 
-  private handleUpdateMagnetPosition = (x: number, y: number) => {
+  private handleUpdateMagnetPosition = (which: number) => (x: number, y: number) => {
     this.setState({
-      magnet: {
+      [`magnet${which}`]: {
         x,
         y,
-        length: this.state.magnet.length
+        length: 120
       }
     });
   }
