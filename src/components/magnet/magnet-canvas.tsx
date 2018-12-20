@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Stage } from "@inlet/react-pixi";
 import Magnet from "./magnet";
+import VectorField from "./vector-field";
 
 interface IProps {
   width: number;
@@ -24,14 +25,17 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
   public render() {
     const { width, height } = this.props;
     const { magnetX, magnetY } = this.state;
-    const options = {
+    const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x333,
+      resolution: 2,
+      antialias: true,
       width,
       height
     };
 
     return (
-      <Stage options={options}>
+      <Stage options={options} style={{width, height}}>
+        <VectorField width={width} height={height} />
         <Magnet x={magnetX} y={magnetY}
           updatePosition={this.handleUpdateMagnetPosition} />
       </Stage>
