@@ -1,23 +1,23 @@
 import * as React from "react";
 import { Container } from "@inlet/react-pixi";
 import Vector from "./vector";
-import { getFieldDirection } from "./magnet-util";
+import { getFieldMagnitudeAndDirection } from "./magnet-util";
 
 interface IProps {
   width: number;
   height: number;
+  cellSize: number;
 }
 
 export default function VectorField(props: IProps) {
-  const { width, height } = props;
-  const vectorSize = 50;
+  const { width, height, cellSize } = props;
   const vectors = [];
-  for (let x = vectorSize / 2; x < width; x += vectorSize) {
-    for (let y = vectorSize / 2; y < height; y += vectorSize) {
-      const direction = getFieldDirection(null, x, y);
+  for (let x = cellSize / 2; x < width; x += cellSize) {
+    for (let y = cellSize / 2; y < height; y += cellSize) {
+      const direction = getFieldMagnitudeAndDirection(null, x, y)[1];
       vectors.push(
         <Vector key={`${x} ${y}`}
-          x={x} y={y} length={vectorSize} direction={direction} />
+          x={x} y={y} length={cellSize} direction={direction} />
       );
     }
   }
