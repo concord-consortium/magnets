@@ -13,6 +13,8 @@ export interface IMagnetProps {
 interface IProps {
   width: number;
   height: number;
+  showGradient: boolean;
+  showVectors: boolean;
 }
 interface IState {
   magnet: IMagnetProps;
@@ -32,7 +34,7 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { width, height } = this.props;
+    const { width, height, showGradient, showVectors } = this.props;
     const { magnet } = this.state;
     const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x333,
@@ -46,8 +48,14 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
 
     return (
       <Stage options={options} style={{width, height}}>
-        <GradientField magnet={magnet} width={width} height={height} cellSize={20} />
-        <VectorField magnet={magnet} width={width} height={height} cellSize={30} />
+        {
+          showGradient &&
+          <GradientField magnet={magnet} width={width} height={height} cellSize={20} />
+        }
+        {
+          showVectors &&
+          <VectorField magnet={magnet} width={width} height={height} cellSize={60} />
+        }
         <Magnet magnet={magnet}
           updatePosition={this.handleUpdateMagnetPosition} />
       </Stage>

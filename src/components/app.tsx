@@ -18,7 +18,10 @@ export class AppComponent extends BaseComponent<IProps, IState> {
       <div className="app">
         <MagnetCanvas
           width={800}
-          height={500}/>
+          height={500}
+          showGradient={true}
+          showVectors={true}
+        />
       </div>
     );
   }
