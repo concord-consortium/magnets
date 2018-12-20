@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Stage, Sprite } from "@inlet/react-pixi";
 import { ObservablePoint } from "pixi.js";
+import { IMagnetProps } from "./magnet-canvas";
 
 interface IProps {
-  x: number;
-  y: number;
+  magnet: IMagnetProps;
   updatePosition: (x: number, y: number) => void;
 }
 interface IState {
@@ -22,11 +22,12 @@ export default class Magnet extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const { x, y } = this.props.magnet;
     // react-pixi typing issue
     const anchor = [0.5, 0.5] as unknown as ObservablePoint;
     return (
       <Sprite
-        image="./assets/magnet-bar.png" x={this.props.x} y={this.props.y}
+        image="./assets/magnet-bar.png" x={x} y={y}
         anchor={anchor}
         interactive={true}
         buttonMode={true}

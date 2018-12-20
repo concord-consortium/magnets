@@ -4,13 +4,18 @@ import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
 
+export interface IMagnetProps {
+  x: number;
+  y: number;
+  length: number;
+}
+
 interface IProps {
   width: number;
   height: number;
 }
 interface IState {
-  magnetX: number;
-  magnetY: number;
+  magnet: IMagnetProps;
 }
 
 export class MagnetCanvas extends React.Component<IProps, IState> {
@@ -18,14 +23,17 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      magnetX: props.width / 2,
-      magnetY: props.height / 2
+      magnet: {
+        x: props.width / 2,
+        y: props.height / 2,
+        length: 120
+      }
     };
   }
 
   public render() {
     const { width, height } = this.props;
-    const { magnetX, magnetY } = this.state;
+    const { magnet } = this.state;
     const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x333,
       resolution: 2,
@@ -38,9 +46,9 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
 
     return (
       <Stage options={options} style={{width, height}}>
-        <GradientField width={width} height={height} cellSize={10} />
-        <VectorField width={width} height={height} cellSize={30} />
-        <Magnet x={magnetX} y={magnetY}
+        <GradientField magnet={magnet} width={width} height={height} cellSize={20} />
+        <VectorField magnet={magnet} width={width} height={height} cellSize={30} />
+        <Magnet magnet={magnet}
           updatePosition={this.handleUpdateMagnetPosition} />
       </Stage>
     );
@@ -48,8 +56,11 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
 
   private handleUpdateMagnetPosition = (x: number, y: number) => {
     this.setState({
-      magnetX: x,
-      magnetY: y
+      magnet: {
+        x,
+        y,
+        length: this.state.magnet.length
+      }
     });
   }
 }
