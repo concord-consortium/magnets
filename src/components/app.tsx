@@ -3,7 +3,6 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./app.sass";
-import { MagnetCanvas } from "./magnet/magnet-canvas";
 
 import { TopBarComponent } from "./top-bar";
 import { MainContentComponent } from "./main-content";
