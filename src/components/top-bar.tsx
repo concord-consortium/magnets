@@ -43,7 +43,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
   }
 
   private renderMagnetButton = (magType: any, posClass: string, onClickFunction: () => void) => {
-    const magImage = "assets/magnet-" + magType + ".png";
+    const magImage = "assets/magnet-" + magType + "-icon.png";
     return (
       <div className={"magnet-button " + posClass} onClick={onClickFunction}>
       {magType === "none"
@@ -57,7 +57,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     return (
       <div className="button short" onClick={onClickFunction}>
       {magType !== "bar"
-        ? <img src="assets/magnet-bar.png" className="icon"/>
+        ? <img src="assets/magnet-bar-icon.png" className="icon"/>
         : <div>bar</div>}
     </div>
     );
@@ -67,7 +67,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     return (
       <div className="button" onClick={onClickFunction}>
       {magType !== "coil"
-        ? <img src="assets/magnet-coil.png" className="icon"/>
+        ? <img src="assets/magnet-coil-icon.png" className="icon"/>
         : <div>coil</div>}
     </div>
     );
