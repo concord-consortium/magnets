@@ -35,6 +35,11 @@ class Footer {
     turnOffPointers(){
         cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Pointers').click();
     }
+    changeFieldStrength(num){
+        cy.get('input[type=range]').as('range')
+            .invoke('val', num)
+            .trigger('change')
+    }
 }
 
 export default Footer;
