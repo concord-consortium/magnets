@@ -39,15 +39,18 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
   }
 
   private handleFieldLinesCheckbox = (event: any) => {
-    // TODO: implement click on field lines checkbox
+    const {ui} = this.stores;
+    ui.setShowFieldLines(!ui.showFieldLines);
   }
 
   private handleCloudCheckbox = (event: any) => {
-    // TODO:  implement click on cloud checkbox
+    const {ui} = this.stores;
+    ui.setShowCloud(!ui.showCloud);
   }
 
   private handlePointersCheckbox = (event: any) => {
-    // TODO: implement click on pointers checkbox
+    const {ui} = this.stores;
+    ui.setShowPointers(!ui.showPointers);
   }
 
 }

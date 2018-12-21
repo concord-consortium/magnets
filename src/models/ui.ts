@@ -9,7 +9,10 @@ export const UIModel = types
     showTopBarCurtain: false,
     primaryMagnet: types.optional(MagnetTypeEnum, "none"),
     secondaryMagnet: types.optional(MagnetTypeEnum, "none"),
-    strengthSlider: 2
+    strengthSlider: 2,
+    showFieldLines: false,
+    showCloud: false,
+    showPointers: false
   })
   .actions((self) => {
     return {
@@ -27,6 +30,15 @@ export const UIModel = types
       },
       setStrengthSlider(val: number) {
         self.strengthSlider = val;
+      },
+      setShowFieldLines(val: boolean) {
+        self.showFieldLines = val;
+      },
+      setShowCloud(val: boolean) {
+        self.showCloud = val;
+      },
+      setShowPointers(val: boolean) {
+        self.showPointers = val;
       }
     };
   });
