@@ -1,0 +1,27 @@
+@import vars
+
+.polarity-button
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 80px
+  width: 100px
+  color: $color-button
+  border-radius: $component-border-radius
+  margin: $component-margin
+  background-color: $button-bgcolor
+  transition-duration: $animation-speed
+  &:hover
+    background-color: $color-button-hover
+    cursor: pointer
+
+  .label
+    font-size: $font-size-button
+    margin: $internal-component-margin
+
+  .icon
+    fill: $color-button
+    width: 37px
+    height: 37px
+    margin: $internal-component-margin

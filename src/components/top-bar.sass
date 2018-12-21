@@ -1,0 +1,110 @@
+@import vars
+
+.top-bar
+  display: flex
+  flex-shrink: 0
+  width: 100%
+  height: $top-bar-height
+  margin-bottom: $component-margin
+  color: $top-bar-color
+  background-color: $top-bar-bgcolor
+
+  .magnet-button
+    display: flex
+    justify-content: center
+    align-items: center
+    height: $top-bar-height
+    width: 137px
+    position: absolute
+    top: 0px
+
+    &.left
+      left: 0px
+      background-image: url("../assets/magnet-button-left.png")
+
+    &.right
+      right: 0px
+      background-image: url("../assets/magnet-button-right.png")
+
+    .icon
+      position: absolute
+
+    .unselected
+      position: absolute
+      top: 15px
+      display: flex
+      text-align: center
+      align-items: center
+      background-color: #A8A87D
+      border: 4px dashed #C5C68D
+      font-size: 18px
+      color: #57593D
+      width: 80px
+      height: 50px
+      border-radius: 8px
+      &:hover
+        background-color: #B7B794
+        cursor: pointer
+    .left
+      left: 15px
+    .right
+      right: 15px
+
+  .curtain
+    display: flex
+    flex-direction: row
+    justify-content: space-between;
+    background-color: $top-bar-curtain-bgcolor
+    height: 0
+    width: 100%
+    border-bottom: 0px solid #57593D
+    transition-duration: $animation-speed
+    overflow: hidden
+
+    &.unrolled
+      height: 90px
+      border-bottom-width: 4px
+
+    .divider
+      height: 90px
+      width: 34px
+      fill: $color-olive-light
+
+    .content-container
+      display: flex
+      flex-direction: row
+      align-items: center
+      color: $color-olive-light
+      &.left
+        margin-left: 150px
+      &.right
+        margin-right: 150px
+
+      .select-mag
+        text-align: center
+        font-size: 18px
+        width: 100px
+        margin: $component-margin
+
+      .button
+        display: flex
+        text-align: center
+        align-items: center
+        justify-content: center
+        background-color: #A8A87D
+        border: 4px dashed #C5C68D
+        font-size: 17px
+        color: #C5C68D
+        width: 70px
+        height: 50px
+        border-radius: 8px
+        margin: $component-margin
+        &:hover
+          cursor: pointer
+          background-color: #B7B794
+
+        &.short
+          height: 30px
+
+      .icon
+        width: 75%

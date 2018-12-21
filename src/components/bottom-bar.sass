@@ -1,0 +1,20 @@
+@import vars
+
+.bottom-bar
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 0
+  width: 100%
+  transition-duration: $animation-speed
+
+  &.unrolled
+    height: $bottom-bar-height
+
+  .row
+    display: flex
+    flex-direction: row
+    &.hidden
+      display: none
+
