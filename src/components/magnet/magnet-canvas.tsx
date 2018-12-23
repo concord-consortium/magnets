@@ -7,6 +7,8 @@ import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
 
+const kMagnetLength = 220;
+
 export interface IMagnetProps {
   x: number;
   y: number;
@@ -14,6 +16,7 @@ export interface IMagnetProps {
 }
 
 export type PossibleMagnet = IMagnetProps | undefined;
+export type Magnet = IMagnetProps;
 
 interface IProps {
   width: number;
@@ -41,7 +44,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         newState.magnet1 = {
           x,
           y,
-          length: 120,
+          length: kMagnetLength
         };
       } else {
         newState.magnet1 = state.magnet1;
@@ -55,7 +58,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         newState.magnet2 = {
           x,
           y,
-          length: 120,
+          length: kMagnetLength
         };
       } else {
         newState.magnet2 = state.magnet2;
@@ -133,7 +136,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       [`magnet${which}`]: {
         x,
         y,
-        length: 120
+        length: kMagnetLength
       }
     });
   }
