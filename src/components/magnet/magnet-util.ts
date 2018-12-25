@@ -1,7 +1,17 @@
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 
-const kChargeAmount = 1000;
+const kChargeAmount = 100;
+const kMagnetHeight = 50;
+const kNumDipoles = 10;
+
+interface Dipole {
+  posX: number;
+  posY: number;
+  negX: number;
+  negY: number;
+  charge: number;
+}
 
 interface PointCharge {
   x: number;
@@ -22,14 +32,30 @@ export function getFieldMagnitudeAndDirection(magnets: PossibleMagnet[], x: numb
 }
 
 function getFieldForMagnet(magnet: Magnet, x: number, y: number) {
+  const dipoles = [];
+  const posX = magnet.x + (magnet.length) / 2;
+  const negX = magnet.x - (magnet.length) / 2;
+  const magStart = magnet.y - kMagnetHeight / 2;
+  const magIncr = kMagnetHeight / kNumDipoles;
+  for (let i = 0; i < kNumDipoles; i++) {
+    const dipoleY = magStart + (magIncr * i);
+    dipoles.push({posX, posY: dipoleY, negX, negY: dipoleY});
+  }
+
+  return dipoles.reduce((acc: Vector, dipole: Dipole) => {
+    return acc.add(getFieldForDipole(dipole, x, y));
+  }, new Vector(0, 0));
+}
+
+function getFieldForDipole(dipole: Dipole, x: number, y: number) {
   const plusField = getFieldForPointCharge({
-    x: magnet.x + (magnet.length) / 2,
-    y: magnet.y,
+    x: dipole.posX,
+    y: dipole.posY,
     charge: kChargeAmount
   }, x, y);
   const minusField = getFieldForPointCharge({
-    x: magnet.x - (magnet.length) / 2,
-    y: magnet.y,
+    x: dipole.negX,
+    y: dipole.negY,
     charge: -kChargeAmount
   }, x, y);
 
