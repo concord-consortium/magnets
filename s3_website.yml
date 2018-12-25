@@ -5,7 +5,7 @@ s3_key_prefix: magnets
 s3_endpoint: us-east-1
 gzip: true
 
-cloudfront_distribution_id: E1YPVV3YLYS4J7
+cloudfront_distribution_id: E2XRKH8AUR4GM6
 cloudfront_invalidate_root: true
 cloudfront_wildcard_invalidation: true
 
