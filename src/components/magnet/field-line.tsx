@@ -9,6 +9,7 @@ interface IProps {
   magnets: PossibleMagnet[];
   x: number;
   y: number;
+  internal?: boolean;
 }
 interface IState {
 }
@@ -28,7 +29,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets } = newProps;
+    const { x, y, magnets, internal } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
@@ -39,7 +40,10 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
 
-      if (magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) || outOfBounds(currPos)) {
+      if (outOfBounds(currPos)
+          || magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && !internal
+          || !magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && internal
+      ) {
         break;
       }
     }

@@ -10,12 +10,14 @@ interface IProps {
   height: number;
 }
 
-function renderFieldLine(x: number, y: number, magnets: PossibleMagnet[], index: number) {
+function renderFieldLine(x: number, y: number, magnets: PossibleMagnet[], index: number, internal?: boolean) {
   return (
     <FieldLine key={index}
       x={x}
       y={y}
-      magnets={magnets} />
+      magnets={magnets}
+      internal={internal}
+    />
   );
 }
 
@@ -25,6 +27,7 @@ export default function FieldLines(props: IProps) {
   magnets.forEach((magnet, i) => {
     let index = i * 100;
     if (magnet) {
+      // External lines
       fieldLines.push(
         renderFieldLine(magnet.x + (magnet.length / 2) + 1, magnet.y, magnets, index++)
       );
@@ -51,6 +54,17 @@ export default function FieldLines(props: IProps) {
       );
       fieldLines.push(
         renderFieldLine(magnet.x + (magnet.length / 2) - 10, magnet.y - 26, magnets, index++)
+      );
+
+      // Internal lines
+      fieldLines.push(
+        renderFieldLine(magnet.x - (magnet.length / 2) + 1, magnet.y, magnets, index++, true)
+      );
+      fieldLines.push(
+        renderFieldLine(magnet.x - (magnet.length / 2) + 1, magnet.y + 12, magnets, index++, true)
+      );
+      fieldLines.push(
+        renderFieldLine(magnet.x - (magnet.length / 2) + 1, magnet.y - 12, magnets, index++, true)
       );
     }
   });
