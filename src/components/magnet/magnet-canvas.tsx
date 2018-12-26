@@ -7,6 +7,7 @@ import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
 import FieldLines from "./field-lines";
+import { reaction, IReactionDisposer } from "mobx";
 
 const kMagnetLength = 220;
 
@@ -71,9 +72,24 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     return newState;
   }
 
+  private strengthDisposer: IReactionDisposer;
+
   constructor(props: IProps) {
     super(props);
     this.state = {};
+
+  }
+
+  public componentDidMount() {
+    const {simulation} = this.stores;
+    this.strengthDisposer = reaction(
+      () => simulation.magnets.map(magnet => magnet.strength),
+      () => this.forceUpdate()
+    );
+  }
+
+  public componentWillUnmount() {
+    this.strengthDisposer();
   }
 
   public render() {
@@ -98,19 +114,22 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       height
     };
 
+    const magnets = [magnet1, magnet2];
+    const magnetModels = simulation.magnets;
+
     return (
       <Stage options={options} style={{width, height}}>
         {
           simulation.showCloud &&
-          <GradientField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={20} />
+          <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={20} />
         }
         {
           simulation.showPointers &&
-          <VectorField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={30} />
+          <VectorField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={30} />
         }
         {
           simulation.showFieldLines &&
-          <FieldLines magnets={[magnet1, magnet2]} width={width} height={height} />
+          <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
         }
         {
           magnet1 &&

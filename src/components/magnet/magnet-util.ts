@@ -1,5 +1,6 @@
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
+import { SimulationMagnetType } from "../../models/simulation-magnet";
 
 const kChargeAmount = 100;
 const kMagnetHeight = 50;
@@ -29,25 +30,32 @@ export function pointInMagnet(magnet: PossibleMagnet, x: number, y: number) {
   return dx ** 2 + dy ** 2 === 0;
 }
 
-export function getFieldVectorAtPosition(magnets: PossibleMagnet[], x: number, y: number) {
-  return magnets.reduce((acc: Vector, magnet: PossibleMagnet) => {
-    if (magnet) {
-      return acc.add(getFieldForMagnet(magnet, x, y));
+export function getFieldVectorAtPosition(
+  magnets: PossibleMagnet[],
+  magnetModels: SimulationMagnetType[],
+  x: number,
+  y: number
+) {
+  return magnets.reduce((acc: Vector, magnet: PossibleMagnet, index: number) => {
+    const magnetModel = index < magnetModels.length && magnetModels[index];
+    if (magnet && magnetModel) {
+      return acc.add(getFieldForMagnet(magnet, magnetModel, x, y));
     } else {
       return acc;
     }
   }, new Vector(0, 0));
 }
 
-function getFieldForMagnet(magnet: Magnet, x: number, y: number) {
-  const dipoles = [];
+function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x: number, y: number) {
+  const dipoles: Dipole[] = [];
   const posX = magnet.x + (magnet.length) / 2;
   const negX = magnet.x - (magnet.length) / 2;
   const magStart = magnet.y - kMagnetHeight / 2;
   const magIncr = kMagnetHeight / kNumDipoles;
+  const charge = kChargeAmount * magnetModel.strength;
   for (let i = 0; i < kNumDipoles; i++) {
     const dipoleY = magStart + (magIncr * i);
-    dipoles.push({posX, posY: dipoleY, negX, negY: dipoleY});
+    dipoles.push({posX, posY: dipoleY, negX, negY: dipoleY, charge});
   }
 
   const field = dipoles.reduce((acc: Vector, dipole: Dipole) => {
@@ -66,12 +74,12 @@ function getFieldForDipole(dipole: Dipole, x: number, y: number) {
   const plusField = getFieldForPointCharge({
     x: dipole.posX,
     y: dipole.posY,
-    charge: kChargeAmount
+    charge: dipole.charge
   }, x, y);
   const minusField = getFieldForPointCharge({
     x: dipole.negX,
     y: dipole.negY,
-    charge: -kChargeAmount
+    charge: -dipole.charge
   }, x, y);
 
   return plusField.add(minusField);

@@ -4,9 +4,11 @@ import { getFieldVectorAtPosition, pointInMagnet } from "./magnet-util";
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 import { kCanvasWidth, kCanvasHeight } from "../main-content";
+import { SimulationMagnetType } from "../../models/simulation-magnet";
 
 interface IProps {
   magnets: PossibleMagnet[];
+  magnetModels: SimulationMagnetType[];
   x: number;
   y: number;
   internal?: boolean;
@@ -29,14 +31,14 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets, internal } = newProps;
+    const { x, y, magnets, magnetModels, internal } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
 
     let currPos = new Vector(x, y);
     for (let i = 0; i < 1500; i++) {
-      const delta = getFieldVectorAtPosition(magnets, currPos.x, currPos.y).unit();
+      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
 
