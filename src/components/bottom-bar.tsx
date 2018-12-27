@@ -6,8 +6,9 @@ import "./bottom-bar.sass";
 
 import { MagFieldPanelComponent } from "./mag-field-control-panel";
 import { CompassComponent } from "./compass";
-import { PolarityButtonComponent } from "./polarity-button";
-import { StrengthPanelComponent } from "./strength-control-panel";
+import { StrengthPanelComponent } from "./strength-panel";
+import { TogglePanelComponent } from "./toggle-panel";
+import { PolarityPanelComponent } from "./polarity-panel";
 
 interface IProps extends IBaseProps {}
 interface IState {}
@@ -17,26 +18,50 @@ interface IState {}
 export class BottomBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
-    const {ui} = this.stores;
-    const primaryMagType = ui.primaryMagnet;
-    const secondaryMagType = ui.secondaryMagnet;
-    const secondaryRowClass = secondaryMagType !== "none" ? "row" : "row hidden";
+    const {simulation} = this.stores;
+    const primaryMag = simulation.getMagnetAtIndex(0);
+    const primaryMagType = primaryMag !== null ? primaryMag.type : "none";
+    const secondaryMag = simulation.getMagnetAtIndex(1);
+    const secondaryMagType = secondaryMag !== null ? secondaryMag.type : "none";
     const barClass = primaryMagType !== "none" ? "bottom-bar unrolled" : "bottom-bar";
+    const showMagForces: boolean = primaryMagType !== "none" && secondaryMagType !== "none";
+    const forcesLabel: string = simulation.showMagneticForces ? "ON" : "OFF";
+    const forcesOn: boolean = forcesLabel === "ON" ? true : false;
+
     return (
       <div className={barClass}>
         <div className="row">
-          <PolarityButtonComponent/>
-          <StrengthPanelComponent/>
-          <div className={secondaryRowClass}>
-            <PolarityButtonComponent/>
-            <StrengthPanelComponent/>
+          <div className="panel">
+            <PolarityPanelComponent index={0}/>
+            <StrengthPanelComponent index={0}/>
           </div>
+          {secondaryMagType !== "none"
+           ? <div className="panel">
+              <PolarityPanelComponent index={1}/>
+              <StrengthPanelComponent index={1}/>
+             </div>
+          : null
+          }
         </div>
         <div className="row">
-          <CompassComponent/>
           <MagFieldPanelComponent/>
+          {showMagForces ?
+            <TogglePanelComponent
+              title="Show Magnetic Forces"
+              switchOn={forcesOn}
+              buttonText={forcesLabel}
+              label={"Force Arrows"}
+              buttonClick={this.handleClickMagForcesButton}
+            />
+            : null}
         </div>
       </div>
     );
   }
+
+  private handleClickMagForcesButton = () => {
+    const {simulation} = this.stores;
+    simulation.setShowMagneticForces(!simulation.showMagneticForces);
+  }
+
 }

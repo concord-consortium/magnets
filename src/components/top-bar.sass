@@ -28,6 +28,10 @@
 
     .icon
       position: absolute
+      &.left
+        transform: rotate(-2deg)
+      &.right
+        transform: rotate(2deg)
 
     .unselected
       position: absolute
@@ -41,7 +45,7 @@
       color: #57593D
       width: 80px
       height: 50px
-      border-radius: 8px
+      border-radius: $component-border-radius
       &:hover
         background-color: #B7B794
         cursor: pointer
@@ -97,7 +101,7 @@
         color: #C5C68D
         width: 70px
         height: 50px
-        border-radius: 8px
+        border-radius: $double-component-border-radius
         margin: $component-margin
         &:hover
           cursor: pointer
@@ -105,6 +109,14 @@
 
         &.short
           height: 30px
+          border-radius: $component-border-radius
+
+        &.text-only
+          color: #57593D
+
+        &.disabled
+          opacity: .25
+          pointer-events: none
 
       .icon
-        width: 75%
+        width: 90%

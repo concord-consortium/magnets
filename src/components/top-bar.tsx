@@ -3,6 +3,7 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./top-bar.sass";
+import { MagnetTypeEnum, SimulationMagnet, SimulationMagnetType } from "../models/simulation-magnet";
 
 interface IProps extends IBaseProps {}
 interface IState {}
@@ -12,18 +13,26 @@ interface IState {}
 export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
-    const {ui} = this.stores;
+    const {ui, simulation} = this.stores;
     const curtainClass = ui.showTopBarCurtain ? "curtain unrolled" : "curtain";
-    const primaryMagType = ui.primaryMagnet;
-    const secondaryMagType = ui.secondaryMagnet;
+    const primaryMagText = "select a magnet";
+    const primaryMag = simulation.getMagnetAtIndex(0);
+    const primaryMagType = primaryMag !== null ? primaryMag.type : "none";
+    const primaryDisabledClass = "";
+    const secondaryMag = simulation.getMagnetAtIndex(1);
+    const secondaryMagType = secondaryMag !== null ? secondaryMag.type : "none";
+    const secondaryMagText = primaryMagType !== "none" ? "select a magnet" : "";
+    const secondaryDisabledClass = primaryMagType !== "none" ? "" : " disabled";
+    const removeDisabledClass = secondaryMagType !== "none" ? "" : " disabled";
+
     return (
       <div className="top-bar">
-        {this.renderMagnetButton(primaryMagType, "left", this.handleClickLeftMagnetButton)}
+        {this.renderMagnetButton(primaryMagText, primaryMagType, "left", this.handleClickLeftMagnetButton)}
         <div className={curtainClass}>
           <div className="content-container left">
-            <div className="select-mag">Select a magnet (fixed)</div>
-            {this.renderBarButton(primaryMagType, this.handleClickLeftMagnetBarButton)}
-            {this.renderCoilButton(primaryMagType, this.handleClickLeftMagnetCoilButton)}
+            <div className="select-mag">Select a magnet</div>
+            {this.renderBarButton(primaryMagType, primaryDisabledClass, this.handleClickLeftMagnetBarButton)}
+            {this.renderCoilButton(primaryMagType, primaryDisabledClass, this.handleClickLeftMagnetCoilButton)}
           </div>
           <div>
             <svg className="divider">
@@ -32,30 +41,31 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
           </div>
           <div className="content-container right">
             <div className="select-mag">Add a 2nd magnet (movable)</div>
-            {this.renderBarButton(secondaryMagType, this.handleClickRightMagnetBarButton)}
-            {this.renderCoilButton(secondaryMagType, this.handleClickRightMagnetCoilButton)}
-            <div className="button" onClick={this.handleClickRightMagnetRemoveButton}>remove magnet</div>
+            {this.renderBarButton(secondaryMagType, secondaryDisabledClass, this.handleClickRightMagnetBarButton)}
+            {this.renderCoilButton(secondaryMagType, secondaryDisabledClass, this.handleClickRightMagnetCoilButton)}
+            <div className={"button text-only" + removeDisabledClass}
+                 onClick={this.handleClickRightMagnetRemoveButton}>Remove magnet</div>
           </div>
         </div>
-        {this.renderMagnetButton(secondaryMagType, "right", this.handleClickRightMagnetButton)}
+        {this.renderMagnetButton(secondaryMagText, secondaryMagType, "right", this.handleClickRightMagnetButton)}
       </div>
     );
   }
 
-  private renderMagnetButton = (magType: any, posClass: string, onClickFunction: () => void) => {
+  private renderMagnetButton = (text: string, magType: any, posClass: string, onClickFunction: () => void) => {
     const magImage = "assets/magnet-" + magType + "-icon.png";
     return (
       <div className={"magnet-button " + posClass} onClick={onClickFunction}>
       {magType === "none"
-        ? <div className={"unselected " + posClass}>select a magnet</div>
+        ? <div className={"unselected " + posClass}>{text}</div>
         : <img src={magImage} className={"icon " + posClass}/>}
       </div>
     );
   }
 
-  private renderBarButton = (magType: any, onClickFunction: () => void) => {
+  private renderBarButton = (magType: any, disabledClass: string, onClickFunction: () => void) => {
     return (
-      <div className="button short" onClick={onClickFunction}>
+      <div className={"button short" + disabledClass} onClick={onClickFunction}>
       {magType !== "bar"
         ? <img src="assets/magnet-bar-icon.png" className="icon"/>
         : <div>bar</div>}
@@ -63,9 +73,9 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     );
   }
 
-  private renderCoilButton = (magType: any, onClickFunction: () => void) => {
+  private renderCoilButton = (magType: any, disabledClass: string, onClickFunction: () => void) => {
     return (
-      <div className="button" onClick={onClickFunction}>
+      <div className={"button" + disabledClass} onClick={onClickFunction}>
       {magType !== "coil"
         ? <img src="assets/magnet-coil-icon.png" className="icon"/>
         : <div>coil</div>}
@@ -81,24 +91,32 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     const {ui} = this.stores;
     ui.setShowTopBarCurtain(!ui.showTopBarCurtain);
   }
+
+  private addOrUpdateMagnet = (index: number, magType: any) => {
+    const {simulation} = this.stores;
+    const mag = simulation.getMagnetAtIndex(index);
+    if (mag == null) {
+      simulation.addMagnet(SimulationMagnet.create({active: true, type: magType}));
+    } else {
+      simulation.setMagnetType(index, magType);
+    }
+  }
+
   private handleClickLeftMagnetCoilButton = () => {
-    const {ui} = this.stores;
-    ui.setPrimaryMagnet("coil");
+    this.addOrUpdateMagnet(0, "coil");
   }
   private handleClickLeftMagnetBarButton = () => {
-    const {ui} = this.stores;
-    ui.setPrimaryMagnet("bar");
+    this.addOrUpdateMagnet(0, "bar");
   }
+
   private handleClickRightMagnetCoilButton = () => {
-    const {ui} = this.stores;
-    ui.setSecondaryMagnet("coil");
+    this.addOrUpdateMagnet(1, "coil");
   }
   private handleClickRightMagnetBarButton = () => {
-    const {ui} = this.stores;
-    ui.setSecondaryMagnet("bar");
+    this.addOrUpdateMagnet(1, "bar");
   }
   private handleClickRightMagnetRemoveButton = () => {
-    const {ui} = this.stores;
-    ui.setSecondaryMagnet("none");
+    const {simulation} = this.stores;
+    simulation.removeMagnet(1);
   }
 }
