@@ -1,13 +1,11 @@
 @import vars
 
-.mag-field-control-panel
+.toggle-panel
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
   height: 80px
-  width: 500px
-  font-size: $font-size-button
   color: $button-color
   border-radius: $component-border-radius
   margin: $component-margin
@@ -16,20 +14,18 @@
   &:hover
     color: $button-color-hover
     background-color: $button-bgcolor-hover
+    cursor: pointer
 
-  .button-container
+  .title
+    font-size: $font-size-button
+    margin: $internal-component-margin $triple-component-margin $internal-component-margin $triple-component-margin
+
+  .container
     display: flex
     flex-direction: row
     justify-content: center
     align-items: center
 
-    .button
-      display: flex
-      flex-direction: row
-      justify-content: center
-      align-items: center
-      margin: $component-margin
-
     .label
-      margin: $internal-component-margin
       font-size: $font-size-button-small
+      margin: $internal-component-margin
