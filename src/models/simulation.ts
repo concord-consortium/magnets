@@ -37,33 +37,33 @@ export const SimulationModel = types
       },
       setMagnetType(index: number, type: MagnetType) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setType(type);
+          self.magnets[index].type = type;
         }
       },
       toggleMagnetBarPolarity(index: number) {
         if (index < self.magnets.length ) {
           const newVal: PolarityType = self.magnets[index].barPolarity === "N-S" ? "S-N" : "N-S";
-          self.magnets[index].setBarPolarity(newVal);
+          self.magnets[index].barPolarity = newVal;
         }
       },
       setMagnetBarStrength(index: number, val: number) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setBarStrength(val);
+          self.magnets[index].barStrength = val;
         }
       },
       setMagnetCoilPolarity(index: number, val: CoilPolarityType) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setCoilPolarity(val);
+          self.magnets[index].coilPolarity = val;
         }
       },
       setMagnetCoilStrength(index: number, val: number) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setCoilStrength(val);
+          self.magnets[index].coilStrength = val;
         }
       },
       setMagnetCurrentStrength(index: number, val: number) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setCurrentStrength(val);
+          self.magnets[index].currentStrength = val;
         }
       },
       setShowFieldLines(val: boolean) {

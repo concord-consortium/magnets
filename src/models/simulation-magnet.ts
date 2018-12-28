@@ -20,29 +20,6 @@ export const SimulationMagnet = types
     coilStrength: 5,
     currentStrength: 1,
     id: types.optional(types.identifier, () => uuid()),
-  })
-  .views(self => ({
-    setActive(val: boolean) {
-      self.active = val;
-    },
-    setType(val: MagnetType) {
-      self.type = val;
-    },
-    setBarPolarity(val: PolarityType) {
-      self.barPolarity = val;
-    },
-    setBarStrength(val: number) {
-      self.barStrength = val;
-    },
-    setCoilPolarity(val: CoilPolarityType) {
-      self.coilPolarity = val;
-    },
-    setCoilStrength(val: number) {
-      self.coilStrength = val;
-    },
-    setCurrentStrength(val: number) {
-      self.currentStrength = val;
-    },
-  }));
+  });
 
 export type SimulationMagnetType = typeof SimulationMagnet.Type;
