@@ -5,6 +5,7 @@ import { Stage } from "@inlet/react-pixi";
 import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
+import { MagnetType } from "../../models/simulation-magnet";
 
 export interface IMagnetProps {
   x: number;
@@ -74,10 +75,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
-    const primaryMagType = primaryMag ? primaryMag.type : "none";
+    const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
     const flip1 = primaryMag && primaryMag.barPolarity === "S-N" ? true : false;
     const secondaryMag = simulation.getMagnetAtIndex(1);
-    const secondaryMagType = secondaryMag !== null ? secondaryMag.type : "none";
+    const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
     const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
 
     const { width, height } = this.props;
@@ -107,7 +108,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           magnet1 &&
           <Magnet
             magnet={magnet1}
-            draggable={true}
+            draggable={false}
             type={primaryMagType}
             flip={flip1}
             updatePosition={this.handleUpdateMagnetPosition(1)}

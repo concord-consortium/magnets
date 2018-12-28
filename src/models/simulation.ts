@@ -1,6 +1,8 @@
 import { types } from "mobx-state-tree";
 import { SimulationMagnetType, SimulationMagnet, MagnetType,
-         MagnetTypeEnum, CoilPolarityType, PolarityType } from "./simulation-magnet";
+        CoilPolarityType, PolarityType } from "./simulation-magnet";
+
+const kMaxMagnets = 2;
 
 export const SimulationModel = types
   .model("Simulation", {
@@ -9,11 +11,10 @@ export const SimulationModel = types
     showPointers: false,
     showMagneticForces: false,
     magnets: types.array(SimulationMagnet),
-    maxMagnets: 2,
   })
   .views((self) => {
     return {
-      getMagnetAtIndex(i?: number) {
+      getMagnetAtIndex(i: number) {
         return i != null && i < self.magnets.length
           ? self.magnets[i]
           : null;
@@ -23,7 +24,7 @@ export const SimulationModel = types
   .actions((self) => {
     return {
       addMagnet(magnet: SimulationMagnetType) {
-        if (self.magnets.length < self.maxMagnets) {
+        if (self.magnets.length < kMaxMagnets) {
           self.magnets.push(magnet);
           return true;
         }
@@ -39,9 +40,10 @@ export const SimulationModel = types
           self.magnets[index].setType(type);
         }
       },
-      setMagnetBarPolarity(index: number, val: PolarityType) {
+      toggleMagnetBarPolarity(index: number) {
         if (index < self.magnets.length ) {
-          self.magnets[index].setBarPolarity(val);
+          const newVal: PolarityType = self.magnets[index].barPolarity === "N-S" ? "S-N" : "N-S";
+          self.magnets[index].setBarPolarity(newVal);
         }
       },
       setMagnetBarStrength(index: number, val: number) {

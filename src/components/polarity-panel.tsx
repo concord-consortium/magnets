@@ -3,8 +3,8 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./polarity-panel.sass";
-import { TogglePanelComponent } from "./toggle-panel";
-import { CoilPolarityType } from "../models/simulation-magnet";
+import { SwitchPanelComponent } from "./switch-panel";
+import { CoilPolarityType, MagnetType } from "../models/simulation-magnet";
 
 interface IProps extends IBaseProps {
   index: number;
@@ -18,26 +18,42 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
-    const magType = mag !== null ? mag.type : "none";
+    const magType: MagnetType | null = mag ? mag.type : null;
+    if (magType === "coil") {
+      return (
+        <div>
+          {this.renderCoilPolarityPanel()}
+        </div>
+      );
+    } else if (magType === "bar") {
+      return (
+        <div>
+          {this.renderBarPolarityPanel()}
+        </div>
+      );
+    } else {
+      return (
+        null
+      );
+    }
+  }
+
+  private renderBarPolarityPanel = () => {
+    const {simulation} = this.stores;
+    const mag = simulation.getMagnetAtIndex(this.props.index);
     const polaritylabel = mag && mag.barPolarity ? mag.barPolarity : "N-S";
     const polarityOn = polaritylabel === "S-N" ? true : false;
     return (
-      <div>
-      {magType === "coil"
-        ? this.renderPolarityCurrentPanel()
-        : <TogglePanelComponent
-            title="Polarity"
-            switchOn={polarityOn}
-            buttonText={polaritylabel}
-            label={""}
-            buttonClick={this.handleClickPolarityButton}
-          />
-      }
-      </div>
+      <SwitchPanelComponent
+        title="Polarity"
+        switchOn={polarityOn}
+        buttonText={polaritylabel}
+        buttonClick={this.handleClickPolarityButton}
+      />
     );
   }
 
-  private renderPolarityCurrentPanel = () => {
+  private renderCoilPolarityPanel = () => {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magCoilPolarityVal = mag !== null ? mag.coilPolarity : "plus-minus";
@@ -66,11 +82,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
 
   private handleClickPolarityButton = () => {
     const {simulation} = this.stores;
-    const mag = simulation.getMagnetAtIndex(this.props.index);
-    if (mag) {
-      const newVal = mag.barPolarity === "N-S" ? "S-N" : "N-S";
-      simulation.setMagnetBarPolarity(this.props.index, newVal);
-    }
+    simulation.toggleMagnetBarPolarity(this.props.index);
   }
 
   private handlePolarityCurrentSliderChange = (event: any) => {

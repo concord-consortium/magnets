@@ -7,7 +7,7 @@ import "./bottom-bar.sass";
 import { MagFieldPanelComponent } from "./mag-field-control-panel";
 import { CompassComponent } from "./compass";
 import { StrengthPanelComponent } from "./strength-panel";
-import { TogglePanelComponent } from "./toggle-panel";
+import { SwitchPanelComponent } from "./switch-panel";
 import { PolarityPanelComponent } from "./polarity-panel";
 
 interface IProps extends IBaseProps {}
@@ -20,11 +20,9 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
-    const primaryMagType = primaryMag !== null ? primaryMag.type : "none";
     const secondaryMag = simulation.getMagnetAtIndex(1);
-    const secondaryMagType = secondaryMag !== null ? secondaryMag.type : "none";
-    const barClass = primaryMagType !== "none" ? "bottom-bar unrolled" : "bottom-bar";
-    const showMagForces: boolean = primaryMagType !== "none" && secondaryMagType !== "none";
+    const barClass = primaryMag ? "bottom-bar unrolled" : "bottom-bar";
+    const showMagForces: boolean = primaryMag !== null && secondaryMag !== null;
     const forcesLabel: string = simulation.showMagneticForces ? "ON" : "OFF";
     const forcesOn: boolean = forcesLabel === "ON" ? true : false;
 
@@ -35,7 +33,7 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
             <PolarityPanelComponent index={0}/>
             <StrengthPanelComponent index={0}/>
           </div>
-          {secondaryMagType !== "none"
+          {secondaryMag
            ? <div className="panel">
               <PolarityPanelComponent index={1}/>
               <StrengthPanelComponent index={1}/>
@@ -46,7 +44,7 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
         <div className="row">
           <MagFieldPanelComponent/>
           {showMagForces ?
-            <TogglePanelComponent
+            <SwitchPanelComponent
               title="Show Magnetic Forces"
               switchOn={forcesOn}
               buttonText={forcesLabel}

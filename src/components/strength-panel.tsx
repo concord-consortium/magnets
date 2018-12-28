@@ -3,6 +3,7 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./strength-panel.sass";
+import { MagnetType } from "../models/simulation-magnet";
 
 interface IProps extends IBaseProps {
   index: number;
@@ -19,7 +20,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
     const magBarSliderVal = mag !== null ? mag.barStrength : 1;
     const magCoilSliderVal = mag !== null ? mag.coilStrength : 1;
     const magCurrentSliderVal = mag !== null ? mag.currentStrength : 1;
-    const magType = mag ? mag.type : "none";
+    const magType: MagnetType | null = mag ? mag.type : null;
     const panelClass = magType === "coil"
       ? "strength-panel tall"
       : "strength-panel";
