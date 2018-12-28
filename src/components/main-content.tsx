@@ -21,8 +21,8 @@ export class MainContentComponent extends BaseComponent<IProps, IState> {
         <MagnetCanvas
           width={800}
           height={500}
-          showMagnet1={primaryMag !== null}
-          showMagnet2={secondaryMag !== null}
+          showMagnet1={primaryMag != null}
+          showMagnet2={secondaryMag != null}
         />
       </div>
     );

@@ -17,9 +17,9 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
-    const magBarSliderVal = mag !== null ? mag.barStrength : 1;
-    const magCoilSliderVal = mag !== null ? mag.coilStrength : 1;
-    const magCurrentSliderVal = mag !== null ? mag.currentStrength : 1;
+    const magBarSliderVal = mag != null ? mag.barStrength : 1;
+    const magCoilSliderVal = mag != null ? mag.coilStrength : 1;
+    const magCurrentSliderVal = mag != null ? mag.currentStrength : 1;
     const magType: MagnetType | null = mag ? mag.type : null;
     const panelClass = magType === "coil"
       ? "strength-panel tall"

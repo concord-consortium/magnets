@@ -22,7 +22,7 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
     const primaryMag = simulation.getMagnetAtIndex(0);
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const barClass = primaryMag ? "bottom-bar unrolled" : "bottom-bar";
-    const showMagForces: boolean = primaryMag !== null && secondaryMag !== null;
+    const showMagForces: boolean = primaryMag != null && secondaryMag != null;
     const forcesLabel: string = simulation.showMagneticForces ? "ON" : "OFF";
     const forcesOn: boolean = forcesLabel === "ON" ? true : false;
 

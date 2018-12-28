@@ -56,7 +56,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   private renderCoilPolarityPanel = () => {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
-    const magCoilPolarityVal = mag !== null ? mag.coilPolarity : "plus-minus";
+    const magCoilPolarityVal = mag != null ? mag.coilPolarity : "plus-minus";
     let sliderVal = 1;
     if (magCoilPolarityVal === "off") {
       sliderVal = 2;
