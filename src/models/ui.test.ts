@@ -8,19 +8,12 @@ describe("ui model", () => {
   });
 
   it("has default values", () => {
-    expect(ui.sampleText).toBe("Hello World");
-  });
-
-  it("uses override values", () => {
-    ui = UIModel.create({
-      sampleText: "foo"
-    });
-    expect(ui.sampleText).toBe("foo");
+    expect(ui.showTopBarCurtain).toBe(false);
   });
 
   it("sets new values", () => {
-    ui.setSampleText("bar");
-    expect(ui.sampleText).toBe("bar");
+    ui.setShowTopBarCurtain(true);
+    expect(ui.showTopBarCurtain).toBe(true);
   });
 
 });

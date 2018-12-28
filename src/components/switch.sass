@@ -1,0 +1,47 @@
+@import vars
+
+.switch-button
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  height: 30px
+  width: 60px
+  color: #616242
+  border-radius: 20px
+  border: 4px solid #323322
+  margin: $component-margin
+  background-color: #40402B
+  transition-duration: $animation-speed
+  &:hover
+    color: $button-color-hover
+    background-color: $button-bgcolor-hover
+    cursor: pointer
+
+  .container
+    display: flex
+    flex-direction: row
+
+    .switch
+      background-color: #626242
+      width: 12px
+      height: 16px
+      border-radius: 16px 0px 0px 16px
+      border: 6px solid #46462F
+      transition-duration: $animation-speed
+      transition-property: background-color
+
+      &.on
+        border-radius: 0px 16px 16px 0px
+
+    .label
+      display: flex
+      justify-content: center
+      align-items: center
+      width: 30px
+      font-size: $font-size-button-small
+      margin: $internal-component-margin
+
+.switch-button:hover .switch
+  background-color: $button-bgcolor-hover
+

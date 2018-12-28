@@ -5,6 +5,9 @@ import { IMagnetProps } from "./magnet-canvas";
 
 interface IProps {
   magnet: IMagnetProps;
+  draggable?: boolean;
+  type?: string;
+  flip?: boolean;
   updatePosition: (x: number, y: number) => void;
 }
 interface IState {
@@ -22,18 +25,23 @@ export default class Magnet extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const { draggable, flip, type } = this.props;
     const { x, y } = this.props.magnet;
     // react-pixi typing issue
     const anchor = [0.5, 0.5] as unknown as ObservablePoint;
+    const flipFactor = flip && type === "bar" ? -1 : 1;
+    const scale = [1 * flipFactor, 1 * flipFactor] as unknown as ObservablePoint;
+    const magImage = "./assets/magnet-" + type + ".png";
     return (
       <Sprite
-        image="./assets/magnet-bar.png" x={x} y={y}
+        image={magImage} x={x} y={y}
+        scale={scale}
         anchor={anchor}
-        interactive={true}
-        buttonMode={true}
-        pointerdown={this.onPointerDown}
-        pointerup={this.onPointerUp}
-        pointermove={this.onPointerMove}
+        interactive={draggable ? true : false}
+        buttonMode={draggable ? true : false}
+        pointerdown={draggable ? this.onPointerDown : undefined}
+        pointerup={draggable ? this.onPointerUp : undefined}
+        pointermove={draggable ? this.onPointerMove : undefined}
       />
     );
   }

@@ -13,18 +13,16 @@ interface IState {}
 export class MainContentComponent extends BaseComponent<IProps, IState> {
 
   public render() {
-    const {ui} = this.stores;
-    const primaryMagType = ui.primaryMagnet;
-    const secondaryMagType = ui.secondaryMagnet;
+    const {simulation} = this.stores;
+    const primaryMag = simulation.getMagnetAtIndex(0);
+    const secondaryMag = simulation.getMagnetAtIndex(1);
     return (
       <div className="main-content">
         <MagnetCanvas
           width={800}
           height={500}
-          showMagnet1={primaryMagType !== "none"}
-          showMagnet2={secondaryMagType !== "none"}
-          showGradient={ui.showCloud}
-          showVectors={ui.showFieldLines}
+          showMagnet1={primaryMag != null}
+          showMagnet2={secondaryMag != null}
         />
       </div>
     );

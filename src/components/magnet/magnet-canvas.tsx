@@ -1,8 +1,11 @@
+import { inject, observer } from "mobx-react";
 import * as React from "react";
+import { BaseComponent, IBaseProps } from "../base";
 import { Stage } from "@inlet/react-pixi";
 import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
+import { MagnetType } from "../../models/simulation-magnet";
 
 export interface IMagnetProps {
   x: number;
@@ -17,29 +20,28 @@ interface IProps {
   height: number;
   showMagnet1: boolean;
   showMagnet2: boolean;
-  showGradient: boolean;
-  showVectors: boolean;
 }
 interface IState {
   magnet1?: IMagnetProps;
   magnet2?: IMagnetProps;
 }
 
-export class MagnetCanvas extends React.Component<IProps, IState> {
+@inject("stores")
+@observer
+export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public static getDerivedStateFromProps(props: IProps, state: IState) {
     const newState: IState = {};
-
     const y = props.height / 2;
 
     if (props.showMagnet1) {
       if (!state.magnet1) {
         // add new magnet
-        const x = props.showMagnet2 ? props.width / 4 : props.width / 2;
+        const x = props.width / 4;
         newState.magnet1 = {
           x,
           y,
-          length: 120
+          length: 120,
         };
       } else {
         newState.magnet1 = state.magnet1;
@@ -49,17 +51,19 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
     if (props.showMagnet2) {
       if (!state.magnet2) {
         // add new magnet
-        const x = props.showMagnet1 ? props.width * 3 / 4 : props.width / 2;
+        const x = props.width * 3 / 4;
         newState.magnet2 = {
           x,
           y,
-          length: 120
+          length: 120,
         };
       } else {
         newState.magnet2 = state.magnet2;
       }
     }
-
+    else {
+      newState.magnet2 = undefined;
+    }
     return newState;
   }
 
@@ -69,8 +73,17 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { width, height, showGradient, showVectors } = this.props;
+    const {simulation} = this.stores;
+    const primaryMag = simulation.getMagnetAtIndex(0);
+    const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
+    const flip1 = primaryMag && primaryMag.barPolarity === "S-N" ? true : false;
+    const secondaryMag = simulation.getMagnetAtIndex(1);
+    const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
+    const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
+
+    const { width, height } = this.props;
     const { magnet1, magnet2 } = this.state;
+
     const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x333,
       resolution: 2,
@@ -84,20 +97,32 @@ export class MagnetCanvas extends React.Component<IProps, IState> {
     return (
       <Stage options={options} style={{width, height}}>
         {
-          showGradient &&
+          simulation.showCloud &&
           <GradientField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={20} />
         }
         {
-          showVectors &&
+          simulation.showPointers &&
           <VectorField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={30} />
         }
         {
           magnet1 &&
-          <Magnet magnet={magnet1} updatePosition={this.handleUpdateMagnetPosition(1)} />
+          <Magnet
+            magnet={magnet1}
+            draggable={false}
+            type={primaryMagType}
+            flip={flip1}
+            updatePosition={this.handleUpdateMagnetPosition(1)}
+          />
         }
         {
           magnet2 &&
-          <Magnet magnet={magnet2} updatePosition={this.handleUpdateMagnetPosition(2)} />
+          <Magnet
+            magnet={magnet2}
+            draggable={true}
+            type={secondaryMagType}
+            flip={flip2}
+            updatePosition={this.handleUpdateMagnetPosition(2)}
+          />
         }
       </Stage>
     );
