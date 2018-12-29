@@ -36,10 +36,18 @@ export class Vector {
   }
 
   public unit() {
-    return this.divide(this.length());
+    if (this.length() === 0) {
+      return new Vector(0, 0);
+    } else {
+      return this.divide(this.length());
+    }
   }
 
   public toAngle() {
     return Math.atan2(this.y, this.x);
+  }
+
+  public toString() {
+    return `x: ${this.x}, y: ${this.y}`;
   }
 }

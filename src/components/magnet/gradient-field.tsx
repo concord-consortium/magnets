@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
-import { getFieldMagnitudeAndDirection } from "./magnet-util";
+import { getFieldVectorAtPosition } from "./magnet-util";
 import { PossibleMagnet } from "./magnet-canvas";
 
 interface IProps {
@@ -23,7 +23,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("Gradient", {
 
     for (let x = 0; x < width; x += cellSize) {
       for (let y = 0; y < height; y += cellSize) {
-        const magnitude = getFieldMagnitudeAndDirection(magnets, x + half, y + half)[0];
+        const magnitude = getFieldVectorAtPosition(magnets, x + half, y + half).length();
         // Field strength decays as 1/r^2, which is too fast to visualize
         // Take the square root of the magnitude so it decays as 1/r instead
         instance.beginFill(0x56d2f9, Math.sqrt(magnitude));

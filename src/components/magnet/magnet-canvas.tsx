@@ -6,6 +6,7 @@ import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
+import FieldLines from "./field-lines";
 
 const kMagnetLength = 220;
 
@@ -106,6 +107,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         {
           simulation.showPointers &&
           <VectorField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={30} />
+        }
+        {
+          simulation.showFieldLines &&
+          <FieldLines magnets={[magnet1, magnet2]} width={width} height={height} />
         }
         {
           magnet1 &&

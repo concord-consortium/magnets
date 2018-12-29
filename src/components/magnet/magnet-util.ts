@@ -19,16 +19,14 @@ interface PointCharge {
   charge: number;
 }
 
-export function getFieldMagnitudeAndDirection(magnets: PossibleMagnet[], x: number, y: number) {
-  const fieldTotal = magnets.reduce((acc: Vector, magnet: PossibleMagnet) => {
+export function getFieldVectorAtPosition(magnets: PossibleMagnet[], x: number, y: number) {
+  return magnets.reduce((acc: Vector, magnet: PossibleMagnet) => {
     if (magnet) {
       return acc.add(getFieldForMagnet(magnet, x, y));
     } else {
       return acc;
     }
   }, new Vector(0, 0));
-
-  return [fieldTotal.length(), fieldTotal.toAngle()];
 }
 
 function getFieldForMagnet(magnet: Magnet, x: number, y: number) {
@@ -68,5 +66,5 @@ function getFieldForPointCharge(pointCharge: PointCharge, x: number, y: number) 
   const distanceVec = pointVec.subtract(chargeVec);
   const distanceUnitVec = distanceVec.unit();
 
-  return distanceUnitVec.multiply(pointCharge.charge / (distanceVec.length() ** 2));
+  return distanceUnitVec.multiply(pointCharge.charge / Math.max(.1, (distanceVec.length() ** 2)));
 }
