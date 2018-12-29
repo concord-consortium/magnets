@@ -15,70 +15,119 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {ui, simulation} = this.stores;
     const curtainClass = ui.showTopBarCurtain ? "curtain unrolled" : "curtain";
-    const primaryMagText = "select a magnet";
-    const primaryMag = simulation.getMagnetAtIndex(0);
-    const primaryMagType: MagnetType | null = primaryMag ? primaryMag.type : null;
+    const leftMagText = "Select a magnet";
+    const leftMag = simulation.getMagnetAtIndex(0);
+    const leftMagType: MagnetType | null = leftMag ? leftMag.type : null;
     const primaryDisabledClass = "";
-    const secondaryMag = simulation.getMagnetAtIndex(1);
-    const secondaryMagType: MagnetType | null = secondaryMag ? secondaryMag.type : null;
-    const secondaryMagText = primaryMag ? "select a magnet" : "";
-    const secondaryDisabledClass = primaryMag ? "" : "disabled";
-    const removeDisabledClass = secondaryMag ? "" : "disabled";
+    const rightMag = simulation.getMagnetAtIndex(1);
+    const rightMagType: MagnetType | null = rightMag ? rightMag.type : null;
+    const rightMagText = leftMag ? "Select a magnet" : "";
+    const rightDisabledClass = leftMag ? "" : "disabled";
+    const removeDisabledClass = rightMag ? "" : "disabled";
 
     return (
       <div className="top-bar">
-        {this.renderMagnetButton(primaryMagText, primaryMagType, "left")}
         <div className={curtainClass}>
-          <div className="content-container left">
-            <div className="select-mag">Select a magnet</div>
-            {this.renderBarButton(primaryMagType, primaryDisabledClass, this.handleClickLeftMagnetBarButton)}
-            {this.renderCoilButton(primaryMagType, primaryDisabledClass, this.handleClickLeftMagnetCoilButton)}
-          </div>
-          <div>
-            <svg className="divider">
-              <use xlinkHref="#icon-divider"/>
-            </svg>
-          </div>
-          <div className="content-container right">
-            <div className="select-mag">Add a 2nd magnet (movable)</div>
-            {this.renderBarButton(secondaryMagType, secondaryDisabledClass, this.handleClickRightMagnetBarButton)}
-            {this.renderCoilButton(secondaryMagType, secondaryDisabledClass, this.handleClickRightMagnetCoilButton)}
-            <div className={"button text-only" + removeDisabledClass}
-                 onClick={this.handleClickRightMagnetRemoveButton}>Remove magnet</div>
-          </div>
+          <svg className="icon top-nav-back2">
+            <use xlinkHref="#icon-top-nav-back2"/>
+          </svg>
+          <svg className="icon top-nav-back1">
+            <use xlinkHref="#icon-top-nav-back1"/>
+          </svg>
+
+          <div className="label add left">Select a magnet</div>
+          {this.renderBarButton(leftMagType, "left", primaryDisabledClass, this.handleClickLeftMagnetBarButton)}
+          {this.renderCoilButton(leftMagType, "left", primaryDisabledClass, this.handleClickLeftMagnetCoilButton)}
+          <svg className="divider">
+            <use xlinkHref="#icon-divider"/>
+          </svg>
+          <div className={"label add right " + rightDisabledClass}>Add a 2nd magnet (movable)</div>
+          {this.renderBarButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetBarButton)}
+          {this.renderCoilButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetCoilButton)}
+          {this.renderRemoveButton(removeDisabledClass)}
         </div>
-        {this.renderMagnetButton(secondaryMagText, secondaryMagType, "right")}
+        {this.renderMagnetButton(leftMagText, leftMagType, "left")}
+        {this.renderMagnetButton(rightMagText, rightMagType, "right")}
       </div>
     );
   }
 
   private renderMagnetButton = (text: string, magType: MagnetType | null, posClass: string) => {
+    const selectClass = magType ? " " : "selectable ";
     return (
-      <div className={"magnet-button " + posClass} onClick={this.handleClickMagnetButton}>
-      {magType
-        ? <img src={"assets/magnet-" + magType + "-icon.png"} className={"icon " + posClass}/>
-        : <div className={"unselected " + posClass}>{text}</div>}
+      <div className={"button " + selectClass} onClick={this.handleClickMagnetButton}>
+        <svg className={"icon nav-back2 " + posClass}>
+          <use xlinkHref={"#icon-" + posClass + "-nav-back2"} />
+        </svg>
+        <svg className={"icon nav-back1 " + posClass}>
+          <use xlinkHref={"#icon-" + posClass + "-nav-back1"} />
+        </svg>
+        <svg className={"icon nav-select-back " + selectClass + posClass}>
+          <use xlinkHref={"#icon-" + posClass + "-nav-select-back"} />
+        </svg>
+        <svg className={"icon nav-select-outline " + posClass}>
+          <use xlinkHref={"#icon-" + posClass + "-nav-select-outline"} />
+        </svg>
+        {magType
+        ? <svg className={"icon nav-magnet " + posClass + " " + magType}>
+            <use xlinkHref={"#icon-" + posClass + "-nav-" + magType + "-magnet"} />
+          </svg>
+        : <div className={"title " + posClass}>{text}</div>}
       </div>
     );
   }
 
-  private renderBarButton = (magType: MagnetType | null, disabledClass: string, onClickFunction: () => void) => {
+  private renderBarButton = (magType: MagnetType | null, posClass: string,
+                             disabledClass: string, onClickFunction: () => void) => {
+    const selectClass = !magType || magType !== "bar" ? "selectable " : " ";
     return (
-      <div className={"button short " + disabledClass} onClick={onClickFunction}>
-      {magType === "bar"
-        ? <div>bar</div>
-        : <img src="assets/magnet-bar-icon.png" className="icon"/>}
-    </div>
+      <div className={"button " + selectClass + disabledClass} onClick={onClickFunction}>
+        <svg className={"icon top-magnet-back bar " + selectClass + posClass}>
+          <use xlinkHref={"#icon-top-bar-magnet-back-" + posClass} />
+        </svg>
+        <svg className={"icon top-magnet-outline bar " + posClass}>
+          <use xlinkHref={"#icon-top-bar-magnet-outline-" + posClass} />
+        </svg>
+        {!magType || magType !== "bar"
+        ? <svg className={"icon top-magnet bar " + posClass}>
+            <use xlinkHref={"#icon-top-bar-magnet-" + posClass} />
+          </svg>
+        : <div className={"label bar " + posClass}>bar</div>}
+      </div>
     );
   }
 
-  private renderCoilButton = (magType: MagnetType | null, disabledClass: string, onClickFunction: () => void) => {
+  private renderCoilButton = (magType: MagnetType | null, posClass: string,
+                              disabledClass: string, onClickFunction: () => void) => {
+    const selectClass = !magType || magType !== "coil" ? "selectable " : " ";
     return (
-      <div className={"button " + disabledClass} onClick={onClickFunction}>
-      {magType === "coil"
-        ? <div>coil</div>
-        : <img src="assets/magnet-coil-icon.png" className="icon"/>}
-    </div>
+      <div className={"button " + selectClass + disabledClass} onClick={onClickFunction}>
+        <svg className={"icon top-magnet-back coil " + selectClass + posClass}>
+          <use xlinkHref={"#icon-top-coil-magnet-back-" + posClass} />
+        </svg>
+        <svg className={"icon top-magnet-outline coil " + posClass}>
+          <use xlinkHref={"#icon-top-coil-magnet-outline-" + posClass} />
+        </svg>
+        {!magType || magType !== "coil"
+        ? <svg className={"icon top-magnet coil " + posClass}>
+            <use xlinkHref={"#icon-top-coil-magnet-" + posClass} />
+          </svg>
+        : <div className={"label coil " + posClass}>coil</div>}
+      </div>
+    );
+  }
+
+  private renderRemoveButton = (removeDisabledClass: string) => {
+    return (
+      <div className={"button " + removeDisabledClass} onClick={this.handleClickRightMagnetRemoveButton}>
+        <svg className={"icon top-nav-remove-magnet-back"}>
+          <use xlinkHref={"#icon-top-nav-remove-magnet-back"} />
+        </svg>
+        <svg className={"icon top-nav-remove-magnet-outline"}>
+          <use xlinkHref={"#icon-top-nav-remove-magnet-outline"} />
+        </svg>
+        <div className={"label remove"}>Remove magnet</div>
+      </div>
     );
   }
 

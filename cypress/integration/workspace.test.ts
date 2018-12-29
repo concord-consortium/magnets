@@ -7,7 +7,6 @@ context("Test the overall app", () => {
     it("renders with text", () => {
       cy.get(".app-container").should("exist");
       cy.get(".top-bar").should("exist");
-      cy.get(".bottom-bar").should("exist");
     });
   });
 });

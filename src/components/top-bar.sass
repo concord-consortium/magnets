@@ -1,122 +1,258 @@
 @import vars
 
 .top-bar
-  display: flex
-  flex-shrink: 0
-  width: 100%
+  position: absolute
+  margin-left: auto
+  margin-right: auto
+  left: 0
+  right: 0
+  width: $top-bar-width
   height: $top-bar-height
-  margin-bottom: $component-margin
-  color: $top-bar-color
-  background-color: $top-bar-bgcolor
-
-  .magnet-button
-    display: flex
-    justify-content: center
-    align-items: center
-    height: $top-bar-height
-    width: 137px
-    position: absolute
-    top: 0px
-
-    &.left
-      left: 0px
-      background-image: url("../assets/magnet-button-left.png")
-
-    &.right
-      right: 0px
-      background-image: url("../assets/magnet-button-right.png")
-
-    .icon
-      position: absolute
-      &.left
-        transform: rotate(-2deg)
-      &.right
-        transform: rotate(2deg)
-
-    .unselected
-      position: absolute
-      top: 15px
-      display: flex
-      text-align: center
-      align-items: center
-      background-color: #A8A87D
-      border: 4px dashed #C5C68D
-      font-size: 18px
-      color: #57593D
-      width: 80px
-      height: 50px
-      border-radius: $component-border-radius
-      &:hover
-        background-color: #B7B794
-        cursor: pointer
-    .left
-      left: 15px
-    .right
-      right: 15px
+  font-size: 18px
+  line-height: 18px
 
   .curtain
-    display: flex
-    flex-direction: row
-    justify-content: space-between;
-    background-color: $top-bar-curtain-bgcolor
-    height: 0
+    position: absolute
+    top: -110px
+    height: 110px
     width: 100%
-    border-bottom: 0px solid #57593D
     transition-duration: $animation-speed
-    overflow: hidden
-
     &.unrolled
-      height: 90px
-      border-bottom-width: 4px
+      top: 0px
 
     .divider
-      height: 90px
-      width: 34px
-      fill: $color-olive-light
+      position: absolute
+      height: 93px
+      width: 31px
+      fill: $color-army-light
+      opacity: .5
+      left: 413px
+      top: 6px
 
-    .content-container
-      display: flex
-      flex-direction: row
-      align-items: center
-      color: $color-olive-light
-      &.left
-        margin-left: 150px
-      &.right
-        margin-right: 150px
-
-      .select-mag
-        text-align: center
-        font-size: 18px
-        width: 100px
-        margin: $component-margin
-
-      .button
-        display: flex
-        text-align: center
-        align-items: center
-        justify-content: center
-        background-color: #A8A87D
-        border: 4px dashed #C5C68D
-        font-size: 17px
-        color: #C5C68D
+    .label
+      position: absolute
+      color: $color-army-light
+      text-align: center
+      &.disabled
+        opacity: .4
+      &.bar.left
+        left: 242px
+        top: 39px
+        width: 58px
+        height: 22px
+      &.bar.right
+        left: 547px
+        top: 36px
+        width: 58px
+        height: 22px
+      &.coil.left
+        left: 333px
+        top: 39px
+        width: 55px
+        height: 40px
+      &.coil.right
+        left: 639px
+        top: 36px
+        width: 54px
+        height: 40px
+      &.remove
+        color: $color-seaweed
+        left: 727px
+        top: 22px
         width: 70px
-        height: 50px
-        border-radius: $double-component-border-radius
-        margin: $component-margin
-        &:hover
-          cursor: pointer
-          background-color: #B7B794
+        height: 40px
+      &.add.left
+        top: 30px
+        left: 144px
+        height: 40px
+        width: 80px
+      &.add.right
+        top: 17px
+        left: 436px
+        height: 60px
+        width: 90px
 
-        &.short
-          height: 30px
-          border-radius: $component-border-radius
+  .button
+    &.selectable:hover
+      cursor: pointer
+    &:hover .nav-select-back.selectable
+      fill-opacity: .3
+    &:active .nav-select-back.selectable
+      fill-opacity: .5
+    &:hover .top-magnet-back.selectable
+      fill-opacity: .3
+    &:active .top-magnet-back.selectable
+      fill-opacity: .5
+    &:hover .top-nav-remove-magnet-back
+      fill-opacity: .3
+    &:active .top-nav-remove-magnet-back
+      fill-opacity: .5
+    &.disabled
+      opacity: .4
+      pointer-events: none
 
-        &.text-only
-          color: #57593D
+    .title
+      position: absolute
+      color: $color-seaweed
+      width: 75px
+      height: 40px
+      text-align: center
+      &.left
+        top: 27px
+        left: 25px
+      &.right
+        top: 27px
+        left: 858px
 
-        &.disabled
-          opacity: .25
-          pointer-events: none
-
-      .icon
-        width: 90%
+  .icon
+    position: absolute
+    &.top-nav-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      left: 0
+      top: 0
+      width: 960px
+      height: 105px
+    &.top-nav-back1
+      fill: $color-army
+      left: 0
+      top: 0
+      width: 960px
+      height: 102px
+    &.nav-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      top: 0
+      width: 137px
+      height: 106px
+      &.left
+        left: 0
+      &.right
+        left: 823px
+    &.nav-back1
+      fill: $color-army
+      width: 132px
+      height: 103px
+      &.left
+        left: 0
+      &.right
+        left: 828px
+    &.nav-select-back
+      fill: $color-white
+      fill-opacity: .15
+      top: 16px
+      width: 98px
+      height: 63px
+      &.left
+        left: 14px
+      &.right
+        left: 846px
+    &.nav-select-outline
+      fill: $color-goldfinch
+      fill-opacity: .35
+      top: 16px
+      width: 98px
+      height: 63px
+      &.left
+        left: 14px
+      &.right
+        left: 846px
+    &.nav-magnet
+      filter: drop-shadow( 4px 4px 4px rgba(0,0,0,.4) )
+      &.left.bar
+        left: 12px
+        top: 28px
+        width: 90px
+        height: 34px
+      &.left.coil
+        left: 20px
+        top: 23px
+        width: 81px
+        height: 59px
+      &.right.bar
+        left: 846px
+        top: 27px
+        width: 91px
+        height: 36px
+      &.right.coil
+        left: 854px
+        top: 24px
+        width: 80px
+        height: 58px
+    &.top-magnet-back
+      fill: $color-white
+      fill-opacity: .15
+      top: 30px
+      width: 78px
+      height: 42px
+      &.bar.left
+        left: 232px
+      &.bar.right
+        left: 537px
+        top: 27px
+      &.coil.left
+        left: 322px
+        top: 18px
+        width: 76px
+        height: 64px
+      &.coil.right
+        left: 628px
+        top: 14px
+        width: 76px
+        height: 63px
+    &.top-magnet-outline
+      fill: $color-goldfinch
+      fill-opacity: .35
+      top: 30px
+      width: 78px
+      height: 42px
+      &.bar.left
+        left: 232px
+      &.bar.right
+        left: 537px
+        top: 27px
+      &.coil.left
+        left: 322px
+        top: 18px
+        width: 76px
+        height: 64px
+      &.coil.right
+        left: 628px
+        top: 14px
+        width: 76px
+        height: 63px
+    &.top-magnet
+      &.bar.left
+        left: 242px
+        top: 39px
+        width: 58px
+        height: 22px
+      &.bar.right
+        left: 547px
+        top: 37px
+        width: 58px
+        height: 22px
+      &.coil.left
+        left: 333px
+        top: 29px
+        width: 55px
+        height: 40px
+      &.coil.right
+        left: 639px
+        top: 25px
+        width: 54px
+        height: 40px
+    &.top-nav-remove-magnet-back
+      fill: $color-white
+      fill-opacity: .15
+      left: 717px
+      top: 12px
+      width: 89px
+      height: 61px
+    &.top-nav-remove-magnet-outline
+      fill: $color-goldfinch
+      fill-opacity: .35
+      left: 717px
+      top: 12px
+      width: 89px
+      height: 61px

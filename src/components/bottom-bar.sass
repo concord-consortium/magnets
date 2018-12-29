@@ -1,16 +1,19 @@
 @import vars
 
 .bottom-bar
+  position: absolute
+  top: 630px
+  margin-left: auto
+  margin-right: auto
+  left: 0
+  right: 0
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 0
+  height: 220px
   width: 100%
   transition-duration: $animation-speed
-
-  &.unrolled
-    height: $bottom-bar-height
 
   .row
     display: flex
