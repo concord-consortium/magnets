@@ -24,7 +24,9 @@ export default PixiComponent<IProps, PIXI.Graphics>("Gradient", {
     for (let x = 0; x < width; x += cellSize) {
       for (let y = 0; y < height; y += cellSize) {
         const magnitude = getFieldMagnitudeAndDirection(magnets, x + half, y + half)[0];
-        instance.beginFill(0x56d2f9, magnitude);
+        // Field strength decays as 1/r^2, which is too fast to visualize
+        // Take the square root of the magnitude so it decays as 1/r instead
+        instance.beginFill(0x56d2f9, Math.sqrt(magnitude));
         instance.drawRect(x, y, cellSize, cellSize);
       }
     }
