@@ -19,6 +19,16 @@ interface PointCharge {
   charge: number;
 }
 
+export function pointInMagnet(magnet: PossibleMagnet, x: number, y: number) {
+  if (!magnet) {
+    return false;
+  }
+
+  const dx = Math.max(Math.abs(x - magnet.x) - magnet.length / 2, 0);
+  const dy = Math.max(Math.abs(y - magnet.y) - kMagnetHeight / 2, 0);
+  return dx ** 2 + dy ** 2 === 0;
+}
+
 export function getFieldVectorAtPosition(magnets: PossibleMagnet[], x: number, y: number) {
   return magnets.reduce((acc: Vector, magnet: PossibleMagnet) => {
     if (magnet) {
@@ -40,9 +50,16 @@ function getFieldForMagnet(magnet: Magnet, x: number, y: number) {
     dipoles.push({posX, posY: dipoleY, negX, negY: dipoleY});
   }
 
-  return dipoles.reduce((acc: Vector, dipole: Dipole) => {
+  const field = dipoles.reduce((acc: Vector, dipole: Dipole) => {
     return acc.add(getFieldForDipole(dipole, x, y));
   }, new Vector(0, 0));
+
+  if (pointInMagnet(magnet, x, y)) {
+    // Fake the field direction inside of the magnet
+    return new Vector(1, 0).multiply(field.length());
+  } else {
+    return field;
+  }
 }
 
 function getFieldForDipole(dipole: Dipole, x: number, y: number) {
@@ -66,5 +83,5 @@ function getFieldForPointCharge(pointCharge: PointCharge, x: number, y: number) 
   const distanceVec = pointVec.subtract(chargeVec);
   const distanceUnitVec = distanceVec.unit();
 
-  return distanceUnitVec.multiply(pointCharge.charge / Math.max(.1, (distanceVec.length() ** 2)));
+  return distanceUnitVec.multiply(pointCharge.charge / (distanceVec.length() ** 2));
 }

@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
-import { getFieldVectorAtPosition } from "./magnet-util";
-import { PossibleMagnet } from "./magnet-canvas";
+import { getFieldVectorAtPosition, pointInMagnet } from "./magnet-util";
+import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
+import { kCanvasWidth, kCanvasHeight } from "../main-content";
 
 interface IProps {
   magnets: PossibleMagnet[];
@@ -11,6 +12,16 @@ interface IProps {
 }
 interface IState {
 }
+
+const outOfBounds = (vec: Vector) => {
+  const { x, y } = vec;
+  const widthBuffer = kCanvasWidth / 2;
+  const heightBuffer = kCanvasHeight / 2;
+  return (
+    x > kCanvasWidth + widthBuffer || x < 0 - widthBuffer ||
+    y > kCanvasHeight + heightBuffer || y < 0 - heightBuffer
+  );
+};
 
 export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
   create: props => {
@@ -23,11 +34,14 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     instance.moveTo(x, y);
 
     let currPos = new Vector(x, y);
-    for (let i = 0; i < 750; i++) {
+    for (let i = 0; i < 1500; i++) {
       const delta = getFieldVectorAtPosition(magnets, currPos.x, currPos.y).unit();
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
-    }
 
+      if (magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) || outOfBounds(currPos)) {
+        break;
+      }
+    }
   }
 });

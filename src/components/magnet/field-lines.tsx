@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Container } from "@inlet/react-pixi";
 import FieldLine from "./field-line";
-import { PossibleMagnet } from "./magnet-canvas";
+import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { getFieldVectorAtPosition } from "./magnet-util";
 
 interface IProps {
@@ -38,13 +38,19 @@ export default function FieldLines(props: IProps) {
         renderFieldLine(magnet.x + (magnet.length / 2), magnet.y + 24, magnets, index++)
       );
       fieldLines.push(
-        renderFieldLine(magnet.x + (magnet.length / 2), magnet.y - 24, magnets, index++)
+        renderFieldLine(magnet.x + (magnet.length / 2), magnet.y - 26, magnets, index++)
       );
       fieldLines.push(
-        renderFieldLine(magnet.x + (magnet.length / 2) - 10, magnet.y + 24, magnets, index++)
+        renderFieldLine(magnet.x + (magnet.length / 2) - 1, magnet.y + 26, magnets, index++)
       );
       fieldLines.push(
-        renderFieldLine(magnet.x + (magnet.length / 2) - 10, magnet.y - 24, magnets, index++)
+        renderFieldLine(magnet.x + (magnet.length / 2) - 1, magnet.y - 26, magnets, index++)
+      );
+      fieldLines.push(
+        renderFieldLine(magnet.x + (magnet.length / 2) - 10, magnet.y + 26, magnets, index++)
+      );
+      fieldLines.push(
+        renderFieldLine(magnet.x + (magnet.length / 2) - 10, magnet.y - 26, magnets, index++)
       );
     }
   });
