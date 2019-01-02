@@ -72,7 +72,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     return newState;
   }
 
-  private strengthDisposer: IReactionDisposer;
+  private modelReactionDisposer: IReactionDisposer;
 
   constructor(props: IProps) {
     super(props);
@@ -82,14 +82,16 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public componentDidMount() {
     const {simulation} = this.stores;
-    this.strengthDisposer = reaction(
-      () => simulation.magnets.map(magnet => magnet.strength),
+    this.modelReactionDisposer = reaction(
+      // This is mostly a hack to make sure that the component updates whenever the MST model changes
+      // This is necessary since the models are passed to a PixiComponent which is not an @observer
+      () => simulation.magnets.map(magnet => `${magnet.strength},${magnet.flipped}`),
       () => this.forceUpdate()
     );
   }
 
   public componentWillUnmount() {
-    this.strengthDisposer();
+    this.modelReactionDisposer();
   }
 
   public render() {

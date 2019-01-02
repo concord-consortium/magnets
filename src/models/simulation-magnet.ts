@@ -26,7 +26,15 @@ export const SimulationMagnet = types
       get strength() {
         return self.type === "bar"
           ? self.barStrength
-          : self.coilStrength * self.currentStrength;
+          : self.coilPolarity === "off"
+            ? 0
+            : self.coilStrength * self.currentStrength;
+      },
+
+      get flipped() {
+        return self.type === "bar"
+          ? self.barPolarity === "S-N"
+          : self.coilPolarity === "minus-plus";
       }
     };
   });

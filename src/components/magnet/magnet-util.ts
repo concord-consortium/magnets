@@ -48,8 +48,12 @@ export function getFieldVectorAtPosition(
 
 function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x: number, y: number) {
   const dipoles: Dipole[] = [];
-  const posX = magnet.x + (magnet.length) / 2;
-  const negX = magnet.x - (magnet.length) / 2;
+  const posX = magnetModel.flipped
+                ? magnet.x - (magnet.length) / 2
+                : magnet.x + (magnet.length) / 2;
+  const negX = magnetModel.flipped
+                ? magnet.x + (magnet.length) / 2
+                : magnet.x - (magnet.length) / 2;
   const magStart = magnet.y - kMagnetHeight / 2;
   const magIncr = kMagnetHeight / kNumDipoles;
   const charge = kChargeAmount * magnetModel.strength;
