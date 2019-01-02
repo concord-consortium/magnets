@@ -1,22 +1,121 @@
 @import vars
 
-.polarity-current-panel
+.polarity-panel
+  position: absolute
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 110px
-  width: 150px
-  color: $button-color
-  background-color: $button-bgcolor
-  border-radius: $component-border-radius
-  margin: $component-margin
-  transition-duration: $animation-speed
+  width: 97px
+  height: 84px
+  font-size: 16px
+  color: $color-army-light
   &:hover
-    color: $button-color-hover
-    background-color: $button-bgcolor-hover
-  &.tall
-    height: 110px
+    cursor: pointer
+  &:hover .icon.bar-magnet-polarity-back2
+    opacity: 1
+  &:hover .icon.bar-magnet-polarity-back1
+    opacity: 1
+  &:hover .icon.coil-magnet-polarity-back2
+    opacity: 1
+  &:hover .icon.coil-magnet-polarity-back1
+    opacity: 1
+  &:hover .title
+    opacity: 1
+  &:hover .switch-button
+    opacity: 1
+  &:hover .polarity-label
+    opacity: 1
+  &:hover .slider-container
+    opacity: 1
+  &:hover .tick-container
+    opacity: 1
+  &:hover .slider
+    opacity: 1
+  &.left-bar
+    top: 33px
+    left: 83px
+  &.right-bar
+    top: 33px
+    left: 523px
+  &.center-bar
+    top: 33px
+    left: 303px
+  &.left-coil
+    top: 3px
+    left: 62px
+    height: 114px
+    width: 149px
+  &.right-coil
+    top: 3px
+    left: 502px
+    height: 114px
+    width: 149px
+  &.center-coil
+    top: 3px
+    left: 282px
+    height: 114px
+    width: 149px
+
+  .icon
+    position: absolute
+    transition: opacity $animation-speed
+    &.bar-magnet-polarity-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 97px
+      height: 84px
+    &.bar-magnet-polarity-back1
+      fill: $color-army
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 97px
+      height: 84px
+    &.coil-magnet-polarity-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 149px
+      height: 114px
+    &.coil-magnet-polarity-back1
+      fill: $color-army
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 149px
+      height: 114px
+
+  .vertical-container
+    position: absolute
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+  .title
+    opacity: .25
+    text-align: center
+    width: 100%
+    font-size: 16px
+    margin-bottom: $component-margin
+    transition: opacity $animation-speed
+
+  .polarity-label
+    opacity: .25
+    text-align: center
+    font-size: 30px
+    width: 60px
+    line-height: 18px
+    margin-bottom: $double-component-margin
+    transition: opacity $animation-speed
 
   .horizontal-container
     display: flex
@@ -29,60 +128,59 @@
     flex-direction: column
     justify-content: center
     align-items: center
-    border: 4px solid #323322
-    background-color: #40402B
+    border: 3px solid $color-seaweed
+    background-color: $color-army-dark
     border-radius: 20px
     width: 110px
     height: 30px
-    &:hover
-      background-color: #909062
-    &:hover .slider
-      opacity: 1
+    opacity: .25
+    transition: opacity $animation-speed
+    margin: $component-margin
     &.tall
       height: 60px
-
-  .title
-    font-size: $font-size-button
-    margin: 0px 30px 5px 35px
-    text-align: center
-
-  .label
-    text-align: center
-    margin: $internal-component-margin
-    font-size: 20px
-    width: 30px
-    line-height: 18px
-
-    &.off
-      font-size: $font-size-label
-      line-height: $font-size-label
 
   .slider
     -webkit-appearance: none;
     width: 85px
-    height: 6px
+    height: 4px
     border-radius: 5px
-    background: #46462F
+    background: $color-seaweed
     outline: none
     opacity: 0.3
-    margin: 10px
-    -webkit-transition: .1s
-    transition: opacity .1s
+    margin-top: 10px
+    -webkit-transition: $animation-speed
+    transition: opacity $animation-speed
 
   .slider::-webkit-slider-thumb
     -webkit-appearance: none
     appearance: none
     width: 24px
     height: 24px
-    border: 4px solid #46462F
+    border: 4px solid $color-seaweed
     border-radius: 50%
-    background: #C8C988
+    background: $color-army-light
     cursor: pointer
 
   .slider::-moz-range-thumb
     width: 20px
     height: 20px
-    border: 4px solid #46462F
+    border: 4px solid $color-seaweed
     border-radius: 50%
-    background: #C8C988
+    background: $color-army-light
     cursor: pointer
+
+  .tick-container
+    display: flex
+    flex-direction: row
+    opacity: .25
+    transition: opacity $animation-speed
+
+    .tick
+      height: 6px
+      width: 6px
+      border-radius: 50%
+      background-color: $color-seaweed
+      margin-left: 12px
+      margin-right: 12px
+      margin-bottom: 2px
+      margin-top: 4px

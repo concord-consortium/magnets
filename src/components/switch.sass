@@ -7,30 +7,26 @@
   align-items: center
   height: 30px
   width: 60px
-  color: #616242
+  color: $color-seaweed
   border-radius: 20px
-  border: 4px solid #323322
+  border: 3px solid $color-seaweed
   margin: $component-margin
-  background-color: #40402B
+  background-color: $color-army-dark
   transition-duration: $animation-speed
-  &:hover
-    color: $button-color-hover
-    background-color: $button-bgcolor-hover
-    cursor: pointer
+  opacity: .25
 
   .container
     display: flex
     flex-direction: row
 
     .switch
-      background-color: #626242
+      background-color: $color-army-light
       width: 12px
       height: 16px
       border-radius: 16px 0px 0px 16px
-      border: 6px solid #46462F
+      border: 4px solid $color-seaweed
       transition-duration: $animation-speed
       transition-property: background-color
-
       &.on
         border-radius: 0px 16px 16px 0px
 
@@ -41,7 +37,7 @@
       width: 30px
       font-size: $font-size-button-small
       margin: $internal-component-margin
+      &.enabled
+        color: $color-army-light
 
-.switch-button:hover .switch
-  background-color: $button-bgcolor-hover
 

@@ -1,22 +1,98 @@
 @import vars
 
 .strength-panel
+  position: absolute
+  top: 3px
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 80px
-  width: 250px
-  color: $button-color
-  background-color: $button-bgcolor
-  border-radius: $component-border-radius
-  margin: $component-margin
-  transition-duration: $animation-speed
+  height: 84px
+  width: 254px
+  color: $color-army-light
   &:hover
-    color: $button-color-hover
-    background-color: $button-bgcolor-hover
+    cursor: pointer
+  &:hover .icon.bar-magnet-strength-back2
+    opacity: 1
+  &:hover .icon.bar-magnet-strength-back1
+    opacity: 1
+  &:hover .icon.coil-magnet-strength-back2
+    opacity: 1
+  &:hover .icon.coil-magnet-strength-back1
+    opacity: 1
+  &:hover .title
+    opacity: 1
+  &:hover .label-title
+    opacity: 1
+  &:hover .label-slider
+    opacity: 1
+  &:hover .slider-container
+    opacity: 1
+  &:hover .tick-container
+    opacity: 1
+  &:hover .slider
+    opacity: 1
   &.tall
-    height: 110px
+    width: 246px
+    height: 114px
+  &.left-bar
+    left: 183px
+    top: 33px
+  &.right-bar
+    left: 623px
+    top: 33px
+  &.center-bar
+    left: 403px
+    top: 33px
+  &.left-coil
+    left: 213px
+  &.right-coil
+    left: 653px
+  &.center-coil
+    left: 433px
+
+  .icon
+    position: absolute
+    transition: opacity $animation-speed
+    &.bar-magnet-strength-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      opacity: .25
+      left: 0
+      top: 0
+      width: 254px
+      height: 84px
+    &.bar-magnet-strength-back1
+      fill: $color-army
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 254px
+      height: 84px
+    &.coil-magnet-strength-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      opacity: .25
+      left: 0
+      top: 0
+      width: 246px
+      height: 114px
+    &.coil-magnet-strength-back1
+      fill: $color-army
+      opacity: .25
+      left: 0px
+      top: 0px
+      width: 246px
+      height: 114px
+
+  .vertical-container
+    position: absolute
+    top: 6%
+    left: 3%
+    width: 94%
+    height: 88%
+    display: flex
+    flex-direction: column
 
   .horizontal-container
     display: flex
@@ -24,68 +100,95 @@
     justify-content: center
     align-items: flex-end
 
-  .vertical-container
+  .label-container
     display: flex
     flex-direction: column
+    height: 60px
+    margin: $internal-component-margin
 
   .slider-container
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
-    border: 4px solid #323322
-    background-color: #40402B
+    border: 3px solid $color-seaweed
+    background-color: $color-army-dark
     border-radius: 20px
     width: 110px
     height: 30px
-    &:hover
-      background-color: #909062
-    &:hover .slider
-      opacity: 1
+    opacity: .25
+    transition: opacity $animation-speed
+    margin-top: 3px
     &.tall
-      height: 60px
+      height: 65px
+      margin-top: 0px
 
   .title
-    font-size: $font-size-button
+    font-size: 16px
     margin: 0px 30px 5px 35px
     text-align: center
+    opacity: .25
+    transition: opacity $animation-speed
 
-  .label
+  .label-title
     margin: $internal-component-margin
-    font-size: $font-size-label
+    font-size: 14px
+    opacity: .25
+    transition: opacity $animation-speed
 
-  .label2
-    margin: $internal-component-margin
+  .label-slider
+    margin: 0px 5px 5px 5px
+    margin-bottom: 8px
     font-size: $font-size-label2
     text-align: center
     line-height: 12px
+    opacity: .25
+    transition: opacity $animation-speed
+    color: $color-seaweed
+    width: 50px
 
   .slider
     -webkit-appearance: none;
     width: 85px
-    height: 6px
+    height: 4px
     border-radius: 5px
-    background: #46462F
+    background: $color-seaweed
     outline: none
     opacity: 0.3
-    margin: 10px
-    -webkit-transition: .1s
-    transition: opacity .1s
+    margin-top: 10px
+    -webkit-transition: $animation-speed
+    transition: opacity $animation-speed
 
   .slider::-webkit-slider-thumb
     -webkit-appearance: none
     appearance: none
     width: 24px
     height: 24px
-    border: 4px solid #46462F
+    border: 4px solid $color-seaweed
     border-radius: 50%
-    background: #C8C988
+    background: $color-army-light
     cursor: pointer
 
   .slider::-moz-range-thumb
     width: 20px
     height: 20px
-    border: 4px solid #46462F
+    border: 4px solid $color-seaweed
     border-radius: 50%
-    background: #C8C988
+    background: $color-army-light
     cursor: pointer
+
+  .tick-container
+    display: flex
+    flex-direction: row
+    opacity: .25
+    transition: opacity $animation-speed
+
+    .tick
+      height: 6px
+      width: 6px
+      border-radius: 50%
+      background-color: $color-seaweed
+      margin-left: 12px
+      margin-right: 12px
+      margin-bottom: 2px
+      margin-top: 4px

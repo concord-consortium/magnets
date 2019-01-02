@@ -1,20 +1,23 @@
 @import vars
 
-.mag-field-panel
+.mag-forces-panel
   position: absolute
+  left: 609px
   top: 119px
+  width: 193px
+  height: 84px
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 84px
-  width: 451px
+  font-size: $font-size-button
   color: $color-army-light
+  transition-duration: $animation-speed
   &:hover
     cursor: pointer
-  &:hover .icon.field-options-back2
+  &:hover .icon.force-options-back2
     opacity: 1
-  &:hover .icon.field-options-back1
+  &:hover .icon.force-options-back1
     opacity: 1
   &:hover .title
     opacity: 1
@@ -22,35 +25,31 @@
     opacity: 1
   &:hover .switch-button
     opacity: 1
-  &.left
-    left: 156px
-  &.center
-    left: 255px
 
   .icon
     position: absolute
     transition-duration: $animation-speed
-    &.field-options-back2
+    &.force-options-back2
       fill: $color-army-light
       fill-opacity: .5
       opacity: .25
       left: 0
       top: 0
-      width: 451px
+      width: 193px
       height: 84px
-    &.field-options-back1
+    &.force-options-back1
       fill: $color-army
       opacity: .25
       left: 0px
       top: 0px
-      width: 451px
+      width: 193px
       height: 84px
 
   .vertical-container
     position: absolute
     top: 5px
     left: 5px
-    width: 441px
+    width: 183px
     height: 74px
     display: flex
     flex-direction: column
@@ -69,13 +68,6 @@
     flex-direction: row
     justify-content: center
     align-items: center
-
-    .button
-      display: flex
-      flex-direction: row
-      justify-content: center
-      align-items: center
-      margin: $component-margin
 
   .right-label
     font-size: 15px

@@ -2,27 +2,36 @@
 
 .bottom-bar
   position: absolute
-  top: 630px
   margin-left: auto
   margin-right: auto
   left: 0
   right: 0
+  width: $top-bar-width
+  height: 210px
+  top: 630px
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  height: 220px
-  width: 100%
   transition-duration: $animation-speed
 
-  .row
-    display: flex
-    flex-direction: row
-
-    .panel
-      display: flex
-      flex-direction: row
-      margin-left: 15px
-      margin-right: 15px
-      &.hidden
-        display: none
+  .icon
+    position: absolute
+    &.logo-back2
+      fill: $color-army-light
+      fill-opacity: .5
+      right: 0px
+      bottom: 0px
+      width: 110px
+      height: 50px
+    &.logo-back1
+      fill: $color-white
+      right: 0px
+      bottom: 0px
+      width: 105px
+      height: 48px
+    &.logo
+      right: 8px
+      bottom: 8px
+      width: 83px
+      height: 27px

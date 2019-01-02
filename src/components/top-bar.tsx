@@ -53,7 +53,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
   }
 
   private renderMagnetButton = (text: string, magType: MagnetType | null, posClass: string) => {
-    const selectClass = magType ? " " : "selectable ";
+    const selectClass = magType ? "" : "selectable ";
     return (
       <div className={"button " + selectClass} onClick={this.handleClickMagnetButton}>
         <svg className={"icon nav-back2 " + posClass}>
