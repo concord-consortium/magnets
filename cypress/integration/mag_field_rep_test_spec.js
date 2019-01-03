@@ -48,9 +48,20 @@ context('Mag field controls', ()=>{
         });
     });
     describe('change polarity', ()=>{
-
+        it('will change polarity of fixed magnet', ()=>{
+            footer.changeLeftPolarity();
+            //verify polarity changed
+        })
     });
     describe('change field strength', ()=>{
-        footer.changeFieldStrength(1)
+        it('will change field strenghts to different values', ()=>{
+            footer.changeFieldStrength(1)
+            //verify canvas
+            footer.changeFieldStrength(3);
+            //verify canvas
+            footer.changeFieldStrength(2)
+            //verify canvas
+        })
+
     });
 });

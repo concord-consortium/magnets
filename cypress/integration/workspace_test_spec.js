@@ -7,6 +7,9 @@ const footer = new Footer;
 const mainSpace = new MainSpace;
 
 context('Test whole workspace layout', ()=>{
+    before(() => {
+        cy.visit("localhost:8080");
+    });
     describe('Header', ()=>{
         it('will verify workspace is empty when no magnets are selected', ()=>{
             header.selectMagnetLeft();
