@@ -68,7 +68,9 @@ function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x:
 
   if (pointInMagnet(magnet, x, y)) {
     // Fake the field direction inside of the magnet
-    return new Vector(1, 0).multiply(field.length());
+    return magnetModel.flipped
+      ? new Vector(-1, 0).multiply(field.length())
+      : new Vector(1, 0).multiply(field.length());
   } else {
     return field;
   }
