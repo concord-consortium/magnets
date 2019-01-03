@@ -40,6 +40,12 @@ class Footer {
             .invoke('val', num)
             .trigger('change')
     }
+    changeLeftPolarity(){
+        this.getLeftPolarityButton().click();
+    }
+    changeRightPolarity(){
+        this.getRightPolarityButton().click();
+    }
 }
 
 export default Footer;
