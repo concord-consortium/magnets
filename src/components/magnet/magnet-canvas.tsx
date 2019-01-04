@@ -102,7 +102,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
     const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
-
+    const primaryImage = primaryMag ? primaryMag.magnetImage : "";
+    const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
     const { width, height } = this.props;
     const { magnet1, magnet2 } = this.state;
 
@@ -140,6 +141,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             draggable={false}
             type={primaryMagType}
             flip={flip1}
+            image={primaryImage}
             updatePosition={this.handleUpdateMagnetPosition(1)}
           />
         }
@@ -150,6 +152,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             draggable={true}
             type={secondaryMagType}
             flip={flip2}
+            image={secondaryImage}
             updatePosition={this.handleUpdateMagnetPosition(2)}
           />
         }
