@@ -17,25 +17,39 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
+    const magRight = simulation.getMagnetAtIndex(1);
     const magBarSliderVal = mag != null ? mag.barStrength : 1;
     const magCoilSliderVal = mag != null ? mag.coilStrength : 1;
     const magCurrentSliderVal = mag != null ? mag.currentStrength : 1;
     const magType: MagnetType | null = mag ? mag.type : null;
     const panelClass = magType === "coil"
-      ? "strength-panel tall"
-      : "strength-panel";
+      ? "strength-panel tall "
+      : "strength-panel ";
+    let posClass = "center";
+    if (this.props.index === 0 && magRight) {
+      posClass = "left";
+    } else if (this.props.index === 1) {
+      posClass = "right";
+    }
+    posClass = posClass + "-" + magType;
     return (
-      <div className={panelClass}>
+      <div className={panelClass + posClass}>
+        <svg className={"icon " + magType + "-magnet-strength-back2"}>
+          <use xlinkHref={"#icon-" + magType + "-magnet-strength-back2"}/>
+        </svg>
+        <svg className={"icon " + magType + "-magnet-strength-back1"}>
+          <use xlinkHref={"#icon-" + magType + "-magnet-strength-back1"}/>
+        </svg>
         <div className="vertical-container">
           <div className="horizontal-container">
-            <div className="label">Weak</div>
+            <div className="label-title">Weak</div>
             <div className="title">Strength</div>
-            <div className="label">Strong</div>
+            <div className="label-title">Strong</div>
           </div>
+          {magType === "bar"
+            ? this.renderBarSlider(magBarSliderVal)
+            : this.renderCoilSliders(magCoilSliderVal, magCurrentSliderVal)}
         </div>
-        {magType === "bar"
-          ? this.renderBarSlider(magBarSliderVal)
-          : this.renderCoilSliders(magCoilSliderVal, magCurrentSliderVal)}
       </div>
     );
   }
@@ -43,23 +57,33 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
   private renderCoilSliders = (coilVal: number, currVal: number) => {
     return (
       <div className="horizontal-container">
-        <div className="vertical-container">
-          <div className="label2">Fewer<br/>Coils</div>
-          <div className="label2">Less<br/>Current</div>
+        <div className="label-container">
+          <div className="label-slider">Fewer<br/>Coils</div>
+          <div className="label-slider">Less<br/>Current</div>
         </div>
         <div className="slider-container tall">
           <div>
             <input className="slider" type="range" min="1" max="3"
                   value={coilVal} onChange={this.handleCoilSliderChange}/>
+            <div className="tick-container">
+              <div className="tick"/>
+              <div className="tick"/>
+              <div className="tick"/>
+            </div>
           </div>
           <div>
             <input className="slider" type="range" min="1" max="3"
                   value={currVal} onChange={this.handleCurrentSliderChange}/>
+            <div className="tick-container">
+              <div className="tick"/>
+              <div className="tick"/>
+              <div className="tick"/>
+            </div>
           </div>
         </div>
-        <div className="vertical-container">
-          <div className="label2">More<br/>Coils</div>
-          <div className="label2">More<br/>Current</div>
+        <div className="label-container">
+          <div className="label-slider">More<br/>Coils</div>
+          <div className="label-slider">More<br/>Current</div>
         </div>
       </div>
     );
@@ -68,12 +92,17 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
   private renderBarSlider = (val: number) => {
     return (
       <div className="horizontal-container">
-        <div className="label2">Fewer Magnets</div>
+        <div className="label-slider">Fewer Magnets</div>
         <div className="slider-container">
           <input className="slider" type="range" min="1" max="3"
                  value={val} onChange={this.handleMagnetSliderChange}/>
+          <div className="tick-container">
+            <div className="tick"/>
+            <div className="tick"/>
+            <div className="tick"/>
+          </div>
         </div>
-        <div className="label2">More Magnets</div>
+        <div className="label-slider">More Magnets</div>
       </div>
     );
   }

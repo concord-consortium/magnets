@@ -3,7 +3,7 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./polarity-panel.sass";
-import { SwitchPanelComponent } from "./switch-panel";
+import { SwitchComponent } from "./switch";
 import { CoilPolarityType, MagnetType } from "../models/simulation-magnet";
 
 interface IProps extends IBaseProps {
@@ -41,22 +41,51 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   private renderBarPolarityPanel = () => {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
+    const magType: MagnetType | null = mag ? mag.type : null;
+    const magRight = simulation.getMagnetAtIndex(1);
     const polaritylabel = mag && mag.barPolarity ? mag.barPolarity : "N-S";
     const polarityOn = polaritylabel === "S-N" ? true : false;
+    let posClass = "center";
+    if (this.props.index === 0 && magRight) {
+      posClass = "left";
+    } else if (this.props.index === 1) {
+      posClass = "right";
+    }
+    posClass = posClass + "-" + magType;
     return (
-      <SwitchPanelComponent
-        title="Polarity"
-        switchOn={polarityOn}
-        buttonText={polaritylabel}
-        buttonClick={this.handleClickPolarityButton}
-      />
+      <div className={"polarity-panel " + posClass}>
+        <svg className="icon bar-magnet-polarity-back2">
+          <use xlinkHref="#icon-bar-magnet-polarity-back2"/>
+        </svg>
+        <svg className="icon bar-magnet-polarity-back1">
+          <use xlinkHref="#icon-bar-magnet-polarity-back1"/>
+        </svg>
+        <div className="vertical-container">
+          <div className="title">Polarity</div>
+          <SwitchComponent
+            switchOn={polarityOn}
+            label={polaritylabel}
+            alwaysEnabled={true}
+            buttonClick={this.handleClickPolarityButton}
+          />
+        </div>
+      </div>
     );
   }
 
   private renderCoilPolarityPanel = () => {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
+    const magType: MagnetType | null = mag ? mag.type : null;
+    const magRight = simulation.getMagnetAtIndex(1);
     const magCoilPolarityVal = mag != null ? mag.coilPolarity : "plus-minus";
+    let posClass = "center";
+    if (this.props.index === 0 && magRight) {
+      posClass = "left";
+    } else if (this.props.index === 1) {
+      posClass = "right";
+    }
+    posClass = posClass + "-" + magType;
     let sliderVal = 1;
     if (magCoilPolarityVal === "off") {
       sliderVal = 2;
@@ -65,16 +94,28 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
       sliderVal = 3;
     }
     return (
-      <div className="polarity-current-panel">
-        <div className="title">Polarity/Current</div>
-        <div className="slider-container">
-          <input className="slider" type="range" min="1" max="3"
-                 value={sliderVal} onChange={this.handlePolarityCurrentSliderChange}/>
-        </div>
-        <div className="horizontal-container">
-          <div className="label">+-</div>
-          <div className="label off">OFF</div>
-          <div className="label">-+</div>
+      <div className={"polarity-panel " + posClass}>
+        <svg className="icon coil-magnet-polarity-back2">
+          <use xlinkHref="#icon-coil-magnet-polarity-back2"/>
+        </svg>
+        <svg className="icon coil-magnet-polarity-back1">
+          <use xlinkHref="#icon-coil-magnet-polarity-back1"/>
+        </svg>
+        <div className="vertical-container">
+          <div className="title">Polarity/Current</div>
+          <div className="slider-container">
+            <input className="slider" type="range" min="1" max="3"
+                  value={sliderVal} onChange={this.handlePolarityCurrentSliderChange}/>
+            <div className="tick-container">
+              <div className="tick"/>
+              <div className="tick"/>
+              <div className="tick"/>
+            </div>
+          </div>
+          <div className="horizontal-container">
+            <div className="polarity-label">+-</div>
+            <div className="polarity-label">-+</div>
+          </div>
         </div>
       </div>
     );
