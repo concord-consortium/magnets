@@ -9,14 +9,13 @@ import { MagnetType } from "../../models/simulation-magnet";
 import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
 
-const kMagnetLength = 220;
+export const kMagnetHeight = 40;
 
 const MagWithApp = withPixiApp(Magnet);
 
 export interface IMagnetProps {
   x: number;
   y: number;
-  length: number;
 }
 
 export type PossibleMagnet = IMagnetProps | undefined;
@@ -49,8 +48,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         const x = props.width / 4;
         newState.magnet1 = {
           x,
-          y,
-          length: kMagnetLength
+          y
         };
       } else {
         newState.magnet1 = state.magnet1;
@@ -63,8 +61,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         const x = props.width * 3 / 4;
         newState.magnet2 = {
           x,
-          y,
-          length: kMagnetLength
+          y
         };
       } else {
         newState.magnet2 = state.magnet2;
@@ -203,8 +200,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     this.setState({
       [`magnet${which}`]: {
         x,
-        y,
-        length: kMagnetLength
+        y
       }
     });
   }

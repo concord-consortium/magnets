@@ -1,10 +1,6 @@
-import { PossibleMagnet, Magnet } from "./magnet-canvas";
+import { PossibleMagnet, kMagnetHeight } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 import { SimulationMagnetType } from "../../models/simulation-magnet";
-
-const kChargeAmount = 100;
-const kMagnetHeight = 50;
-const kNumDipoles = 10;
 
 interface Dipole {
   posX: number;
@@ -35,67 +31,69 @@ export function getFieldVectorAtPosition(
   magnetModels: SimulationMagnetType[],
   x: number,
   y: number
-) {
-  return magnets.reduce((acc: Vector, magnet: PossibleMagnet, index: number) => {
-    const magnetModel = index < magnetModels.length && magnetModels[index];
-    if (magnet && magnetModel) {
-      return acc.add(getFieldForMagnet(magnet, magnetModel, x, y));
-    } else {
-      return acc;
-    }
-  }, new Vector(0, 0));
-}
-
-function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x: number, y: number) {
-  const dipoles: Dipole[] = [];
-  const posX = magnetModel.flipped
-                ? magnet.x - (magnetModel.magnetLength) / 2
-                : magnet.x + (magnetModel.magnetLength) / 2;
-  const negX = magnetModel.flipped
-                ? magnet.x + (magnetModel.magnetLength) / 2
-                : magnet.x - (magnetModel.magnetLength) / 2;
-  const magStart = magnet.y - kMagnetHeight / 2;
-  const magIncr = kMagnetHeight / kNumDipoles;
-  const charge = kChargeAmount * magnetModel.strength;
-  for (let i = 0; i < kNumDipoles; i++) {
-    const dipoleY = magStart + (magIncr * i);
-    dipoles.push({posX, posY: dipoleY, negX, negY: dipoleY, charge});
+): Vector {
+  const magnet1 = magnets[0];
+  if (!magnet1) {
+    return new Vector(0, 0);
   }
 
-  const field = dipoles.reduce((acc: Vector, dipole: Dipole) => {
-    return acc.add(getFieldForDipole(dipole, x, y));
-  }, new Vector(0, 0));
+  const dx = x - magnet1.x;
+  const dy = y - magnet1.y;
 
-  if (pointInMagnet(magnet, magnetModel, x, y)) {
-    // Fake the field direction inside of the magnet
-    return magnetModel.flipped
-      ? new Vector(-1, 0).multiply(field.length())
-      : new Vector(1, 0).multiply(field.length());
+  const bField1 = getBFieldForMagnet(dx, dy, magnetModels[0], magnetModels[0].magnetLength);
+
+  const magnet2 = magnets[1];
+  if (magnet2) {
+    const dx2 = x - magnet2.x;
+    const dy2 = y - magnet2.y;
+
+    const bField2 = getBFieldForMagnet(dx2, dy2, magnetModels[1], magnetModels[1].magnetLength);
+    return bField1.add(bField2);
   } else {
-    return field;
+    return bField1;
   }
 }
 
-function getFieldForDipole(dipole: Dipole, x: number, y: number) {
-  const plusField = getFieldForPointCharge({
-    x: dipole.posX,
-    y: dipole.posY,
-    charge: dipole.charge
-  }, x, y);
-  const minusField = getFieldForPointCharge({
-    x: dipole.negX,
-    y: dipole.negY,
-    charge: -dipole.charge
-  }, x, y);
+function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnetType, length: number): Vector {
+  let b = new Vector(0, 0);
 
-  return plusField.add(minusField);
-}
+  let m = magnet.strength;
+  if (magnet.flipped) {
+    m *= -1;
+  }
 
-function getFieldForPointCharge(pointCharge: PointCharge, x: number, y: number) {
-  const chargeVec = new Vector(pointCharge.x, pointCharge.y);
-  const pointVec = new Vector(x, y);
-  const distanceVec = pointVec.subtract(chargeVec);
-  const distanceUnitVec = distanceVec.unit();
+  // set up dipoles under bar magnet
+  const dipoles: number[][] = [];
+  const nColumns = 25;
+  const nRows = 3;
+  const nDipoles = nRows * nColumns;
+  const xSpacing = length / (nColumns - 1);
+  const ySpacing = kMagnetHeight / (nRows - 1);
 
-  return distanceUnitVec.multiply(pointCharge.charge / (distanceVec.length() ** 2));
+  for (let i = 0; i < nDipoles; i ++) {
+    const column = Math.floor(i / nRows);
+    const row = i % nRows;
+    const x = -(length / 2) + (xSpacing * column);
+    const y = -(kMagnetHeight / 2) + (ySpacing * row);
+    dipoles[i] = [x, y];
+  }
+
+  // calculate field one dipole at a time, and add to cumulative field
+  for (let i = 0; i < nDipoles; i++) {
+    const dx = relX - dipoles[i][0];
+    const dy = relY - dipoles[i][1];
+    const r2 = dx * dx + dy * dy;
+    const r = Math.sqrt(r2);
+    const r3 = r2 * r;
+    const cos = dx / r;
+    const sin = dy / r;
+
+    // taken from http://en.wikipedia.org/wiki/Magnetic_moment
+    const xComponent = m * (3 * cos * cos - 1) / r3;
+    const yComponent = m * 3 * sin * cos / r3;
+    // accumulate
+    b = b.add(new Vector(xComponent, yComponent));
+  }
+
+  return b;
 }
