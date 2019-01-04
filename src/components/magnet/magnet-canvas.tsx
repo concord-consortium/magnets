@@ -9,7 +9,8 @@ import { MagnetType } from "../../models/simulation-magnet";
 import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
 
-const kMagnetLength = 220;
+export const kMagnetLength = 220;
+export const kMagnetHeight = 40;
 
 export interface IMagnetProps {
   x: number;
