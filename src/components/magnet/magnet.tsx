@@ -8,6 +8,7 @@ interface IProps {
   draggable?: boolean;
   type?: string;
   flip?: boolean;
+  image?: string;
   updatePosition: (x: number, y: number) => void;
 }
 interface IState {
@@ -25,16 +26,15 @@ export default class Magnet extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { draggable, flip, type } = this.props;
+    const { draggable, flip, type, image } = this.props;
     const { x, y } = this.props.magnet;
     // react-pixi typing issue
     const anchor = [0.5, 0.5] as unknown as ObservablePoint;
     const flipFactor = flip && type === "bar" ? -1 : 1;
-    const scale = [1 * flipFactor, 1 * flipFactor] as unknown as ObservablePoint;
-    const magImage = "./assets/magnet-" + type + ".png";
+    const scale = [.5 * flipFactor, .5 * flipFactor] as unknown as ObservablePoint;
     return (
       <Sprite
-        image={magImage} x={x} y={y}
+        image={image} x={x} y={y}
         scale={scale}
         anchor={anchor}
         interactive={draggable ? true : false}
