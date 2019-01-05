@@ -144,7 +144,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       <Stage options={options} style={{width, height}}>
         {
           simulation.showCloud && !rotating1 && !rotating2 &&
-          <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={20} />
+          <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={10} />
         }
         {
           simulation.showPointers && !rotating1 && !rotating2 &&

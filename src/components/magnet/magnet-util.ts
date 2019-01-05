@@ -16,14 +16,14 @@ interface PointCharge {
   charge: number;
 }
 
-export function pointInMagnet(magnet: PossibleMagnet, magnetModel: SimulationMagnetType, x: number, y: number) {
+export function distanceSqFromMagnet(magnet: PossibleMagnet, magnetModel: SimulationMagnetType, x: number, y: number) {
   if (!magnet) {
-    return false;
+    return Infinity;
   }
 
   const dx = Math.max(Math.abs(x - magnet.x) - (magnetModel.magnetLength) / 2, 0);
   const dy = Math.max(Math.abs(y - magnet.y) - kMagnetHeight / 2, 0);
-  return dx ** 2 + dy ** 2 === 0;
+  return dx ** 2 + dy ** 2;
 }
 
 export function getFieldVectorAtPosition(
@@ -64,7 +64,8 @@ function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnet
 
   // set up dipoles under bar magnet
   const dipoles: number[][] = [];
-  const nColumns = 25;
+  const nColumns = magnet.magnetLength > 100
+    ? 20 : magnet.magnetLength > 50 ? 10 : 6;
   const nRows = 3;
   const nDipoles = nRows * nColumns;
   const xSpacing = length / (nColumns - 1);
