@@ -13,8 +13,9 @@ interface IState {
   width: number;
   height: number;
 }
-const kAppWidth = 960;
-const kAppHeight = 850; // todo: should be 618
+
+export const kAppMaxWidth = 960;
+export const kAppMaxHeight = 618;
 
 @inject("stores")
 @observer
@@ -42,20 +43,17 @@ export class AppComponent extends BaseComponent<IProps, IState> {
   }
 
   public render() {
-    const widthRatio = this.state.width / kAppWidth;
-    const heightRatio = this.state.height / kAppHeight;
-    let scalePercent = widthRatio > heightRatio ? heightRatio : widthRatio;
-    if (scalePercent > 1) {
-      scalePercent = 1;
-    }
+    const widthRatio = this.state.width / kAppMaxWidth;
+    const heightRatio = this.state.height / kAppMaxHeight;
+    const scalePercent = widthRatio > heightRatio ? heightRatio : widthRatio;
     const styleVal = "scale(" + scalePercent + ")";
     const styles = {
       transform: styleVal
     };
     return (
       <div style={styles} className="app-container">
-        <TopBarComponent />
         <MainContentComponent />
+        <TopBarComponent />
         <BottomBarComponent />
         <div className="cover"/>
       </div>

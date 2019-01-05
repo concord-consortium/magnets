@@ -37,7 +37,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public static getDerivedStateFromProps(props: IProps, state: IState) {
     const newState: IState = {};
-    const y = props.height / 2;
+    const y = 280;
 
     if (props.showMagnet1) {
       if (!state.magnet1) {
@@ -110,7 +110,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const { magnet1, magnet2 } = this.state;
 
     const options: PIXI.ApplicationOptions = {
-      backgroundColor: 0x333,
+      backgroundColor: 0x0,
       resolution: 2,
       antialias: true,
       // forceCanvas: true,
