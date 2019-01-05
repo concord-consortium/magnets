@@ -3,7 +3,7 @@ import { PixiComponent } from "@inlet/react-pixi";
 import { getFieldVectorAtPosition, pointInMagnet } from "./magnet-util";
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
-import { kCanvasWidth, kCanvasHeight } from "../main-content";
+import { kAppMaxWidth, kAppMaxHeight } from "../app";
 import { SimulationMagnetType } from "../../models/simulation-magnet";
 
 interface IProps {
@@ -18,11 +18,11 @@ interface IState {
 
 const outOfBounds = (vec: Vector) => {
   const { x, y } = vec;
-  const widthBuffer = kCanvasWidth / 2;
-  const heightBuffer = kCanvasHeight / 2;
+  const widthBuffer = kAppMaxWidth / 2;
+  const heightBuffer = kAppMaxHeight / 2;
   return (
-    x > kCanvasWidth + widthBuffer || x < 0 - widthBuffer ||
-    y > kCanvasHeight + heightBuffer || y < 0 - heightBuffer
+    x > kAppMaxWidth + widthBuffer || x < 0 - widthBuffer ||
+    y > kAppMaxHeight + heightBuffer || y < 0 - heightBuffer
   );
 };
 
