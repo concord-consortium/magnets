@@ -41,10 +41,15 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
       const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
-
       if (outOfBounds(currPos)
-          || magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && !internal
-          || !magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && internal
+          || magnets.length && magnetModels.length
+          && (pointInMagnet(magnets[0], magnetModels[0], currPos.x, currPos.y) && !internal)
+          || magnets.length && magnetModels.length
+          && (!pointInMagnet(magnets[0], magnetModels[0], currPos.x, currPos.y) && internal)
+          || magnets.length > 1 && magnetModels.length > 1
+          && (pointInMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) && !internal)
+          || magnets.length > 1 && magnetModels.length > 1
+          && (!pointInMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) && internal)
       ) {
         break;
       }

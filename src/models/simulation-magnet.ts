@@ -30,6 +30,21 @@ export const SimulationMagnet = types
             ? 0
             : self.coilStrength * self.currentStrength;
       },
+      get magnetLength(): number {
+        if (self.type === "bar") {
+          return 240;
+        }
+        else {
+          switch (self.coilStrength) {
+            case 1:
+              return 230;
+            case .75:
+              return 125;
+            default:
+              return 30;
+          }
+        }
+      },
       get magnetImage(): string {
         if (self.type === "bar") {
           switch (self.barStrength) {
