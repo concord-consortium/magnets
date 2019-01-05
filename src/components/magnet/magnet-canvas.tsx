@@ -104,6 +104,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
     const primaryImage = primaryMag ? primaryMag.magnetImage : "";
     const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
+    const primaryLength = primaryMag ? primaryMag.magnetLength : 0;
+    const secondaryLength = secondaryMag ? secondaryMag.magnetLength : 0;
     const { width, height } = this.props;
     const { magnet1, magnet2 } = this.state;
 

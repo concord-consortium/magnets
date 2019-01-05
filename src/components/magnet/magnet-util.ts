@@ -20,12 +20,12 @@ interface PointCharge {
   charge: number;
 }
 
-export function pointInMagnet(magnet: PossibleMagnet, x: number, y: number) {
+export function pointInMagnet(magnet: PossibleMagnet, magnetModel: SimulationMagnetType, x: number, y: number) {
   if (!magnet) {
     return false;
   }
 
-  const dx = Math.max(Math.abs(x - magnet.x) - magnet.length / 2, 0);
+  const dx = Math.max(Math.abs(x - magnet.x) - (magnetModel.magnetLength) / 2, 0);
   const dy = Math.max(Math.abs(y - magnet.y) - kMagnetHeight / 2, 0);
   return dx ** 2 + dy ** 2 === 0;
 }
@@ -49,11 +49,11 @@ export function getFieldVectorAtPosition(
 function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x: number, y: number) {
   const dipoles: Dipole[] = [];
   const posX = magnetModel.flipped
-                ? magnet.x - (magnet.length) / 2
-                : magnet.x + (magnet.length) / 2;
+                ? magnet.x - (magnetModel.magnetLength) / 2
+                : magnet.x + (magnetModel.magnetLength) / 2;
   const negX = magnetModel.flipped
-                ? magnet.x + (magnet.length) / 2
-                : magnet.x - (magnet.length) / 2;
+                ? magnet.x + (magnetModel.magnetLength) / 2
+                : magnet.x - (magnetModel.magnetLength) / 2;
   const magStart = magnet.y - kMagnetHeight / 2;
   const magIncr = kMagnetHeight / kNumDipoles;
   const charge = kChargeAmount * magnetModel.strength;
@@ -66,7 +66,7 @@ function getFieldForMagnet(magnet: Magnet, magnetModel: SimulationMagnetType, x:
     return acc.add(getFieldForDipole(dipole, x, y));
   }, new Vector(0, 0));
 
-  if (pointInMagnet(magnet, x, y)) {
+  if (pointInMagnet(magnet, magnetModel, x, y)) {
     // Fake the field direction inside of the magnet
     return magnetModel.flipped
       ? new Vector(-1, 0).multiply(field.length())
