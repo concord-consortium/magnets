@@ -35,61 +35,70 @@ export default function FieldLines(props: IProps) {
         return;
       }
       const negEndOutsideX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) - 1
-        : magnet.x + (magnet.length / 2) + 1;
+        ? magnet.x - (magnet.length / 2) - 10
+        : magnet.x + (magnet.length / 2) + 10;
       const negEndOuterX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) + 1
-        : magnet.x + (magnet.length / 2) - 1;
+        ? magnet.x - (magnet.length / 2) + 10
+        : magnet.x + (magnet.length / 2) - 10;
       const negEndMiddleX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) + 3
-        : magnet.x + (magnet.length / 2) - 3;
+        ? magnet.x - (magnet.length / 2)
+        : magnet.x + (magnet.length / 2);
       const negEndInnerX = magnetModel.flipped
         ? magnet.x - (magnet.length / 2) + 10
         : magnet.x + (magnet.length / 2) - 10;
 
       // External lines
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y, props, index++)
+        renderFieldLine(negEndOutsideX, magnet.y + 6, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y + 12, props, index++)
+        renderFieldLine(negEndOutsideX, magnet.y - 6, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y - 12, props, index++)
+        renderFieldLine(negEndOutsideX, magnet.y + 18, props, index++)
+      );
+      fieldLines.push(
+        renderFieldLine(negEndOutsideX, magnet.y - 18, props, index++)
+      );
+      fieldLines.push(
+        renderFieldLine(negEndOutsideX, magnet.y + 25, props, index++)
+      );
+      fieldLines.push(
+        renderFieldLine(negEndOutsideX, magnet.y - 25, props, index++)
       );
 
       fieldLines.push(
-        renderFieldLine(negEndMiddleX, magnet.y + 26, props, index++)
+        renderFieldLine(negEndMiddleX, magnet.y + 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndMiddleX, magnet.y - 26, props, index++)
+        renderFieldLine(negEndMiddleX, magnet.y - 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y + 26, props, index++)
+        renderFieldLine(negEndOuterX, magnet.y + 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y - 26, props, index++)
+        renderFieldLine(negEndOuterX, magnet.y - 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndInnerX, magnet.y + 26, props, index++)
+        renderFieldLine(negEndInnerX, magnet.y + 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndInnerX, magnet.y - 26, props, index++)
+        renderFieldLine(negEndInnerX, magnet.y - 30, props, index++)
       );
 
-      const posEndInternalX = magnetModel.flipped
-        ? magnet.x + (magnet.length / 2) - 1
-        : magnet.x - (magnet.length / 2) + 1;
-      // Internal lines
-      fieldLines.push(
-        renderFieldLine(posEndInternalX, magnet.y, props, index++, true)
-      );
-      fieldLines.push(
-        renderFieldLine(posEndInternalX, magnet.y + 12, props, index++, true)
-      );
-      fieldLines.push(
-        renderFieldLine(posEndInternalX, magnet.y - 12, props, index++, true)
-      );
+      // const posEndInternalX = magnetModel.flipped
+      //   ? magnet.x + (magnet.length / 2) - 1
+      //   : magnet.x - (magnet.length / 2) + 1;
+      // // Internal lines
+      // fieldLines.push(
+      //   renderFieldLine(posEndInternalX, magnet.y, props, index++, true)
+      // );
+      // fieldLines.push(
+      //   renderFieldLine(posEndInternalX, magnet.y + 12, props, index++, true)
+      // );
+      // fieldLines.push(
+      //   renderFieldLine(posEndInternalX, magnet.y - 12, props, index++, true)
+      // );
     }
   });
   return (

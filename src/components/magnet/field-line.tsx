@@ -37,7 +37,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     instance.moveTo(x, y);
 
     let currPos = new Vector(x, y);
-    for (let i = 0; i < 1500; i++) {
+    for (let i = 0; i < 500000; i++) {
       const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
