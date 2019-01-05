@@ -11,6 +11,7 @@ interface IProps {
   magnetModels: SimulationMagnetType[];
   x: number;
   y: number;
+  reverseLine: boolean;
   internal?: boolean;
 }
 interface IState {
@@ -31,14 +32,17 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets, magnetModels, internal } = newProps;
+    const { x, y, magnets, magnetModels, reverseLine, internal } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
 
     let currPos = new Vector(x, y);
     for (let i = 0; i < 1500; i++) {
-      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
+      let delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
+      if (reverseLine) {
+        delta = delta.multiply(new Vector(-1, -1));
+      }
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
 
