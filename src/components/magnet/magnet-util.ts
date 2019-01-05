@@ -23,7 +23,7 @@ export function pointInMagnet(magnet: PossibleMagnet, magnetModel: SimulationMag
 
   const dx = Math.max(Math.abs(x - magnet.x) - (magnetModel.magnetLength) / 2, 0);
   const dy = Math.max(Math.abs(y - magnet.y) - kMagnetHeight / 2, 0);
-  return dx ** 2 + dy ** 2 === 0;
+  return dx === 0 && dy === 0;
 }
 
 export function getFieldVectorAtPosition(
