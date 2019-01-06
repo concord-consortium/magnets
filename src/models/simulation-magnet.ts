@@ -71,7 +71,64 @@ export const SimulationMagnet = types
         return self.type === "bar"
           ? self.barPolarity === "S-N"
           : self.coilPolarity === "minus-plus";
-      }
+      },
+      get polarityCurrentImageOffset(): number {
+        let offset = 0;
+        if (self.type && self.type === "coil") {
+          switch (self.coilStrength) {
+            case 1:
+              offset = 75;
+              break;
+            case .75:
+              offset = 20;
+              break;
+            default:
+              offset = 0;
+              break;
+          }
+        }
+        return offset;
+      },
+      get leftPoleImage(): string {
+        let image = "";
+        if (self.type === "coil" && self.coilPolarity !== "off") {
+          image = self.coilPolarity === "plus-minus" ? "./assets/N.png" : "./assets/S.png";
+        }
+        return image;
+      },
+      get rightPoleImage(): string {
+        let image = "";
+        if (self.type === "coil" && self.coilPolarity !== "off") {
+          image = self.coilPolarity === "plus-minus" ? "./assets/S.png" : "./assets/N.png";
+        }
+        return image;
+      },
+      get currentArrowImage(): string {
+        let image = "";
+        if (self.type === "coil" && self.coilPolarity !== "off") {
+          switch (self.currentStrength) {
+            case 1:
+              image = "./assets/current-arrow-strong.png";
+              break;
+            case .75:
+              image = "./assets/current-arrow-med.png";
+              break;
+            default:
+              image = "./assets/current-arrow-weak.png";
+              break;
+          }
+        }
+        return image;
+      },
+      get voltageImage(): string {
+        let image = "";
+        image = self.type === "coil" && self.coilPolarity !== "off"
+                ? "./assets/voltage-source.png" : "";
+        return image;
+      },
+      get voltageFlip(): boolean {
+        return (self.type === "coil" && self.coilPolarity === "minus-plus" ? true : false);
+      },
     };
   });
 
