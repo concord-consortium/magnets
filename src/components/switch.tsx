@@ -25,11 +25,11 @@ export class SwitchComponent extends BaseComponent<IProps, IState> {
   }
 
   private renderOff = () => {
-    const enabledClass = this.props.alwaysEnabled ? "enabled" : "";
+    const enabledClass = this.props.alwaysEnabled ? "enabled " : "";
     return (
       <div className="container">
         <div className="switch"/>
-        <div className={"label " + enabledClass}>{this.props.label}</div>
+        <div className={"label " + enabledClass + "no-jitter"}>{this.props.label}</div>
       </div>
     );
   }
@@ -37,7 +37,7 @@ export class SwitchComponent extends BaseComponent<IProps, IState> {
   private renderOn = () => {
     return (
       <div className="container">
-        <div className="label enabled">{this.props.label}</div>
+        <div className="label enabled no-jitter">{this.props.label}</div>
         <div className="switch on"/>
       </div>
     );

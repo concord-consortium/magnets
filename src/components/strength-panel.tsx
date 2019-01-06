@@ -42,9 +42,9 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
         </svg>
         <div className="vertical-container">
           <div className="horizontal-container">
-            <div className="label-title">Weak</div>
-            <div className="title">Strength</div>
-            <div className="label-title">Strong</div>
+            <div className="label-title no-jitter">Weak</div>
+            <div className="title no-jitter">Strength</div>
+            <div className="label-title no-jitter">Strong</div>
           </div>
           {magType === "bar"
             ? this.renderBarSlider(magBarSliderVal)
@@ -58,8 +58,8 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
     return (
       <div className="horizontal-container">
         <div className="label-container">
-          <div className="label-slider">Fewer<br/>Coils</div>
-          <div className="label-slider">Less<br/>Current</div>
+          <div className="label-slider no-jitter">Fewer<br/>Coils</div>
+          <div className="label-slider no-jitter">Less<br/>Current</div>
         </div>
         <div className="slider-container tall">
           <div>
@@ -82,8 +82,8 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
           </div>
         </div>
         <div className="label-container">
-          <div className="label-slider">More<br/>Coils</div>
-          <div className="label-slider">More<br/>Current</div>
+          <div className="label-slider no-jitter">More<br/>Coils</div>
+          <div className="label-slider no-jitter">More<br/>Current</div>
         </div>
       </div>
     );
@@ -92,7 +92,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
   private renderBarSlider = (val: number) => {
     return (
       <div className="horizontal-container">
-        <div className="label-slider">Fewer Magnets</div>
+        <div className="label-slider no-jitter">Fewer Magnets</div>
         <div className="slider-container">
           <input className="slider" type="range" min=".2" max="1" step=".4"
                  value={val} onChange={this.handleMagnetSliderChange}/>
@@ -102,7 +102,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
             <div className="tick"/>
           </div>
         </div>
-        <div className="label-slider">More Magnets</div>
+        <div className="label-slider no-jitter">More Magnets</div>
       </div>
     );
   }

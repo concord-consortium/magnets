@@ -61,7 +61,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-bar-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title">Polarity</div>
+          <div className="title no-jitter">Polarity</div>
           <SwitchComponent
             switchOn={polarityOn}
             label={polaritylabel}
@@ -86,12 +86,16 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
       posClass = "right";
     }
     posClass = posClass + "-" + magType;
-    let sliderVal = 1;
-    if (magCoilPolarityVal === "off") {
-      sliderVal = 2;
+    let sliderVal = 2;
+    let sliderClass = "";
+    const showOffLabel = magCoilPolarityVal === "off" ? true : false;
+    if (magCoilPolarityVal === "plus-minus") {
+      sliderVal = 1;
+      sliderClass = "left";
     }
     else if (magCoilPolarityVal === "minus-plus") {
       sliderVal = 3;
+      sliderClass = "right";
     }
     return (
       <div className={"polarity-panel " + posClass}>
@@ -102,10 +106,11 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-coil-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title">Polarity/Current</div>
+          <div className="title no-jitter">Polarity/Current</div>
           <div className="slider-container">
-            <input className="slider" type="range" min="1" max="3"
+            <input className={"slider " + sliderClass} type="range" min="1" max="3"
                   value={sliderVal} onChange={this.handlePolarityCurrentSliderChange}/>
+            {showOffLabel ? <div className="thumb-label no-jitter">OFF</div> : null}
             <div className="tick-container">
               <div className="tick"/>
               <div className="tick"/>
@@ -113,8 +118,8 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
             </div>
           </div>
           <div className="horizontal-container">
-            <div className="polarity-label">+-</div>
-            <div className="polarity-label">-+</div>
+            <div className="polarity-label no-jitter">+-</div>
+            <div className="polarity-label no-jitter">-+</div>
           </div>
         </div>
       </div>
