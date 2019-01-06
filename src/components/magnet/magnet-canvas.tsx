@@ -96,16 +96,29 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public render() {
     const {simulation} = this.stores;
+
     const primaryMag = simulation.getMagnetAtIndex(0);
     const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
-    const flip1 = primaryMag && primaryMag.barPolarity === "S-N" ? true : false;
+    const primaryFlip = primaryMag && primaryMagType === "bar" ? primaryMag.flipped : false;
+    const primaryImage = primaryMag ? primaryMag.magnetImage : "";
+    const primaryImageOffset: number = primaryMag ? primaryMag.polarityCurrentImageOffset : 0;
+    const primaryLeftPoleImage: string = primaryMag ? primaryMag.leftPoleImage : "";
+    const primaryRightPoleImage: string = primaryMag ? primaryMag.rightPoleImage : "";
+    const primaryCurrentArrowImage: string = primaryMag ? primaryMag.currentArrowImage : "";
+    const primaryVoltageImage: string = primaryMag ? primaryMag.voltageImage : "";
+    const primaryVoltageFlip: boolean = primaryMag ? primaryMag.voltageFlip : false;
+
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
-    const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
-    const primaryImage = primaryMag ? primaryMag.magnetImage : "";
+    const secondaryFlip = secondaryMag && secondaryMagType === "bar" ? secondaryMag.flipped : false;
     const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
-    const primaryLength = primaryMag ? primaryMag.magnetLength : 0;
-    const secondaryLength = secondaryMag ? secondaryMag.magnetLength : 0;
+    const secondaryImageOffset: number = secondaryMag ? secondaryMag.polarityCurrentImageOffset : 0;
+    const secondaryLeftPoleImage: string = secondaryMag ? secondaryMag.leftPoleImage : "";
+    const secondaryRightPoleImage: string = secondaryMag ? secondaryMag.rightPoleImage : "";
+    const secondaryCurrentArrowImage: string = secondaryMag ? secondaryMag.currentArrowImage : "";
+    const secondaryVoltageImage: string = secondaryMag ? secondaryMag.voltageImage : "";
+    const secondaryVoltageFlip: boolean = secondaryMag ? secondaryMag.voltageFlip : false;
+
     const { width, height } = this.props;
     const { magnet1, magnet2 } = this.state;
 
@@ -142,8 +155,14 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             magnet={magnet1}
             draggable={false}
             type={primaryMagType}
-            flip={flip1}
+            flip={primaryFlip}
             image={primaryImage}
+            leftPoleImage={primaryLeftPoleImage}
+            rightPoleImage={primaryRightPoleImage}
+            voltageImage={primaryVoltageImage}
+            voltageFlip={primaryVoltageFlip}
+            currentArrowImage={primaryCurrentArrowImage}
+            imageOffset={primaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(1)}
           />
         }
@@ -153,8 +172,14 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             magnet={magnet2}
             draggable={true}
             type={secondaryMagType}
-            flip={flip2}
+            flip={secondaryFlip}
             image={secondaryImage}
+            leftPoleImage={secondaryLeftPoleImage}
+            rightPoleImage={secondaryRightPoleImage}
+            voltageImage={secondaryVoltageImage}
+            voltageFlip={secondaryVoltageFlip}
+            currentArrowImage={secondaryCurrentArrowImage}
+            imageOffset={secondaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(2)}
           />
         }
