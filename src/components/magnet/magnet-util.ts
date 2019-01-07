@@ -1,4 +1,4 @@
-import { PossibleMagnet, Magnet, IMagnetProps, kMagnetLength, kMagnetHeight } from "./magnet-canvas";
+import { PossibleMagnet, kMagnetLength, kMagnetHeight } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 import { SimulationMagnetType } from "../../models/simulation-magnet";
 
