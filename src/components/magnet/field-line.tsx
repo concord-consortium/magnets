@@ -12,6 +12,7 @@ interface IProps {
   x: number;
   y: number;
   internal?: boolean;
+  magnetLength?: number;
 }
 interface IState {
 }
@@ -31,10 +32,16 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets, magnetModels, internal } = newProps;
+    const { x, y, magnets, magnetModels, internal, magnetLength } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
+
+    if (internal) {
+      // fake a straight line back
+      instance.lineTo(x - magnetLength!, y);
+      return;
+    }
 
     let currPos = new Vector(x, y);
 
@@ -52,9 +59,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
         stepSize = 4;
       }
 
-      if (distanceToClosestMagnet === 0 && !internal
-          || distanceToClosestMagnet !== 0 && internal
-      ) {
+      if (distanceToClosestMagnet === 0) {
         break;
       }
     }
