@@ -40,7 +40,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public static getDerivedStateFromProps(props: IProps, state: IState) {
     const newState: IState = {};
-    const y = 280;
+    const y = 300;
 
     if (props.showMagnet1) {
       if (!state.magnet1) {

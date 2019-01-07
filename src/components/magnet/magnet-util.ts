@@ -37,18 +37,32 @@ export function getFieldVectorAtPosition(
     return new Vector(0, 0);
   }
 
+  const magnetModel1 = magnetModels[0];
+
   const dx = x - magnet1.x;
   const dy = y - magnet1.y;
 
-  const bField1 = getBFieldForMagnet(dx, dy, magnetModels[0], magnetModels[0].magnetLength);
+  const bField1 = getBFieldForMagnet(dx, dy, magnetModel1, magnetModel1.magnetLength);
+  if (distanceSqFromMagnet(magnet1, magnetModel1, x, y) === 0) {
+    return magnetModel1.flipped
+      ? new Vector(-1, 0).multiply(bField1.length())
+      : new Vector(1, 0).multiply(bField1.length());
+  }
 
   const magnet2 = magnets[1];
   if (magnet2) {
+    const magnetModel2 = magnetModels[1];
     const dx2 = x - magnet2.x;
     const dy2 = y - magnet2.y;
 
-    const bField2 = getBFieldForMagnet(dx2, dy2, magnetModels[1], magnetModels[1].magnetLength);
-    return bField1.add(bField2);
+    const bField2 = getBFieldForMagnet(dx2, dy2, magnetModel2, magnetModel2.magnetLength);
+    if (distanceSqFromMagnet(magnet2, magnetModel2, x, y) === 0) {
+      return magnetModel2.flipped
+        ? new Vector(-1, 0).multiply(bField2.length())
+        : new Vector(1, 0).multiply(bField2.length());
+    } else {
+      return bField1.add(bField2);
+    }
   } else {
     return bField1;
   }
