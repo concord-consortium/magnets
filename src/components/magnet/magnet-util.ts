@@ -64,7 +64,8 @@ function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnet
 
   // set up dipoles under bar magnet
   const dipoles: number[][] = [];
-  const nColumns = 25;
+  const nColumns = magnet.magnetLength > 100
+    ? 20 : magnet.magnetLength > 50 ? 10 : 6;
   const nRows = 3;
   const nDipoles = nRows * nColumns;
   const xSpacing = length / (nColumns - 1);

@@ -47,10 +47,16 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
       const d2 = magnetModels.length > 1 ?
         distanceSqFromMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) : Infinity;
       const distanceToClosestMagnet = Math.min(d1, d2);
-      if (distanceToClosestMagnet < 20) {
+      if (distanceToClosestMagnet < 30) {
         stepSize = 1;
-      } else {
+      } else if (distanceToClosestMagnet < 100) {
+        stepSize = 3;
+      } else if (distanceToClosestMagnet < 600) {
         stepSize = 4;
+      } else if (distanceToClosestMagnet < 1000) {
+        stepSize = 6;
+      } else {
+        stepSize = 10;
       }
 
       if (distanceToClosestMagnet === 0) {
