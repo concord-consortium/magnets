@@ -11,11 +11,9 @@ export class Vector {
     return new Vector(-this.x, -this.y);
   }
 
-  public add(v: Vector | number, y?: number) {
+  public add(v: Vector | number) {
     if (v instanceof Vector) return new Vector(this.x + v.x, this.y + v.y);
-    else if (y !== undefined) {
-      return new Vector(this.x + v, this.y + y);
-    } else return new Vector(this.x + v, this.y + v);
+    else return new Vector(this.x + v, this.y + v);
   }
 
   public subtract(v: Vector | number) {
