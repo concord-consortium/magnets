@@ -30,6 +30,8 @@ interface IProps {
 interface IState {
   magnet1?: IMagnetProps;
   magnet2?: IMagnetProps;
+  rotating1?: boolean;
+  rotating2?: boolean;
 }
 
 @inject("stores")
@@ -75,8 +77,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.state = {};
-
+    this.state = {
+      rotating1: false,
+      rotating2: false
+    };
   }
 
   public componentDidMount() {
@@ -121,7 +125,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const secondaryVoltageFlip: boolean = secondaryMag ? secondaryMag.voltageFlip : false;
 
     const { width, height } = this.props;
-    const { magnet1, magnet2 } = this.state;
+    const { magnet1, magnet2, rotating1, rotating2 } = this.state;
 
     const options: PIXI.ApplicationOptions = {
       backgroundColor: 0x0,
@@ -139,15 +143,15 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     return (
       <Stage options={options} style={{width, height}}>
         {
-          simulation.showCloud &&
+          simulation.showCloud && !rotating1 && !rotating2 &&
           <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={10} />
         }
         {
-          simulation.showPointers &&
+          simulation.showPointers && !rotating1 && !rotating2 &&
           <VectorField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={30} />
         }
         {
-          simulation.showFieldLines &&
+          simulation.showFieldLines && !rotating1 && !rotating2 &&
           <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
         }
         {
@@ -166,6 +170,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             currentArrowImage={primaryCurrentArrowImage}
             imageOffset={primaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(1)}
+            updateRotating={this.handleUpdateRotating(1)}
           />
         }
         {
@@ -184,6 +189,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             currentArrowImage={secondaryCurrentArrowImage}
             imageOffset={secondaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(2)}
+            updateRotating={this.handleUpdateRotating(2)}
           />
         }
       </Stage>
@@ -196,6 +202,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         x,
         y
       }
+    });
+  }
+
+  private handleUpdateRotating = (which: number) => (isRotating: boolean) => {
+    this.setState({
+      [`rotating${which}`]: isRotating
     });
   }
 }
