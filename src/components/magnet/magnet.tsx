@@ -18,6 +18,7 @@ interface IProps {
   imageOffset: number;
   currentArrowImage?: string;
   updatePosition: (x: number, y: number) => void;
+  updateRotating: (isRotating: boolean) => void;
 }
 interface IState {
   isDragging: boolean;
@@ -53,11 +54,14 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   public calculateRotation = (delta: any) => {
     if (this.props.rotation !== this.state.rotation) {
-      if (this.props.rotation === 180) {
-        return Math.min(180, this.state.rotation + 10 * delta);
-      } else {
-        return Math.max(0, this.state.rotation - 10 * delta);
+      this.props.updateRotating(true);
+      const newRotation = this.props.rotation === 180
+        ? Math.min(180, this.state.rotation + 10 * delta)
+        : Math.max(0, this.state.rotation - 10 * delta);
+      if (this.props.rotation === newRotation) {
+        this.props.updateRotating(false);
       }
+      return newRotation;
     } else {
       return this.state.rotation;
     }
