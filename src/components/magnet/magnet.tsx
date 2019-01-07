@@ -62,29 +62,29 @@ export default class Magnet extends React.Component<IProps, IState> {
       return this.state.rotation;
     }
   }
-
-  public tick = (delta: any) => {
-    const newRotation = this.calculateRotation(delta);
-    let newYOffset = this.state.yOffset + 1 * delta;
+  public calculateYOffset = (delta: any, currOffset: number) => {
+    let newYOffset = delta + currOffset;
     if (newYOffset > 80) {
       newYOffset = 0;
     }
-    let newYOffset2 = this.state.yOffset2 + 1 * delta;
-    if (newYOffset2 > 80) {
-      newYOffset2 = 0;
-    }
+    return newYOffset;
+  }
+  public calculateAlpha = (offset: number) => {
     let newAlpha = 1;
-    if (newYOffset < 40) {
-      newAlpha = newYOffset / 40;
-    } else if (newYOffset > 40) {
-      newAlpha = (40 - (newYOffset - 40)) / 40;
+    if (offset < 40) {
+      newAlpha = offset / 40;
+    } else if (offset > 40) {
+      newAlpha = (40 - (offset - 40)) / 40;
     }
-    let newAlpha2 = 1;
-    if (newYOffset2 < 40) {
-      newAlpha2 = newYOffset2 / 40;
-    } else if (newYOffset2 > 40) {
-      newAlpha2 = (40 - (newYOffset2 - 40)) / 40;
-    }
+    return newAlpha;
+  }
+
+  public tick = (delta: any) => {
+    const newRotation = this.calculateRotation(delta);
+    const newYOffset = this.calculateYOffset(delta, this.state.yOffset);
+    const newYOffset2 = this.calculateYOffset(delta, this.state.yOffset2);
+    const newAlpha = this.calculateAlpha(newYOffset);
+    const newAlpha2 = this.calculateAlpha(newYOffset2);
     this.setState(state => ({
       rotation: newRotation,
       alpha: newAlpha,
