@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { BaseComponent, IBaseProps } from "../base";
-import { Stage } from "@inlet/react-pixi";
+import { Stage, withPixiApp } from "@inlet/react-pixi";
 import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
@@ -10,6 +10,8 @@ import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
 
 const kMagnetLength = 220;
+
+const MagWithApp = withPixiApp(Magnet);
 
 export interface IMagnetProps {
   x: number;
@@ -100,6 +102,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const primaryMag = simulation.getMagnetAtIndex(0);
     const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
     const primaryFlip = primaryMag && primaryMagType === "bar" ? primaryMag.flipped : false;
+    const primaryRotation = primaryFlip ? 180 : 0;
     const primaryImage = primaryMag ? primaryMag.magnetImage : "";
     const primaryImageOffset: number = primaryMag ? primaryMag.polarityCurrentImageOffset : 0;
     const primaryLeftPoleImage: string = primaryMag ? primaryMag.leftPoleImage : "";
@@ -111,6 +114,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
     const secondaryFlip = secondaryMag && secondaryMagType === "bar" ? secondaryMag.flipped : false;
+    const secondaryRotation = secondaryFlip ? 180 : 0;
     const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
     const secondaryImageOffset: number = secondaryMag ? secondaryMag.polarityCurrentImageOffset : 0;
     const secondaryLeftPoleImage: string = secondaryMag ? secondaryMag.leftPoleImage : "";
@@ -151,11 +155,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         }
         {
           magnet1 &&
-          <Magnet
+          <MagWithApp
             magnet={magnet1}
             draggable={false}
             type={primaryMagType}
             flip={primaryFlip}
+            rotation={primaryRotation}
             image={primaryImage}
             leftPoleImage={primaryLeftPoleImage}
             rightPoleImage={primaryRightPoleImage}
@@ -168,11 +173,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         }
         {
           magnet2 &&
-          <Magnet
+          <MagWithApp
             magnet={magnet2}
             draggable={true}
             type={secondaryMagType}
             flip={secondaryFlip}
+            rotation={secondaryRotation}
             image={secondaryImage}
             leftPoleImage={secondaryLeftPoleImage}
             rightPoleImage={secondaryRightPoleImage}
