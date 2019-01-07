@@ -16,14 +16,14 @@ interface PointCharge {
   charge: number;
 }
 
-export function pointInMagnet(magnet: PossibleMagnet, x: number, y: number) {
+export function distanceSqFromMagnet(magnet: PossibleMagnet, x: number, y: number) {
   if (!magnet) {
-    return false;
+    return Infinity;
   }
 
   const dx = Math.max(Math.abs(x - magnet.x) - magnet.length / 2, 0);
   const dy = Math.max(Math.abs(y - magnet.y) - kMagnetHeight / 2, 0);
-  return dx === 0 && dy === 0;
+  return dx ** 2 + dy ** 2;
 }
 
 export function getFieldVectorAtPosition(

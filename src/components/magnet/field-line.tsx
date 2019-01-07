@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
-import { getFieldVectorAtPosition, pointInMagnet } from "./magnet-util";
+import { getFieldVectorAtPosition, distanceSqFromMagnet } from "./magnet-util";
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 import { kCanvasWidth, kCanvasHeight } from "../main-content";
@@ -16,15 +16,15 @@ interface IProps {
 interface IState {
 }
 
-const outOfBounds = (vec: Vector) => {
-  const { x, y } = vec;
-  const widthBuffer = kCanvasWidth / 2;
-  const heightBuffer = kCanvasHeight / 2;
-  return (
-    x > kCanvasWidth + widthBuffer || x < 0 - widthBuffer ||
-    y > kCanvasHeight + heightBuffer || y < 0 - heightBuffer
-  );
-};
+// const outOfBounds = (vec: Vector) => {
+//   const { x, y } = vec;
+//   const widthBuffer = kCanvasWidth;
+//   const heightBuffer = kCanvasHeight;
+//   return (
+//     x > kCanvasWidth + widthBuffer || x < 0 - widthBuffer ||
+//     y > kCanvasHeight + heightBuffer || y < 0 - heightBuffer
+//   );
+// };
 
 export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
   create: props => {
@@ -37,14 +37,23 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     instance.moveTo(x, y);
 
     let currPos = new Vector(x, y);
-    for (let i = 0; i < 500000; i++) {
-      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
+
+    let stepSize = 4;
+    for (let i = 0; i < 5000; i++) {
+      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit().multiply(stepSize);
+
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
 
-      if (outOfBounds(currPos)
-          || magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && !internal
-          || !magnets.some(magnet => pointInMagnet(magnet, currPos.x, currPos.y)) && internal
+      const distanceToClosestMagnet = Math.min(...magnets.map( m => distanceSqFromMagnet(m, currPos.x, currPos.y) ));
+      if (distanceToClosestMagnet < 20) {
+        stepSize = 1;
+      } else {
+        stepSize = 4;
+      }
+
+      if (distanceToClosestMagnet === 0 && !internal
+          || distanceToClosestMagnet !== 0 && internal
       ) {
         break;
       }
