@@ -91,7 +91,8 @@ function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnet
     // taken from http://en.wikipedia.org/wiki/Magnetic_moment
     const xComponent = m * (3 * cos * cos - 1) / r3;
     const yComponent = m * 3 * sin * cos / r3;
-    b = b.add(xComponent, yComponent);
+    // accumulate
+    b = b.add(new Vector(xComponent, yComponent));
   }
 
   return b;
