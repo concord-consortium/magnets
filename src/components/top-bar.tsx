@@ -22,8 +22,8 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     const rightMag = simulation.getMagnetAtIndex(1);
     const rightMagType: MagnetType | null = rightMag ? rightMag.type : null;
     const rightMagText = leftMag ? "Select a magnet" : "";
-    const rightDisabledClass = leftMag ? "" : "disabled";
-    const removeDisabledClass = rightMag ? "" : "disabled";
+    const rightDisabledClass = leftMag ? "" : "disabled ";
+    const removeDisabledClass = rightMag ? "" : "disabled ";
 
     return (
       <div className="top-bar">
@@ -55,7 +55,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
   private renderMagnetButton = (text: string, magType: MagnetType | null, posClass: string) => {
     const selectClass = magType ? "" : "selectable ";
     return (
-      <div className={"button " + selectClass} onClick={this.handleClickMagnetButton}>
+      <div className={"button top " + selectClass + posClass} onClick={this.handleClickMagnetButton}>
         <svg className={"icon nav-back2 " + posClass}>
           <use xlinkHref={"#icon-" + posClass + "-nav-back2"} />
         </svg>
@@ -81,7 +81,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
                              disabledClass: string, onClickFunction: () => void) => {
     const selectClass = !magType || magType !== "bar" ? "selectable " : " ";
     return (
-      <div className={"button " + selectClass + disabledClass} onClick={onClickFunction}>
+      <div className={"button bar " + selectClass + disabledClass + posClass} onClick={onClickFunction}>
         <svg className={"icon top-magnet-back bar " + selectClass + posClass}>
           <use xlinkHref={"#icon-top-bar-magnet-back-" + posClass} />
         </svg>
@@ -101,7 +101,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
                               disabledClass: string, onClickFunction: () => void) => {
     const selectClass = !magType || magType !== "coil" ? "selectable " : " ";
     return (
-      <div className={"button " + selectClass + disabledClass} onClick={onClickFunction}>
+      <div className={"button coil " + selectClass + disabledClass + posClass} onClick={onClickFunction}>
         <svg className={"icon top-magnet-back coil " + selectClass + posClass}>
           <use xlinkHref={"#icon-top-coil-magnet-back-" + posClass} />
         </svg>

@@ -172,13 +172,24 @@
   .slider::-webkit-slider-thumb:hover
       background-color: $color-goldfinch
 
+  .slider::-moz-range-track
+    background-color: $color-seaweed
+
   .slider::-moz-range-thumb
-    width: 15px
-    height: 15px
+    width: 24px
+    height: 16px
     border: 4px solid $color-seaweed
-    border-radius: 50%
+    border-radius: 0 4px 0 4px
     background: $color-army-light
     cursor: pointer
+  .slider.left::-moz-range-thumb
+      width: 16px
+      border-radius: 50% 0 0 50%
+  .slider.right::-moz-range-thumb
+      width: 16px
+      border-radius: 0 50% 50% 0
+  .slider::-moz-range-thumb:hover
+      background-color: $color-goldfinch
 
   .tick-container
     display: flex
