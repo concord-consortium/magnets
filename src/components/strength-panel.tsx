@@ -63,7 +63,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
         </div>
         <div className="slider-container tall">
           <div>
-            <input className="slider" type="range" min="1" max="3"
+            <input className="slider" type="range" min=".5" max="1" step=".25"
                   value={coilVal} onChange={this.handleCoilSliderChange}/>
             <div className="tick-container">
               <div className="tick"/>
@@ -72,7 +72,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
             </div>
           </div>
           <div>
-            <input className="slider" type="range" min="1" max="3"
+            <input className="slider" type="range" min=".5" max="1" step=".25"
                   value={currVal} onChange={this.handleCurrentSliderChange}/>
             <div className="tick-container">
               <div className="tick"/>
@@ -94,7 +94,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
       <div className="horizontal-container">
         <div className="label-slider">Fewer Magnets</div>
         <div className="slider-container">
-          <input className="slider" type="range" min="1" max="3"
+          <input className="slider" type="range" min=".2" max="1" step=".4"
                  value={val} onChange={this.handleMagnetSliderChange}/>
           <div className="tick-container">
             <div className="tick"/>
@@ -111,7 +111,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     if (mag != null) {
-      simulation.setMagnetBarStrength(this.props.index, parseInt(event.target.value, 10));
+      simulation.setMagnetBarStrength(this.props.index, parseFloat(event.target.value));
     }
   }
 
@@ -119,7 +119,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     if (mag != null) {
-      simulation.setMagnetCurrentStrength(this.props.index, parseInt(event.target.value, 10));
+      simulation.setMagnetCurrentStrength(this.props.index, parseFloat(event.target.value));
     }
   }
 
@@ -127,7 +127,7 @@ export class StrengthPanelComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     if (mag != null) {
-      simulation.setMagnetCoilStrength(this.props.index, parseInt(event.target.value, 10));
+      simulation.setMagnetCoilStrength(this.props.index, parseFloat(event.target.value));
     }
   }
 

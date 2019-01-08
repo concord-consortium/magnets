@@ -1,22 +1,24 @@
 import * as React from "react";
 import { Container } from "@inlet/react-pixi";
 import Vector from "./vector";
-import { getFieldMagnitudeAndDirection } from "./magnet-util";
+import { getFieldVectorAtPosition } from "./magnet-util";
 import { PossibleMagnet } from "./magnet-canvas";
+import { SimulationMagnetType } from "../../models/simulation-magnet";
 
 interface IProps {
   magnets: PossibleMagnet[];
+  magnetModels: SimulationMagnetType[];
   width: number;
   height: number;
   cellSize: number;
 }
 
 export default function VectorField(props: IProps) {
-  const { magnets, width, height, cellSize } = props;
+  const { magnets, magnetModels, width, height, cellSize } = props;
   const vectors = [];
   for (let x = cellSize / 2; x < width; x += cellSize) {
     for (let y = cellSize / 2; y < height; y += cellSize) {
-      const direction = getFieldMagnitudeAndDirection(magnets, x, y)[1];
+      const direction = getFieldVectorAtPosition(magnets, magnetModels, x, y).toAngle();
       vectors.push(
         <Vector key={`${x} ${y}`}
           x={x} y={y} length={cellSize} direction={direction} />

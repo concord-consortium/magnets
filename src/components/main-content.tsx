@@ -8,6 +8,9 @@ import { MagnetCanvas } from "./magnet/magnet-canvas";
 interface IProps extends IBaseProps {}
 interface IState {}
 
+export const kCanvasWidth = 800;
+export const kCanvasHeight = 500;
+
 @inject("stores")
 @observer
 export class MainContentComponent extends BaseComponent<IProps, IState> {
@@ -19,8 +22,8 @@ export class MainContentComponent extends BaseComponent<IProps, IState> {
     return (
       <div className="main-content">
         <MagnetCanvas
-          width={800}
-          height={500}
+          width={kCanvasWidth}
+          height={kCanvasHeight}
           showMagnet1={primaryMag != null}
           showMagnet2={secondaryMag != null}
         />

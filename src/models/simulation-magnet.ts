@@ -15,11 +15,28 @@ export const SimulationMagnet = types
     active: false,
     type: types.optional(MagnetTypeEnum, "bar"),
     barPolarity: types.optional(PolarityTypeEnum, "N-S"),
-    barStrength: 1,
+    barStrength: .6,
     coilPolarity: types.optional(CoilPolarityTypeEnum, "plus-minus"),
-    coilStrength: 5,
-    currentStrength: 1,
+    coilStrength: .75,
+    currentStrength: .75,
     id: types.optional(types.identifier, () => uuid()),
+  })
+  .views((self) => {
+    return {
+      get strength() {
+        return self.type === "bar"
+          ? self.barStrength
+          : self.coilPolarity === "off"
+            ? 0
+            : self.coilStrength * self.currentStrength;
+      },
+
+      get flipped() {
+        return self.type === "bar"
+          ? self.barPolarity === "S-N"
+          : self.coilPolarity === "minus-plus";
+      }
+    };
   });
 
 export type SimulationMagnetType = typeof SimulationMagnet.Type;

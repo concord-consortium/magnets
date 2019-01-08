@@ -6,6 +6,10 @@ import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
+import FieldLines from "./field-lines";
+import { reaction, IReactionDisposer } from "mobx";
+
+const kMagnetLength = 220;
 
 export interface IMagnetProps {
   x: number;
@@ -14,6 +18,7 @@ export interface IMagnetProps {
 }
 
 export type PossibleMagnet = IMagnetProps | undefined;
+export type Magnet = IMagnetProps;
 
 interface IProps {
   width: number;
@@ -41,7 +46,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         newState.magnet1 = {
           x,
           y,
-          length: 120,
+          length: kMagnetLength
         };
       } else {
         newState.magnet1 = state.magnet1;
@@ -55,7 +60,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         newState.magnet2 = {
           x,
           y,
-          length: 120,
+          length: kMagnetLength
         };
       } else {
         newState.magnet2 = state.magnet2;
@@ -67,9 +72,26 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     return newState;
   }
 
+  private modelReactionDisposer: IReactionDisposer;
+
   constructor(props: IProps) {
     super(props);
     this.state = {};
+
+  }
+
+  public componentDidMount() {
+    const {simulation} = this.stores;
+    this.modelReactionDisposer = reaction(
+      // This is mostly a hack to make sure that the component updates whenever the MST model changes
+      // This is necessary since the models are passed to a PixiComponent which is not an @observer
+      () => simulation.magnets.map(magnet => `${magnet.strength},${magnet.flipped}`),
+      () => this.forceUpdate()
+    );
+  }
+
+  public componentWillUnmount() {
+    this.modelReactionDisposer();
   }
 
   public render() {
@@ -94,15 +116,22 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       height
     };
 
+    const magnets = [magnet1, magnet2];
+    const magnetModels = simulation.magnets;
+
     return (
       <Stage options={options} style={{width, height}}>
         {
           simulation.showCloud &&
-          <GradientField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={20} />
+          <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={20} />
         }
         {
           simulation.showPointers &&
-          <VectorField magnets={[magnet1, magnet2]} width={width} height={height} cellSize={30} />
+          <VectorField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={30} />
+        }
+        {
+          simulation.showFieldLines &&
+          <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
         }
         {
           magnet1 &&
@@ -133,7 +162,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       [`magnet${which}`]: {
         x,
         y,
-        length: 120
+        length: kMagnetLength
       }
     });
   }
