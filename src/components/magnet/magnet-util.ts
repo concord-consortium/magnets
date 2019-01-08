@@ -112,3 +112,32 @@ function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnet
 
   return b;
 }
+
+export function getForceBetweenMagnets(magnets: PossibleMagnet[], magnetModels: SimulationMagnetType[]): number {
+  if (magnets.length < 2 || magnetModels.length < 2) return 0;
+  const magnet0 = magnets[0];
+  const magnet1 = magnets[1];
+  const model0 = magnetModels[0];
+  const model1 = magnetModels[1];
+  if (!magnet0 || !magnet1 || !model0 || !model1) return 0;
+
+  const m0 = model0.strength;
+  const m1 = model1.strength;
+
+  let force = 0;
+  // calculate and sum forces between all four ends
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 2; j++) {
+      const x0 = i === 0 ? magnet0.x - model0.magnetLength / 2 : magnet0.x + model0.magnetLength / 2;
+      const x1 = j === 0 ? magnet1.x - model1.magnetLength / 2 : magnet1.x + model1.magnetLength / 2;
+      const r = x1 - x0;
+      let direction = 1;
+      if ((i === j && model0.flipped === model1.flipped) ||
+          (i !== j && model0.flipped !== model1.flipped)) {
+        direction = -1;
+      }
+      force += (m0 * m1 * direction) / r ** 2;
+    }
+  }
+  return force;
+}

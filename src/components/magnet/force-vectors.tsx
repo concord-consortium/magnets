@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
-import { getFieldVectorAtPosition } from "./magnet-util";
+import { getFieldVectorAtPosition, getForceBetweenMagnets } from "./magnet-util";
 import { PossibleMagnet } from "./magnet-canvas";
 import { SimulationMagnetType } from "../../models/simulation-magnet";
 
@@ -17,8 +17,8 @@ export default PixiComponent<IProps, PIXI.Graphics>("ForceVectors", {
     const { magnets, magnetModels } = newProps;
     instance.clear();
 
-    function drawVector(magnet: PossibleMagnet, magnitude: number) {
-      if (magnet) {
+    function drawForceVector(magnet: PossibleMagnet, magnitude: number) {
+      if (magnet && Math.abs(magnitude) > 0.5) {
         const x0 = magnet.x;
         const x1 = magnet.x + magnitude;
         const x2 = magnitude > 0 ? x1 + 20 : x1 - 20;
@@ -33,7 +33,10 @@ export default PixiComponent<IProps, PIXI.Graphics>("ForceVectors", {
       }
     }
 
-    drawVector(magnets[0], 190);
-    drawVector(magnets[1], -190);
+    let force = getForceBetweenMagnets(magnets, magnetModels);
+    force *= 1e6;
+
+    drawForceVector(magnets[0], force);
+    drawForceVector(magnets[1], -force);
   }
 });

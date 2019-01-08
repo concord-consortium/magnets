@@ -8,6 +8,7 @@ import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
 import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
+import ForceVectors from "./force-vectors";
 
 export const kMagnetHeight = 40;
 
@@ -191,6 +192,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             updatePosition={this.handleUpdateMagnetPosition(2)}
             updateRotating={this.handleUpdateRotating(2)}
           />
+        }
+        {
+          simulation.showMagneticForces && !rotating1 && !rotating2 &&
+          <ForceVectors magnets={magnets} magnetModels={magnetModels} />
         }
       </Stage>
     );
