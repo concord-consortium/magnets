@@ -18,10 +18,10 @@ export default function VectorField(props: IProps) {
   const vectors = [];
   for (let x = cellSize / 2; x < width; x += cellSize) {
     for (let y = cellSize / 2; y < height; y += cellSize) {
-      const direction = getFieldVectorAtPosition(magnets, magnetModels, x, y).toAngle();
+      const field = getFieldVectorAtPosition(magnets, magnetModels, x, y);
       vectors.push(
         <Vector key={`${x} ${y}`}
-          x={x} y={y} length={cellSize} direction={direction} />
+          x={x} y={y} length={cellSize} field={field} />
       );
     }
   }
