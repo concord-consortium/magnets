@@ -23,10 +23,10 @@ export default PixiComponent<IProps, PIXI.Graphics>("Gradient", {
 
     for (let x = 0; x < width; x += cellSize) {
       for (let y = 0; y < height; y += cellSize) {
-        const magnitude = getFieldVectorAtPosition(magnets, magnetModels, x + half, y + half).length();
-        // Field strength decays as 1/r^2, which is too fast to visualize
-        // Take the square root of the magnitude so it decays as 1/r instead
-        instance.beginFill(0x56d2f9, Math.sqrt(magnitude));
+        // scale up, as values are tiny
+        const scale = 1E4;
+        const magnitude = getFieldVectorAtPosition(magnets, magnetModels, x + half, y + half).length() * scale;
+        instance.beginFill(0x56d2f9, magnitude);
         instance.drawRect(x, y, cellSize, cellSize);
       }
     }

@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
-import { getFieldVectorAtPosition, pointInMagnet } from "./magnet-util";
+import { getFieldVectorAtPosition, distanceSqFromMagnet } from "./magnet-util";
 import { PossibleMagnet, Magnet } from "./magnet-canvas";
 import { Vector } from "./vec-utils";
 import { kAppMaxWidth, kAppMaxHeight } from "../app";
@@ -11,46 +11,54 @@ interface IProps {
   magnetModels: SimulationMagnetType[];
   x: number;
   y: number;
-  internal?: boolean;
+  fixedInternalLength?: number;
 }
 interface IState {
 }
-
-const outOfBounds = (vec: Vector) => {
-  const { x, y } = vec;
-  const widthBuffer = kAppMaxWidth / 2;
-  const heightBuffer = kAppMaxHeight / 2;
-  return (
-    x > kAppMaxWidth + widthBuffer || x < 0 - widthBuffer ||
-    y > kAppMaxHeight + heightBuffer || y < 0 - heightBuffer
-  );
-};
 
 export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
   create: props => {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets, magnetModels, internal } = newProps;
+    const { x, y, magnets, magnetModels, fixedInternalLength } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
 
+    if (fixedInternalLength) {
+      // fake a straight line back
+      instance.lineTo(x - fixedInternalLength, y);
+      return;
+    }
+
     let currPos = new Vector(x, y);
-    for (let i = 0; i < 1500; i++) {
-      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit();
+
+    let stepSize = 4;
+    for (let i = 0; i < 5000; i++) {
+      const delta = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y).unit().multiply(stepSize);
+
       currPos = currPos.add(delta);
       instance.lineTo(currPos.x, currPos.y);
-      if (outOfBounds(currPos)
-          || magnets.length && magnetModels.length
-          && (pointInMagnet(magnets[0], magnetModels[0], currPos.x, currPos.y) && !internal)
-          || magnets.length && magnetModels.length
-          && (!pointInMagnet(magnets[0], magnetModels[0], currPos.x, currPos.y) && internal)
-          || magnets.length > 1 && magnetModels.length > 1
-          && (pointInMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) && !internal)
-          || magnets.length > 1 && magnetModels.length > 1
-          && (!pointInMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) && internal)
-      ) {
+
+      const d1 = magnetModels.length ?
+        distanceSqFromMagnet(magnets[0], magnetModels[0], currPos.x, currPos.y) : Infinity;
+      const d2 = magnetModels.length > 1 ?
+        distanceSqFromMagnet(magnets[1], magnetModels[1], currPos.x, currPos.y) : Infinity;
+      const distanceToClosestMagnet = Math.min(d1, d2);
+      if (distanceToClosestMagnet < 30) {
+        stepSize = 1;
+      } else if (distanceToClosestMagnet < 100) {
+        stepSize = 3;
+      } else if (distanceToClosestMagnet < 600) {
+        stepSize = 4;
+      } else if (distanceToClosestMagnet < 1000) {
+        stepSize = 6;
+      } else {
+        stepSize = 10;
+      }
+
+      if (distanceToClosestMagnet === 0) {
         break;
       }
     }
