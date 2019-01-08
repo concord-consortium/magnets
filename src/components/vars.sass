@@ -56,6 +56,9 @@ $component-bgcolor: $color-white
 $main-content-bgcolor: $color-black
 $main-content-color: $color-white
 
+$app-max-width: 960px
+$app-max-height: 618px
+
 //
 // top bar
 //
@@ -66,3 +69,11 @@ $top-bar-width: 960px
 // bottom bar
 //
 $bottom-bar-height: 300px
+
+.no-jitter
+  -webkit-backface-visibility: hidden
+  backface-visibility: hidden
+  -webkit-transform: translateZ(0) scale(1.0, 1.0)
+  transform: translateZ(0)
+  filter: blur(0)
+  -webkit-filter: blur(0)

@@ -35,17 +35,17 @@ export default function FieldLines(props: IProps) {
         return;
       }
       const negEndOutsideX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) - 1
-        : magnet.x + (magnet.length / 2) + 1;
+        ? magnet.x - (magnetModel.magnetLength / 2) - 1
+        : magnet.x + (magnetModel.magnetLength / 2) + 1;
       const negEndOuterX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) + 1
-        : magnet.x + (magnet.length / 2) - 1;
+        ? magnet.x - (magnetModel.magnetLength / 2) + 1
+        : magnet.x + (magnetModel.magnetLength / 2) - 1;
       const negEndMiddleX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) + 3
-        : magnet.x + (magnet.length / 2) - 3;
+        ? magnet.x - (magnetModel.magnetLength / 2) + 3
+        : magnet.x + (magnetModel.magnetLength / 2) - 3;
       const negEndInnerX = magnetModel.flipped
-        ? magnet.x - (magnet.length / 2) + 10
-        : magnet.x + (magnet.length / 2) - 10;
+        ? magnet.x - (magnetModel.magnetLength / 2) + 10
+        : magnet.x + (magnetModel.magnetLength / 2) - 10;
 
       // External lines
       fieldLines.push(
@@ -78,8 +78,8 @@ export default function FieldLines(props: IProps) {
       );
 
       const posEndInternalX = magnetModel.flipped
-        ? magnet.x + (magnet.length / 2) - 1
-        : magnet.x - (magnet.length / 2) + 1;
+        ? magnet.x + (magnetModel.magnetLength / 2) - 1
+        : magnet.x - (magnetModel.magnetLength / 2) + 1;
       // Internal lines
       fieldLines.push(
         renderFieldLine(posEndInternalX, magnet.y, props, index++, true)

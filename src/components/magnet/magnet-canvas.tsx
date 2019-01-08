@@ -1,7 +1,7 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { BaseComponent, IBaseProps } from "../base";
-import { Stage } from "@inlet/react-pixi";
+import { Stage, withPixiApp } from "@inlet/react-pixi";
 import Magnet from "./magnet";
 import VectorField from "./vector-field";
 import GradientField from "./gradient-field";
@@ -10,6 +10,8 @@ import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
 
 const kMagnetLength = 220;
+
+const MagWithApp = withPixiApp(Magnet);
 
 export interface IMagnetProps {
   x: number;
@@ -29,6 +31,8 @@ interface IProps {
 interface IState {
   magnet1?: IMagnetProps;
   magnet2?: IMagnetProps;
+  rotating1?: boolean;
+  rotating2?: boolean;
 }
 
 @inject("stores")
@@ -37,7 +41,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public static getDerivedStateFromProps(props: IProps, state: IState) {
     const newState: IState = {};
-    const y = props.height / 2;
+    const y = 280;
 
     if (props.showMagnet1) {
       if (!state.magnet1) {
@@ -76,8 +80,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    this.state = {};
-
+    this.state = {
+      rotating1: false,
+      rotating2: false
+    };
   }
 
   public componentDidMount() {
@@ -96,18 +102,36 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public render() {
     const {simulation} = this.stores;
+
     const primaryMag = simulation.getMagnetAtIndex(0);
     const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
-    const flip1 = primaryMag && primaryMag.barPolarity === "S-N" ? true : false;
+    const primaryFlip = primaryMag && primaryMagType === "bar" ? primaryMag.flipped : false;
+    const primaryRotation = primaryFlip ? 180 : 0;
+    const primaryImage = primaryMag ? primaryMag.magnetImage : "";
+    const primaryImageOffset: number = primaryMag ? primaryMag.polarityCurrentImageOffset : 0;
+    const primaryLeftPoleImage: string = primaryMag ? primaryMag.leftPoleImage : "";
+    const primaryRightPoleImage: string = primaryMag ? primaryMag.rightPoleImage : "";
+    const primaryCurrentArrowImage: string = primaryMag ? primaryMag.currentArrowImage : "";
+    const primaryVoltageImage: string = primaryMag ? primaryMag.voltageImage : "";
+    const primaryVoltageFlip: boolean = primaryMag ? primaryMag.voltageFlip : false;
+
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
-    const flip2 = secondaryMag && secondaryMag.barPolarity === "S-N" ? true : false;
+    const secondaryFlip = secondaryMag && secondaryMagType === "bar" ? secondaryMag.flipped : false;
+    const secondaryRotation = secondaryFlip ? 180 : 0;
+    const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
+    const secondaryImageOffset: number = secondaryMag ? secondaryMag.polarityCurrentImageOffset : 0;
+    const secondaryLeftPoleImage: string = secondaryMag ? secondaryMag.leftPoleImage : "";
+    const secondaryRightPoleImage: string = secondaryMag ? secondaryMag.rightPoleImage : "";
+    const secondaryCurrentArrowImage: string = secondaryMag ? secondaryMag.currentArrowImage : "";
+    const secondaryVoltageImage: string = secondaryMag ? secondaryMag.voltageImage : "";
+    const secondaryVoltageFlip: boolean = secondaryMag ? secondaryMag.voltageFlip : false;
 
     const { width, height } = this.props;
-    const { magnet1, magnet2 } = this.state;
+    const { magnet1, magnet2, rotating1, rotating2 } = this.state;
 
     const options: PIXI.ApplicationOptions = {
-      backgroundColor: 0x333,
+      backgroundColor: 0x0,
       resolution: 2,
       antialias: true,
       // forceCanvas: true,
@@ -122,35 +146,53 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     return (
       <Stage options={options} style={{width, height}}>
         {
-          simulation.showCloud &&
+          simulation.showCloud && !rotating1 && !rotating2 &&
           <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={20} />
         }
         {
-          simulation.showPointers &&
+          simulation.showPointers && !rotating1 && !rotating2 &&
           <VectorField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={30} />
         }
         {
-          simulation.showFieldLines &&
+          simulation.showFieldLines && !rotating1 && !rotating2 &&
           <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
         }
         {
           magnet1 &&
-          <Magnet
+          <MagWithApp
             magnet={magnet1}
             draggable={false}
             type={primaryMagType}
-            flip={flip1}
+            flip={primaryFlip}
+            rotation={primaryRotation}
+            image={primaryImage}
+            leftPoleImage={primaryLeftPoleImage}
+            rightPoleImage={primaryRightPoleImage}
+            voltageImage={primaryVoltageImage}
+            voltageFlip={primaryVoltageFlip}
+            currentArrowImage={primaryCurrentArrowImage}
+            imageOffset={primaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(1)}
+            updateRotating={this.handleUpdateRotating(1)}
           />
         }
         {
           magnet2 &&
-          <Magnet
+          <MagWithApp
             magnet={magnet2}
             draggable={true}
             type={secondaryMagType}
-            flip={flip2}
+            flip={secondaryFlip}
+            rotation={secondaryRotation}
+            image={secondaryImage}
+            leftPoleImage={secondaryLeftPoleImage}
+            rightPoleImage={secondaryRightPoleImage}
+            voltageImage={secondaryVoltageImage}
+            voltageFlip={secondaryVoltageFlip}
+            currentArrowImage={secondaryCurrentArrowImage}
+            imageOffset={secondaryImageOffset}
             updatePosition={this.handleUpdateMagnetPosition(2)}
+            updateRotating={this.handleUpdateRotating(2)}
           />
         }
       </Stage>
@@ -164,6 +206,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         y,
         length: kMagnetLength
       }
+    });
+  }
+
+  private handleUpdateRotating = (which: number) => (isRotating: boolean) => {
+    this.setState({
+      [`rotating${which}`]: isRotating
     });
   }
 }

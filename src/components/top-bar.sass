@@ -36,23 +36,23 @@
       &.disabled
         opacity: .4
       &.bar.left
-        left: 242px
-        top: 39px
+        left: 10px
+        top: 9px
         width: 58px
         height: 22px
       &.bar.right
-        left: 547px
-        top: 36px
+        left: 10px
+        top: 9px
         width: 58px
         height: 22px
       &.coil.left
-        left: 333px
-        top: 39px
+        left: 11px
+        top: 21px
         width: 55px
         height: 40px
       &.coil.right
-        left: 639px
-        top: 36px
+        left: 11px
+        top: 22px
         width: 54px
         height: 40px
       &.remove
@@ -73,6 +73,32 @@
         width: 90px
 
   .button
+    position: absolute
+    width: 137px
+    height: 106px
+    cursor: pointer
+    &.top.right
+      left: 823px
+    &.bar.left
+      width: 78px
+      height: 42px
+      left: 232px
+      top: 30px
+    &.bar.right
+      width: 78px
+      height: 42px
+      left: 537px
+      top: 27px
+    &.coil.left
+      width: 76px
+      height: 64px
+      left: 322px
+      top: 18px
+    &.coil.right
+      width: 76px
+      height: 64px
+      left: 628px
+      top: 14px
     &.selectable:hover
       cursor: pointer
     &:hover .nav-select-back.selectable
@@ -106,37 +132,27 @@
 
   .icon
     position: absolute
+    pointer-events: none
     &.top-nav-back2
       fill: $color-army-light
       fill-opacity: .5
-      left: 0
-      top: 0
       width: 960px
       height: 105px
     &.top-nav-back1
       fill: $color-army
-      left: 0
-      top: 0
       width: 960px
       height: 102px
     &.nav-back2
       fill: $color-army-light
       fill-opacity: .5
-      top: 0
       width: 137px
       height: 106px
-      &.left
-        left: 0
-      &.right
-        left: 823px
     &.nav-back1
       fill: $color-army
       width: 132px
       height: 103px
-      &.left
-        left: 0
       &.right
-        left: 828px
+        left: 5px
     &.nav-select-back
       fill: $color-white
       fill-opacity: .15
@@ -146,7 +162,7 @@
       &.left
         left: 14px
       &.right
-        left: 846px
+        left: 23px
     &.nav-select-outline
       fill: $color-goldfinch
       fill-opacity: .35
@@ -156,7 +172,7 @@
       &.left
         left: 14px
       &.right
-        left: 846px
+        left: 23px
     &.nav-magnet
       filter: drop-shadow( 4px 4px 4px rgba(0,0,0,.4) )
       &.left.bar
@@ -170,76 +186,56 @@
         width: 81px
         height: 59px
       &.right.bar
-        left: 846px
+        left: 23px
         top: 27px
         width: 91px
         height: 36px
       &.right.coil
-        left: 854px
+        left: 32px
         top: 24px
         width: 80px
         height: 58px
     &.top-magnet-back
       fill: $color-white
       fill-opacity: .15
-      top: 30px
       width: 78px
       height: 42px
-      &.bar.left
-        left: 232px
-      &.bar.right
-        left: 537px
-        top: 27px
       &.coil.left
-        left: 322px
-        top: 18px
         width: 76px
         height: 64px
       &.coil.right
-        left: 628px
-        top: 14px
         width: 76px
         height: 63px
     &.top-magnet-outline
       fill: $color-goldfinch
       fill-opacity: .35
-      top: 30px
       width: 78px
       height: 42px
-      &.bar.left
-        left: 232px
-      &.bar.right
-        left: 537px
-        top: 27px
       &.coil.left
-        left: 322px
-        top: 18px
         width: 76px
         height: 64px
       &.coil.right
-        left: 628px
-        top: 14px
         width: 76px
         height: 63px
     &.top-magnet
       &.bar.left
-        left: 242px
-        top: 39px
+        left: 10px
+        top: 9px
         width: 58px
         height: 22px
       &.bar.right
-        left: 547px
-        top: 37px
+        left: 10px
+        top: 10px
         width: 58px
         height: 22px
       &.coil.left
-        left: 333px
-        top: 29px
+        left: 11px
+        top: 11px
         width: 55px
         height: 40px
       &.coil.right
-        left: 639px
-        top: 25px
+        left: 11px
+        top: 11px
         width: 54px
         height: 40px
     &.top-nav-remove-magnet-back

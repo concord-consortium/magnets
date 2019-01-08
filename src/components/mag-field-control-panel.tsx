@@ -18,9 +18,9 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
     const primaryMag = simulation.getMagnetAtIndex(0);
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const posClass = primaryMag && secondaryMag ? "left" : "center";
-    const enabledFieldClass = simulation.showFieldLines ? "enabled" : "";
-    const enabledCloudClass = simulation.showCloud ? "enabled" : "";
-    const enabledPointersClass = simulation.showPointers ? "enabled" : "";
+    const enabledFieldClass = simulation.showFieldLines ? "enabled " : "";
+    const enabledCloudClass = simulation.showCloud ? "enabled " : "";
+    const enabledPointersClass = simulation.showPointers ? "enabled " : "";
     return (
       <div className={"mag-field-panel " + posClass}>
         <svg className="icon field-options-back2">
@@ -30,7 +30,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-field-options-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title">
+          <div className="title no-jitter">
           Magnetic Field Representations
           </div>
           <div className="horizontal-container">
@@ -40,7 +40,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
                 label={simulation.showFieldLines ? "ON" : "OFF"}
                 buttonClick={this.handleFieldLinesCheckbox}
               />
-              <div className={"right-label " + enabledFieldClass}>Field Lines</div>
+              <div className={"right-label " + enabledFieldClass + "no-jitter"}>Field Lines</div>
             </div>
             <div className="button">
               <SwitchComponent
@@ -48,7 +48,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
                 label={simulation.showCloud ? "ON" : "OFF"}
                 buttonClick={this.handleCloudCheckbox}
               />
-              <div className={"right-label " + enabledCloudClass}>Cloud</div>
+              <div className={"right-label " + enabledCloudClass + "no-jitter"}>Cloud</div>
             </div>
             <div className="button">
               <SwitchComponent
@@ -56,7 +56,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
                 label={simulation.showPointers ? "ON" : "OFF"}
                 buttonClick={this.handlePointersCheckbox}
               />
-              <div className={"right-label " + enabledPointersClass}>Pointers</div>
+              <div className={"right-label " + enabledPointersClass + "no-jitter"}>Pointers</div>
             </div>
           </div>
         </div>

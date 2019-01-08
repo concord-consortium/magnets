@@ -148,7 +148,8 @@
     width: 50px
 
   .slider
-    -webkit-appearance: none;
+    z-index: 99
+    -webkit-appearance: none
     width: 85px
     height: 4px
     border-radius: 5px
@@ -162,33 +163,45 @@
   .slider::-webkit-slider-thumb
     -webkit-appearance: none
     appearance: none
-    width: 24px
-    height: 24px
-    border: 4px solid $color-seaweed
+    width: 26px
+    height: 26px
+    border: 5px solid $color-seaweed
     border-radius: 50%
     background: $color-army-light
     cursor: pointer
+    transition-duration: $animation-speed-fast
+    transition-property: background-color
+  .slider::-webkit-slider-thumb:hover
+      background-color: $color-goldfinch
+
+  .slider::-moz-range-track
+    background-color: $color-seaweed
 
   .slider::-moz-range-thumb
-    width: 20px
-    height: 20px
-    border: 4px solid $color-seaweed
+    width: 15px
+    height: 15px
+    border: 5px solid $color-seaweed
     border-radius: 50%
     background: $color-army-light
     cursor: pointer
+  .slider::-moz-range-thumb:hover
+      background-color: $color-goldfinch
 
   .tick-container
     display: flex
     flex-direction: row
+    justify-content: center
+    align-items: center
     opacity: .25
     transition: opacity $animation-speed
+    margin-top: 1px
 
     .tick
-      height: 6px
-      width: 6px
+      height: 5px
+      width: 5px
       border-radius: 50%
       background-color: $color-seaweed
       margin-left: 12px
       margin-right: 12px
       margin-bottom: 2px
-      margin-top: 4px
+      margin-top: 1px
