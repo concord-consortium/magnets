@@ -11,8 +11,7 @@ interface IProps {
   magnetModels: SimulationMagnetType[];
   x: number;
   y: number;
-  internal?: boolean;
-  magnetLength?: number;
+  fixedInternalLength?: number;
 }
 interface IState {
 }
@@ -22,14 +21,14 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, magnets, magnetModels, internal, magnetLength } = newProps;
+    const { x, y, magnets, magnetModels, fixedInternalLength } = newProps;
     instance.clear();
     instance.lineStyle(3, 0xBBBBBB);
     instance.moveTo(x, y);
 
-    if (internal) {
+    if (fixedInternalLength) {
       // fake a straight line back
-      instance.lineTo(x - magnetLength!, y);
+      instance.lineTo(x - fixedInternalLength, y);
       return;
     }
 

@@ -11,7 +11,7 @@ interface IProps {
   height: number;
 }
 
-function renderFieldLine(x: number, y: number, props: IProps, index: number, internal?: boolean, length?: number) {
+function renderFieldLine(x: number, y: number, props: IProps, index: number, length?: number) {
   const { magnets, magnetModels } = props;
   return (
     <FieldLine key={index}
@@ -19,8 +19,7 @@ function renderFieldLine(x: number, y: number, props: IProps, index: number, int
       y={y}
       magnets={magnets}
       magnetModels={magnetModels}
-      internal={internal}
-      magnetLength={length}
+      fixedInternalLength={length}
     />
   );
 }
@@ -38,9 +37,6 @@ export default function FieldLines(props: IProps) {
       const negEndOutsideX = magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2) - 10
         : magnet.x + (magnetModel.magnetLength  / 2) + 10;
-      const negEndOuterX = magnetModel.flipped
-        ? magnet.x - (magnetModel.magnetLength  / 2) + 10
-        : magnet.x + (magnetModel.magnetLength  / 2) - 10;
       const negEndMiddleX = magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2)
         : magnet.x + (magnetModel.magnetLength  / 2);
@@ -78,12 +74,6 @@ export default function FieldLines(props: IProps) {
         renderFieldLine(negEndMiddleX, magnet.y - 30, props, index++)
       );
       fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y + 30, props, index++)
-      );
-      fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y - 30, props, index++)
-      );
-      fieldLines.push(
         renderFieldLine(negEndInnerX, magnet.y + 30, props, index++)
       );
       fieldLines.push(
@@ -92,16 +82,16 @@ export default function FieldLines(props: IProps) {
 
       // // Internal lines, same as the points above, but backwards and inside
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y + 6, props, index++, true, internalLineLength)
+        renderFieldLine(negEndOutsideX, magnet.y + 6, props, index++, internalLineLength)
       );
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y - 6, props, index++, true, internalLineLength)
+        renderFieldLine(negEndOutsideX, magnet.y - 6, props, index++, internalLineLength)
       );
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y + 18, props, index++, true, internalLineLength)
+        renderFieldLine(negEndOutsideX, magnet.y + 18, props, index++, internalLineLength)
       );
       fieldLines.push(
-        renderFieldLine(negEndOutsideX, magnet.y - 18, props, index++, true, internalLineLength)
+        renderFieldLine(negEndOutsideX, magnet.y - 18, props, index++, internalLineLength)
       );
     }
   });
