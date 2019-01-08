@@ -25,7 +25,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("Vector", {
     let pointer = [
       [x - (length / 4), y - (width / 2)],
       [x - (length / 4), y + (width / 2)],
-      [x + (length / 2), y]
+      [x + (length / 4), y]
     ];
 
     // rotate shape

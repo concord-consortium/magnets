@@ -47,6 +47,10 @@ export class Vector {
     return Math.atan2(this.y, this.x);
   }
 
+  public clone() {
+    return new Vector(this.x, this.y);
+  }
+
   public toString() {
     return `x: ${this.x}, y: ${this.y}`;
   }
