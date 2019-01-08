@@ -3,6 +3,9 @@ import { Stage, Sprite, Container } from "@inlet/react-pixi";
 import { ObservablePoint, Application } from "pixi.js";
 import { IMagnetProps } from "./magnet-canvas";
 
+const kVoltageImageYOffset = 84;
+const kSideImageXOffset = 66;
+
 interface IProps {
   app: Application;
   magnet: IMagnetProps;
@@ -127,7 +130,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         />
         { this.props.voltageImage !== ""
           ? <Sprite
-              image={this.props.voltageImage} x={x} y={y + 84}
+              image={this.props.voltageImage} x={x} y={y + kVoltageImageYOffset}
               scale={scale}
               anchor={anchor}
               rotation={voltRotation}
@@ -136,7 +139,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         }
         { this.props.leftPoleImage !== ""
           ? <Sprite
-              image={this.props.leftPoleImage} x={x - (66 + imageOffset)} y={y}
+              image={this.props.leftPoleImage} x={x - (kSideImageXOffset + imageOffset)} y={y}
               scale={scale}
               anchor={anchor}
             />
@@ -144,7 +147,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         }
         { this.props.rightPoleImage !== ""
           ? <Sprite
-              image={this.props.rightPoleImage} x={x + (66 + imageOffset)} y={y}
+              image={this.props.rightPoleImage} x={x + (kSideImageXOffset + imageOffset)} y={y}
               scale={scale}
               anchor={anchor}
             />
@@ -153,7 +156,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x - (66 + imageOffset)}
+              x={x - (kSideImageXOffset + imageOffset)}
               y={y + leftCurrAniStart + this.state.yOffset * voltFlipFactor}
               scale={scale}
               anchor={anchor}
@@ -165,7 +168,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x - (66 + imageOffset)}
+              x={x - (kSideImageXOffset + imageOffset)}
               y={y + leftCurrAniStart + this.state.yOffset2 * voltFlipFactor}
               scale={scale}
               anchor={anchor}
@@ -177,7 +180,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x + (66 + imageOffset)}
+              x={x + (kSideImageXOffset + imageOffset)}
               y={(y + rightCurrAniStart - this.state.yOffset * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
@@ -189,7 +192,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x + (66 + imageOffset)}
+              x={x + (kSideImageXOffset + imageOffset)}
               y={(y + rightCurrAniStart - this.state.yOffset2 * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
