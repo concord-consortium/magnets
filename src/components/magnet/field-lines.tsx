@@ -40,9 +40,6 @@ export default function FieldLines(props: IProps) {
       const negEndOutsideX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2) - 10
         : magnet.x + (magnetModel.magnetLength  / 2) + 10;
-      const negEndOuterX = !magnetModel.flipped
-        ? magnet.x - (magnetModel.magnetLength  / 2) + 10
-        : magnet.x + (magnetModel.magnetLength  / 2) - 10;
       const negEndMiddleX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2)
         : magnet.x + (magnetModel.magnetLength  / 2);
@@ -78,12 +75,6 @@ export default function FieldLines(props: IProps) {
       );
       fieldLines.push(
         renderFieldLine(negEndMiddleX, magnet.y - 30, props, index++)
-      );
-      fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y + 30, props, index++)
-      );
-      fieldLines.push(
-        renderFieldLine(negEndOuterX, magnet.y - 30, props, index++)
       );
       fieldLines.push(
         renderFieldLine(negEndInnerX, magnet.y + 30, props, index++)

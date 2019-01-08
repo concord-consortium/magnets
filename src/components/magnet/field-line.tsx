@@ -41,7 +41,7 @@ function drawTriangle(x: number, y: number, direction: number, instance: PIXI.Gr
     return [newX, newY];
   });
 
-  instance.beginFill(0xBBBBBB);
+  instance.beginFill(0xBBBBBB, .9);
   instance.moveTo(corners[0][0], corners[0][1]);
   instance.lineTo(corners[1][0], corners[1][1]);
   instance.lineTo(corners[2][0], corners[2][1]);
@@ -121,7 +121,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("FieldLine", {
     const { x, y, width, height, magnets, magnetModels, internal, magnetLength } = newProps;
     const startPos = new Vector(x, y);
     instance.clear();
-    instance.lineStyle(3, 0xBBBBBB);
+    instance.lineStyle(3, 0xBBBBBB, .5);
     instance.moveTo(x, y);
 
     if (internal) {
