@@ -1,11 +1,12 @@
 import * as PIXI from "pixi.js";
 import { PixiComponent } from "@inlet/react-pixi";
+import { Vector } from "./vec-utils";
 
 interface IProps {
   x: number;
   y: number;
   length: number;
-  direction: number;
+  field: Vector;
 }
 interface IState {
 }
@@ -15,9 +16,12 @@ export default PixiComponent<IProps, PIXI.Graphics>("Vector", {
     return new PIXI.Graphics();
   },
   applyProps: (instance, oldProps, newProps) => {
-    const { x, y, length, direction } = newProps;
+    const { x, y, length, field } = newProps;
     instance.clear();
-    instance.beginFill(0xBBBBBB);
+
+    const opacity = Math.max(0.3, Math.min(field.length() * 2e4, 1));
+
+    instance.beginFill(0xCCCCCC, opacity);
     // instance.lineStyle(2, 0xBBBBBB);
 
     // basic triangle shape
@@ -27,6 +31,8 @@ export default PixiComponent<IProps, PIXI.Graphics>("Vector", {
       [x - (length / 4), y + (width / 2)],
       [x + (length / 4), y]
     ];
+
+    const direction = field.toAngle();
 
     // rotate shape
     pointer = pointer.map(p => {
@@ -44,7 +50,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("Vector", {
     instance.lineTo(pointer[2][0], pointer[2][1]);
     instance.lineTo(pointer[0][0], pointer[0][1]);
 
-    instance.beginFill(0x888888);
+    instance.beginFill(0x888888, opacity);
     instance.drawCircle(x, y, length / 20);
   }
 });
