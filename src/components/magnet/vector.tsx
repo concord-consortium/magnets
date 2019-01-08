@@ -29,7 +29,7 @@ export default PixiComponent<IProps, PIXI.Graphics>("Vector", {
     let pointer = [
       [x - (length / 4), y - (width / 2)],
       [x - (length / 4), y + (width / 2)],
-      [x + (length / 4), y]
+      [x + (length / 3), y]
     ];
 
     const direction = field.toAngle();
