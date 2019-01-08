@@ -19,6 +19,9 @@ export const kBarStrengthStrong = 1;
 export const kCurrentStrengthWeak = .5;
 export const kCurrentStrengthMedium = .75;
 export const kCurrentStrengthStrong = 1;
+export const kCoilStrengthStep = .25;
+export const kBarStrengthStep = .4;
+export const kCurrentStrengthStep = .25;
 
 export const SimulationMagnet = types
   .model("Magnet", {
