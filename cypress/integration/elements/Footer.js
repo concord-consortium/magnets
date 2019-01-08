@@ -2,6 +2,9 @@ class Footer {
     getFooter(){
         return cy.get('.bottom-bar')
     }
+    getCenterPolarityButton(){
+        return cy.get('.polarity-panel > .vertical-container > .switch-button > .container > .label.enabled')
+    }
     getLeftPolarityButton(){
         return cy.get('.bottom-bar.unrolled > .row > .polarity-button')
     }
@@ -39,6 +42,9 @@ class Footer {
         cy.get('input[type=range]').as('range')
             .invoke('val', num)
             .trigger('change')
+    }
+    changeCenterPolarity(){
+        this.getCenterPolarityButton().click();
     }
     changeLeftPolarity(){
         this.getLeftPolarityButton().click();
