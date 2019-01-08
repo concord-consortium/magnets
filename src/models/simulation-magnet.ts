@@ -10,6 +10,16 @@ export type PolarityType = typeof PolarityTypeEnum.Type;
 export const CoilPolarityTypeEnum = types.enumeration("type", ["plus-minus", "off", "minus-plus"]);
 export type CoilPolarityType = typeof CoilPolarityTypeEnum.Type;
 
+export const kCoilStrengthWeak = .5;
+export const kCoilStrengthMedium = .75;
+export const kCoilStrengthStrong = 1;
+export const kBarStrengthWeak = .2;
+export const kBarStrengthMedium = .6;
+export const kBarStrengthStrong = 1;
+export const kCurrentStrengthWeak = .5;
+export const kCurrentStrengthMedium = .75;
+export const kCurrentStrengthStrong = 1;
+
 export const SimulationMagnet = types
   .model("Magnet", {
     active: false,
@@ -36,9 +46,9 @@ export const SimulationMagnet = types
         }
         else {
           switch (self.coilStrength) {
-            case 1:
+            case kCoilStrengthStrong:
               return 230;
-            case .75:
+            case kCoilStrengthMedium:
               return 125;
             default:
               return 30;
@@ -48,9 +58,9 @@ export const SimulationMagnet = types
       get magnetImage(): string {
         if (self.type === "bar") {
           switch (self.barStrength) {
-            case 1:
+            case kBarStrengthStrong:
               return "assets/magnet-bar-3.png";
-            case .6:
+            case kBarStrengthMedium:
               return "assets/magnet-bar-2.png";
             default:
               return "assets/magnet-bar-1.png";
@@ -58,9 +68,9 @@ export const SimulationMagnet = types
         }
         else {
           switch (self.coilStrength) {
-            case 1:
+            case kCoilStrengthStrong:
               return "assets/magnet-coil-3.png";
-            case .75:
+            case kCoilStrengthMedium:
               return "assets/magnet-coil-2.png";
             default:
               return "assets/magnet-coil-1.png";
@@ -76,10 +86,10 @@ export const SimulationMagnet = types
         let offset = 0;
         if (self.type && self.type === "coil") {
           switch (self.coilStrength) {
-            case 1:
+            case kCoilStrengthStrong:
               offset = 75;
               break;
-            case .75:
+            case kCoilStrengthMedium:
               offset = 20;
               break;
             default:
@@ -107,10 +117,10 @@ export const SimulationMagnet = types
         let image = "";
         if (self.type === "coil" && self.coilPolarity !== "off") {
           switch (self.currentStrength) {
-            case 1:
+            case kCurrentStrengthStrong:
               image = "./assets/current-arrow-strong.png";
               break;
-            case .75:
+            case kCurrentStrengthMedium:
               image = "./assets/current-arrow-med.png";
               break;
             default:
