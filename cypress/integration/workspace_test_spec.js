@@ -73,4 +73,14 @@ context('Test whole workspace layout', ()=>{
         });
 
     })
+    describe.only('Footer', ()=>{
+        it('will toggle the polarity for center bar and verify correct polarity',()=>{
+            footer.changeCenterPolarity();
+            footer.getCenterPolarityButton().text().should('contain', 'S-N');
+            //TODO: verify magnet in canvas is showing correct polarity
+            footer.changeCenterPolarity();
+            footer.getCenterPolarityButton().text().should('contain','N-S')
+        });
+
+    })
 })

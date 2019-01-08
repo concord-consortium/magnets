@@ -1,21 +1,15 @@
 class Footer {
     getFooter(){
-        return cy.get('.bottom-bar > div > .polarity-panel')//finding an element in the bottom bar since bottom bar is always visible.
+        return cy.get('.bottom-bar')
     }
-    getCenterBarPolarityToggle(){
-        return cy.get('.polarity-panel.center-bar > .vertical-container > div.switch-button > .container > div.switch')
+    getCenterPolarityButton(){
+        return cy.get('.polarity-panel > .vertical-container > .switch-button > .container > .label.enabled')
     }
-    getCenterBarPolarityToggleLabel(){
-        return cy.get('.polarity-panel.center-bar > .vertical-container > div.switch-button > .container > div.label')
-    }
-    getLeftBarPolarityToggle() {
-        return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.switch');
-    }
-    getLeftBarPolarityToggleLabel(){
-            return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.label')
+    getLeftPolarityButton(){
+        return cy.get('.bottom-bar.unrolled > .row > .polarity-button')
     }
     getLeftStrengthSlider(){
-        return cy.get('.bottom-bar > div > .strength-control-panel > div > .slider')
+        return cy.get('.bottom-bar.unrolled > .row > .strength-control-panel > div > .slider')
     }
     getRightPolarityButton(){
         return cy.get('.bottom-bar.unrolled > .row > .row> .polarity-button')
@@ -48,6 +42,9 @@ class Footer {
         cy.get('input[type=range]').as('range')
             .invoke('val', num)
             .trigger('change')
+    }
+    changeCenterPolarity(){
+        this.getCenterPolarityButton().click();
     }
     changeLeftPolarity(){
         this.getLeftPolarityButton().click();
