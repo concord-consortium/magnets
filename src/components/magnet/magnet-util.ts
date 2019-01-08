@@ -72,7 +72,7 @@ function getBFieldForMagnet(relX: number, relY: number, magnet: SimulationMagnet
   let b = new Vector(0, 0);
 
   let m = magnet.strength;
-  if (magnet.flipped) {
+  if (!magnet.flipped) {
     m *= -1;
   }
 

@@ -36,16 +36,16 @@ export default function FieldLines(props: IProps) {
       if (magnetModel.type === "coil" && magnetModel.coilPolarity === "off") {
         return;
       }
-      const negEndOutsideX = magnetModel.flipped
+      const negEndOutsideX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2) - 10
         : magnet.x + (magnetModel.magnetLength  / 2) + 10;
-      const negEndMiddleX = magnetModel.flipped
+      const negEndMiddleX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2)
         : magnet.x + (magnetModel.magnetLength  / 2);
-      const negEndInnerX = magnetModel.flipped
+      const negEndInnerX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength / 2) + 10
         : magnet.x + (magnetModel.magnetLength / 2) - 10;
-      const internalLineLength = magnetModel.flipped
+      const internalLineLength = !magnetModel.flipped
         ? -(magnetModel.magnetLength + 20)
         : magnetModel.magnetLength + 20;
 
