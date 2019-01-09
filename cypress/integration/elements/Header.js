@@ -1,72 +1,54 @@
 class Header{
-    getUnselectMagnetLeft(){
-        return cy.get('.button.selectable > .title.left').contains('Select a magnet');
+    getSelectAMagnetLeft(){
+        return cy.get('.button.selectable >.title.left');
     }
     selectMagnetLeft(){
-        this.getUnselectMagnetLeft().click();
+        this.getSelectAMagnetLeft().click();
     }
-    getUnselectMagnetRight(){
-        return cy.get('.button.selectable > .title.right').contains('Select a magnet');
+    getSelectAMagnetRight(){
+        return cy.get('.button.selectable >.title.right');
     }
     selectMagnetRight(){
-        this.getUnselectMagnetRight().click();
+        this.getSelectAMagnetRight().click();
     }
     getTopBar(){
         return cy.get('.top-bar>.curtain.unrolled');
     }
-    getBarMagLeft(){
-        return cy.get('.top-magnet-back.left.bar')
-    }
-    getBarMagLeftLabel(){
-        return cy.get('.label.bar.left')
-    }
-    getCoilMagLeft(){
-        return cy.get('.top-magnet-back.left.coil')
-    }
-    getCoilMagLeftLabel(){
-        return cy.get('.label.coil.left')
+    getSelectedMagRight(){
+        return cy.get('.nav-select-outline.right');
     }
     getBarMagRight(){
-        return cy.get('.top-magnet-back.right.bar')
-    }
-    getBarMagRightLabel(){
-        return cy.get('.label.bar.right')
-    }
-    getCoilMagRight(){
-        return cy.get('.top-magnet-back.right.coil')
-    }
-    getCoilMagRightLabel(){
-        return cy.get('.label.coil.right')
-    }
-    getRemoveMagnet(){
-        return cy.get('.top-bar > .curtain.unrolled > div > .label.remove')
+        return cy.get('.top-magnet.bar.right')
     }
     selectBarMagRight(){
         this.getBarMagRight().click();
     }
+    getCoilMagRight(){
+        return cy.get('.top-magnet.coil.right')
+    }
     selectCoilMagRight(){
         this.getCoilMagRight().click();
     }
+    getRemoveMagnet(){
+        return cy.get('.label.remove');
+    }
     removeMagRight(){
-        this.getRemoveMagnet().click();
+        this.getRemoveMagnet().contains('Remove magnet').click();
     }
     getSelectedMagLeft(){
         return cy.get('.nav-select-outline.left')
     }
-    getSelectedMagRight(){
-        return cy.get('.nav-select-outline.right')
+    getBarMagLeft(){
+        return cy.get('.top-magnet.bar.left')
     }
     selectBarMagLeft(){
-        this.getBarMagLeft().click({force:true});
+        this.getBarMagLeft().click();
+    }
+    getCoilMagLeft(){
+        return cy.get('.top-magnet.coil.left')
     }
     selectCoilMagLeft(){
-        this.getCoilMagLeft().click({force:true});
-    }
-    selectBarMagRight(){
-        this.getBarMagRight().click({force:true});
-    }
-    selectCoilMagRight(){
-        this.getCoilMagRight().click({force:true});
+        this.getCoilMagLeft().click();
     }
 }
 export default Header;
