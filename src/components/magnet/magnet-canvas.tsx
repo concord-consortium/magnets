@@ -51,13 +51,14 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     if (props.showMagnet1) {
       if (!state.magnet1) {
         // add new magnet
-        const x = props.width / 4;
+        const x = props.width / 2;
         newState.magnet1 = {
           x,
           y
         };
       } else {
         newState.magnet1 = state.magnet1;
+        newState.magnet1.x = props.showMagnet2 ? props.width / 4 : props.width / 2;
       }
     }
 
