@@ -33,7 +33,7 @@ context('Test header area', ()=>{
         it('will verify that correct magnet is shown when bar magnet is selected from the left', ()=> {
             // header.selectMagnetLeft(); Header is already showing
             header.selectBarMagLeft();
-            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('be.visible');
+            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('exist');
         });
         it('will verify that left bar magnet is not selectable',()=>{
             header.getBarMagLeftLabel().should('be.visible');
@@ -45,7 +45,7 @@ context('Test header area', ()=>{
         it('will verify that correct magnet is shown when coil magnet is selected from the left', ()=>{
             // header.selectMagnetLeft();
             header.selectCoilMagLeft();
-            header.getSelectedMagLeft().siblings('.nav-magnet.left.coil').should('be.visible');
+            header.getSelectedMagLeft().siblings('.nav-magnet.left.coil').should('exist');
         });
         it('will verify that left coil magnet is not selectable',()=>{
             header.getCoilMagLeftLabel().should('be.visible');
@@ -53,23 +53,23 @@ context('Test header area', ()=>{
         });
         it('will verify that different combinations of left and right magnets come up correctly', ()=>{
             header.selectBarMagLeft();
-            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('be.visible');
+            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('exist');
             //mainapp shows bar magnet - cypress take a screenshot?
             //mainapp should not be able to move the magnet
             header.selectBarMagRight();
-            header.getSelectedMagRight().siblings('.nav-magnet.right.bar').should('be.visible');
+            header.getSelectedMagRight().siblings('.nav-magnet.right.bar').should('exist');
             //mainapp shows two bar magnets
             //mainapp should have one bar that cannot be moved, and another that can be moved
             header.selectCoilMagLeft();
-            header.getSelectedMagLeft().siblings('.nav-magnet.left.coil').should('be.visible');
+            header.getSelectedMagLeft().siblings('.nav-magnet.left.coil').should('exist');
             //mainapp shows a coil magnet and a bar magnet
             //mainapp should have one coil that cannot be moved, and a bar that can be moved
             header.selectCoilMagRight();
-            header.getSelectedMagRight().siblings('.nav-magnet.right.coil').should('be.visible');
+            header.getSelectedMagRight().siblings('.nav-magnet.right.coil').should('exist');
             //mainapp shows two coil magnets
             //mainapp should have one coil that cannot be moved, and another that can be moved
             header.selectBarMagLeft();
-            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('be.visible');
+            header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('exist');
             //mainapp shows a bar and a coil
             //mainapp should have one coil that cannot be moved, and the bar that can be moved
         });
