@@ -1,5 +1,5 @@
 class Footer {
-    getFooter(){
+    getFooter(){ //this is always visible so use the buttons to check whether footer is visible
         return cy.get('.bottom-bar')
     }
     getCenterPolarityButton(){

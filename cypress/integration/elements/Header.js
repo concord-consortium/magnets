@@ -1,12 +1,12 @@
 class Header{
     getUnselectMagnetLeft(){
-        return cy.get('.magnet-button.left>.unselected');
+        return cy.get('.button.selectable > .title.left').contains('Select a magnet');
     }
     selectMagnetLeft(){
         this.getUnselectMagnetLeft().click();
     }
     getUnselectMagnetRight(){
-        return cy.get('.magnet-button.right>.unselected');
+        return cy.get('.button.selectable > .title.right').contains('Select a magnet');
     }
     selectMagnetRight(){
         this.getUnselectMagnetRight().click();
@@ -14,26 +14,59 @@ class Header{
     getTopBar(){
         return cy.get('.top-bar>.curtain.unrolled');
     }
-    getSelectedMagRight(){
-        return cy.get('.magnet-button.right');
+    getBarMagLeft(){
+        return cy.get('.top-magnet-back.left.bar')
+    }
+    getBarMagLeftLabel(){
+        return cy.get('.label.bar.left')
+    }
+    getCoilMagLeft(){
+        return cy.get('.top-magnet-back.left.coil')
+    }
+    getCoilMagLeftLabel(){
+        return cy.get('.label.coil.left')
+    }
+    getBarMagRight(){
+        return cy.get('.top-magnet-back.right.bar')
+    }
+    getBarMagRightLabel(){
+        return cy.get('.label.bar.right')
+    }
+    getCoilMagRight(){
+        return cy.get('.top-magnet-back.right.coil')
+    }
+    getCoilMagRightLabel(){
+        return cy.get('.label.coil.right')
+    }
+    getRemoveMagnet(){
+        return cy.get('.top-bar > .curtain.unrolled > div > .label.remove')
     }
     selectBarMagRight(){
-        cy.get('.content-container.right >.button.short>img').contains('magnet-bar.png').click();
+        this.getBarMagRight().click();
     }
     selectCoilMagRight(){
-        cy.get('.content-container.right >.button >img').contains('magnet-coil.png').click();
+        this.getCoilMagRight().click();
     }
     removeMagRight(){
-        cy.get('.content-container.right >.button').contains('remove magnet').click();
+        this.getRemoveMagnet().click();
     }
     getSelectedMagLeft(){
-        return cy.get('.magnet-button.left')
+        return cy.get('.nav-select-outline.left')
+    }
+    getSelectedMagRight(){
+        return cy.get('.nav-select-outline.right')
     }
     selectBarMagLeft(){
-        cy.get('.content-container.left >.button.short>img').contains('magnet-bar.png').click();
+        this.getBarMagLeft().click({force:true});
     }
     selectCoilMagLeft(){
-        cy.get('.content-container.left >.button >img').contains('magnet-coil.png').click();
+        this.getCoilMagLeft().click({force:true});
+    }
+    selectBarMagRight(){
+        this.getBarMagRight().click({force:true});
+    }
+    selectCoilMagRight(){
+        this.getCoilMagRight().click({force:true});
     }
 }
 export default Header;
