@@ -34,7 +34,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
           Magnetic Field Representations
           </div>
           <div className="horizontal-container">
-            <div className="button">
+            <div className="button" data-test="field-lines-toggle">
               <SwitchComponent
                 switchOn={simulation.showFieldLines}
                 label={simulation.showFieldLines ? "ON" : "OFF"}
@@ -42,7 +42,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
               />
               <div className={"right-label " + enabledFieldClass + "no-jitter"}>Field Lines</div>
             </div>
-            <div className="button">
+            <div className="button" data-test="cloud-toggle">
               <SwitchComponent
                 switchOn={simulation.showCloud}
                 label={simulation.showCloud ? "ON" : "OFF"}
@@ -50,7 +50,7 @@ export class MagFieldPanelComponent extends BaseComponent<IProps, IState> {
               />
               <div className={"right-label " + enabledCloudClass + "no-jitter"}>Cloud</div>
             </div>
-            <div className="button">
+            <div className="button" data-test="pointers-toggle">
               <SwitchComponent
                 switchOn={simulation.showPointers}
                 label={simulation.showPointers ? "ON" : "OFF"}
