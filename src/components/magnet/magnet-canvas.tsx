@@ -11,6 +11,7 @@ import { reaction, IReactionDisposer } from "mobx";
 import ForceVectors from "./force-vectors";
 import { kAppMaxWidth } from "../app";
 import SlideArrow from "./slide-arrow";
+import LockArrows from "./lock-arrows";
 
 export const kMagnetHeight = 40;
 
@@ -228,6 +229,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         }
         {simulation.slideArrowStarted && !simulation.slideArrowComplete
           ? <SlideArrowWithApp arrowComplete={this.handleSlideArrowComplete}/>
+          : null
+        }
+        {simulation.showMagneticForces
+          ? <LockArrows/>
           : null
         }
       </Stage>

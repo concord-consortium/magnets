@@ -19,6 +19,10 @@
     opacity: 1
   &:hover .icon.force-options-back1
     opacity: 1
+  &:hover .icon.lock-closed
+    opacity: 1
+  &:hover .icon.lock-open
+    opacity: 1
   &:hover .title
     opacity: 1
   &:hover .right-label
@@ -44,17 +48,30 @@
       top: 0px
       width: 193px
       height: 84px
+    &.lock-closed
+      fill: $color-army-light
+      opacity: .25
+      width: 10px
+      height: 12px
+      top: 50px
+    &.lock-open
+      fill: $color-seaweed
+      opacity: .25
+      width: 14px
+      height: 12px
+      top: 50px
 
   .vertical-container
-    position: absolute
-    top: 5px
-    left: 5px
-    width: 183px
-    height: 74px
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
+    &.full
+      position: absolute
+      width: 183px
+      height: 74px
+      top: 5px
+      left: 5px
 
   .title
     opacity: .25
@@ -66,14 +83,26 @@
   .horizontal-container
     display: flex
     flex-direction: row
-    justify-content: center
     align-items: center
+    justify-content: left
+    width: 100%
 
   .right-label
     font-size: 15px
     margin: $internal-component-margin
+    margin-bottom: 4px
     color: $color-seaweed
     opacity: .25
     transition-duration: $animation-speed
+    width: 100%
     &.enabled
       color: $color-army-light
+    &.lock-open
+      font-size: 9px
+      margin-left: 18px
+      margin-top: 0
+    &.lock-closed
+      font-size: 9px
+      color: $color-army-light
+      margin-left: 15px
+      margin-top: 0

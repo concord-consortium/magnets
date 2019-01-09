@@ -16,7 +16,10 @@ export class MagForcesPanelComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const forcesLabel: string = simulation.showMagneticForces ? "ON" : "OFF";
     const forcesOn: boolean = forcesLabel === "ON" ? true : false;
-    const enabledClass = forcesOn ? "enabled " : "";
+    const enabledClass = forcesOn ? "enabled " : " ";
+    const lockClass = forcesOn ? "lock-closed " : "lock-open ";
+    const lockIcon = forcesOn ? "#icon-lock-closed" : "#icon-lock-open";
+    const lockText = forcesOn ? "X axis movement only" : "Free movement";
     return (
       <div className="mag-forces-panel">
         <svg className="icon force-options-back2">
@@ -25,15 +28,23 @@ export class MagForcesPanelComponent extends BaseComponent<IProps, IState> {
         <svg className="icon force-options-back1">
           <use xlinkHref="#icon-force-options-back1"/>
         </svg>
-        <div className="vertical-container">
+        <div className="vertical-container full">
           <div className="title no-jitter">Show Magnetic Forces</div>
-          <div className="horizontal-container">
+          <div className="horizontal-container justify-left">
             <SwitchComponent
               switchOn={forcesOn}
               label={forcesLabel}
               buttonClick={this.handleClickMagForcesButton}
             />
-            <div className={"right-label " + enabledClass + "no-jitter"}>Force Arrows</div>
+            <div className="vertical-container">
+              <div className={"right-label " + enabledClass + "no-jitter"}>Force Arrows</div>
+              <div className="horizontal-container">
+                <svg className={"icon " + lockClass}>
+                  <use xlinkHref={lockIcon}/>
+                </svg>
+                <div className={"right-label " + lockClass + enabledClass + "no-jitter"}>{lockText}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
