@@ -231,7 +231,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           ? <SlideArrowWithApp arrowComplete={this.handleSlideArrowComplete}/>
           : null
         }
-        {simulation.showMagneticForces
+        {magnet2 && simulation.showMagneticForces
           ? <LockArrows/>
           : null
         }
