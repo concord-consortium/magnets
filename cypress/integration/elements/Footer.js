@@ -1,18 +1,37 @@
 class Footer {
     getFooter(){
-        return cy.get('.bottom-bar')
+        return cy.get('.bottom-bar > div > .polarity-panel')//finding an element in the bottom bar since bottom bar is always visible.
     }
-    getCenterPolarityButton(){
-        return cy.get('.polarity-panel > .vertical-container > .switch-button > .container > .label.enabled')
+    getCenterBarPolarityToggle(){
+        return cy.get('.polarity-panel.center-bar > .vertical-container > switch-button > .container > div.switch')
     }
-    getLeftPolarityButton(){
-        return cy.get('.bottom-bar.unrolled > .row > .polarity-button')
+    getCenterPolarityToggleLabel(){ //Also used for clicking on the toggle
+        return cy.get('.polarity-panel.center-bar > .vertical-container > .switch-button > .container > .label.enabled')
+    }
+    getCenterStrengthSlider(){
+
+    }
+    getCenterCoilPolaritySlider(){
+
+    }
+    getMagneticFieldFieldLineToggle(){
+
+    }
+     
+    getLeftBarPolarityToggle() {
+        return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.switch');
+    }
+    getLeftBarPolarityToggleLabel(){ //also used for clicking on toggle
+            return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.label')
     }
     getLeftStrengthSlider(){
-        return cy.get('.bottom-bar.unrolled > .row > .strength-control-panel > div > .slider')
+        return cy.get('.bottom-bar > div > .strength-control-panel > div > .slider')
     }
-    getRightPolarityButton(){
-        return cy.get('.bottom-bar.unrolled > .row > .row> .polarity-button')
+    getRightBarPolarityToggle() {
+        return cy.get('.polarity-panel.right-bar > .vertical-container > div.switch-button > .container > div.switch');
+    }
+    getRightBarPolarityToggleLabel(){ //also used for clicking on toggle
+        return cy.get('.polarity-panel.right-bar > .vertical-container > div.switch-button > .container > div.label')
     }
     getRightStrengthSlider(){
         return cy.get('.bottom-bar.unrolled > .row > .row > .strength-control-panel > div > .slider')
