@@ -27,10 +27,7 @@ interface IState {
   isDragging: boolean;
   dragData: PIXI.interaction.InteractionData | null;
   rotation: number;
-  alpha: number;
-  alpha2: number;
   yOffset: number;
-  yOffset2: number;
 }
 
 export default class Magnet extends React.Component<IProps, IState> {
@@ -40,10 +37,7 @@ export default class Magnet extends React.Component<IProps, IState> {
       isDragging: false,
       dragData: null,
       rotation: 0,
-      alpha: 0,
-      alpha2: 0,
       yOffset: 0,
-      yOffset2: 40
     };
   }
 
@@ -89,15 +83,9 @@ export default class Magnet extends React.Component<IProps, IState> {
   public tick = (delta: any) => {
     const newRotation = this.calculateRotation(delta);
     const newYOffset = this.calculateYOffset(delta, this.state.yOffset);
-    const newYOffset2 = this.calculateYOffset(delta, this.state.yOffset2);
-    const newAlpha = this.calculateAlpha(newYOffset);
-    const newAlpha2 = this.calculateAlpha(newYOffset2);
     this.setState(state => ({
       rotation: newRotation,
-      alpha: newAlpha,
-      alpha2: newAlpha2,
       yOffset: newYOffset,
-      yOffset2: newYOffset2
     }));
   }
 
@@ -115,6 +103,13 @@ export default class Magnet extends React.Component<IProps, IState> {
     const voltFlipFactor = voltageFlip ? -1 : 1;
     const leftCurrAniStart = voltageFlip ? 110 : 30;
     const rightCurrAniStart = voltageFlip ? 30 : 110;
+    const yOffset = this.state.yOffset;
+    let yOffset2 = this.state.yOffset + 40;
+    if (yOffset2 > 80) {
+      yOffset2 = yOffset2 - 80;
+    }
+    const alpha = this.calculateAlpha(yOffset);
+    const alpha2 = this.calculateAlpha(yOffset2);
     return (
       <Container>
         <Sprite
@@ -157,11 +152,11 @@ export default class Magnet extends React.Component<IProps, IState> {
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x - (kSideImageXOffset + imageOffset)}
-              y={y + leftCurrAniStart + this.state.yOffset * voltFlipFactor}
+              y={y + leftCurrAniStart + yOffset * voltFlipFactor}
               scale={scale}
               anchor={anchor}
               rotation={leftCurrRotation}
-              alpha={this.state.alpha}
+              alpha={alpha}
             />
           : null
         }
@@ -169,11 +164,11 @@ export default class Magnet extends React.Component<IProps, IState> {
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x - (kSideImageXOffset + imageOffset)}
-              y={y + leftCurrAniStart + this.state.yOffset2 * voltFlipFactor}
+              y={y + leftCurrAniStart + yOffset2 * voltFlipFactor}
               scale={scale}
               anchor={anchor}
               rotation={leftCurrRotation}
-              alpha={this.state.alpha2}
+              alpha={alpha2}
             />
           : null
         }
@@ -181,11 +176,11 @@ export default class Magnet extends React.Component<IProps, IState> {
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x + (kSideImageXOffset + imageOffset)}
-              y={(y + rightCurrAniStart - this.state.yOffset * voltFlipFactor)}
+              y={(y + rightCurrAniStart - yOffset * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
               rotation={rightCurrRotation}
-              alpha={this.state.alpha}
+              alpha={alpha}
             />
           : null
         }
@@ -193,11 +188,11 @@ export default class Magnet extends React.Component<IProps, IState> {
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x + (kSideImageXOffset + imageOffset)}
-              y={(y + rightCurrAniStart - this.state.yOffset2 * voltFlipFactor)}
+              y={(y + rightCurrAniStart - yOffset2 * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
               rotation={rightCurrRotation}
-              alpha={this.state.alpha2}
+              alpha={alpha2}
             />
           : null
         }
