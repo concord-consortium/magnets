@@ -12,7 +12,7 @@ context('Test header area', ()=>{
     describe('Header', ()=>{
         it('will verify workspace is empty when no magnets are selected', ()=>{
             header.selectMagnetLeft();
-            footer.getCenterPolarityButton().should('not.be.visible');
+            footer.getCenterBarPolarityToggle().should('not.be.visible');
 
         });
         it('will verify top bar is not visible when select magnet button is clicked and top bar is already showing', ()=>{
@@ -28,7 +28,7 @@ context('Test header area', ()=>{
             header.getCoilMagRight().parent().should('have.class', 'disabled');
         });
         it('will verify footer is not visible when right magnet is selected', ()=>{
-            footer.getCenterPolarityButton().should('not.be.visible');
+            footer.getCenterBarPolarityToggle().should('not.be.visible');
         });
         it('will verify that correct magnet is shown when bar magnet is selected from the left', ()=> {
             // header.selectMagnetLeft(); Header is already showing
@@ -40,7 +40,7 @@ context('Test header area', ()=>{
             header.getBarMagLeftLabel().parent().should('not.have.class','selectable');
         });
         it('will verify correct footer is visible when left bar magnet is selected', ()=>{
-            footer.getCenterPolarityButton().should('be.visible');
+            footer.getCenterBarPolarityToggle().should('be.visible');
         });
         it('will verify that correct magnet is shown when coil magnet is selected from the left', ()=>{
             // header.selectMagnetLeft();

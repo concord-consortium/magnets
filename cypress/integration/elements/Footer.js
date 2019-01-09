@@ -1,24 +1,28 @@
 class Footer {
-    getFooter(){
-        return cy.get('.bottom-bar > div > .polarity-panel')//finding an element in the bottom bar since bottom bar is always visible.
+    getFooter(){ //this is always visible so use the buttons to check whether footer is visible
+        return cy.get('.bottom-bar')
     }
     getCenterBarPolarityToggle(){
-        return cy.get('.polarity-panel.center-bar > .vertical-container > div.switch-button > .container > div.switch')
+        return cy.get('.polarity-panel.center-bar > .vertical-container > .switch-button > .container > .label') //chose the label selector so text can also be checked
     }
-    getCenterBarPolarityToggleLabel(){
-        return cy.get('.polarity-panel.center-bar > .vertical-container > div.switch-button > .container > div.label')
+    getCenterStrengthSlider(){
+        return cy.get('.strength-panel.center-bar > .slider-container > input.slider')
     }
+    getCenterCoilPolaritySlider(){
+
+    }
+    getMagneticFieldFieldLineToggle(){
+
+    }
+     
     getLeftBarPolarityToggle() {
-        return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.switch');
-    }
-    getLeftBarPolarityToggleLabel(){
-            return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > div.label')
+        return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > .label'); //chose the label selector so text can also be checked
     }
     getLeftStrengthSlider(){
         return cy.get('.bottom-bar > div > .strength-control-panel > div > .slider')
     }
-    getRightPolarityButton(){
-        return cy.get('.bottom-bar.unrolled > .row > .row> .polarity-button')
+    getRightBarPolarityToggle() {
+        return cy.get('.polarity-panel.right-bar > .vertical-container > div.switch-button > .container > .label'); //choose the label selector so text can also be checked
     }
     getRightStrengthSlider(){
         return cy.get('.bottom-bar.unrolled > .row > .row > .strength-control-panel > div > .slider')
@@ -45,15 +49,18 @@ class Footer {
         cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Pointers').click();
     }
     changeFieldStrength(num){
-        cy.get('input[type=range]').as('range')
+        this.getCenterStrengthSlider().as('range')
             .invoke('val', num)
             .trigger('change')
     }
+    changeCenterPolarity(){
+        this.getCenterBarPolarityToggle().click();
+    }
     changeLeftPolarity(){
-        this.getLeftPolarityButton().click();
+        this.getLeftBarPolarityToggle().click();
     }
     changeRightPolarity(){
-        this.getRightPolarityButton().click();
+        this.getRightBarPolarityToggle().click();
     }
 }
 

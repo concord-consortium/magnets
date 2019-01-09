@@ -3,13 +3,13 @@ class Header{
         return cy.get('.button.selectable >.title.left');
     }
     selectMagnetLeft(){
-        this.getSelectAMagnetLeft().click();
+        this.getUnselectMagnetLeft().click();
     }
     getSelectAMagnetRight(){
         return cy.get('.button.selectable >.title.right');
     }
     selectMagnetRight(){
-        this.getSelectAMagnetRight().click();
+        this.getUnselectMagnetRight().click();
     }
     getTopBar(){
         return cy.get('.top-bar>.curtain.unrolled');
