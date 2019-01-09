@@ -10,10 +10,12 @@ import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
 import ForceVectors from "./force-vectors";
 import { kAppMaxWidth } from "../app";
+import SlideArrow from "./slide-arrow";
 
 export const kMagnetHeight = 40;
 
 const MagWithApp = withPixiApp(Magnet);
+const SlideArrowWithApp = withPixiApp(SlideArrow);
 
 export interface IMagnetProps {
   x: number;
@@ -36,7 +38,7 @@ interface IState {
   rotating2?: boolean;
 }
 
-const initialY = 300;
+const initialY = 260;
 
 @inject("stores")
 @observer
@@ -223,6 +225,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           simulation.showMagneticForces && !rotating1 && !rotating2 &&
           <ForceVectors magnets={magnets} magnetModels={magnetModels} />
         }
+        {simulation.slideArrowStarted && !simulation.slideArrowComplete
+          ? <SlideArrowWithApp arrowComplete={this.handleSlideArrowComplete}/>
+          : null
+        }
       </Stage>
     );
   }
@@ -240,5 +246,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     this.setState({
       [`rotating${which}`]: isRotating
     });
+  }
+
+  private handleSlideArrowComplete = () => {
+    const {simulation} = this.stores;
+    simulation.setSlideArrowComplete(true);
   }
 }

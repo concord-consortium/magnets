@@ -11,6 +11,8 @@ export const SimulationModel = types
     showPointers: false,
     showMagneticForces: false,
     magnets: types.array(SimulationMagnet),
+    slideArrowStarted: false,
+    slideArrowComplete: false,
   })
   .views((self) => {
     return {
@@ -77,6 +79,12 @@ export const SimulationModel = types
       },
       setShowMagneticForces(val: boolean) {
         self.showMagneticForces = val;
+      },
+      setSlideArrowStarted(val: boolean) {
+        self.slideArrowStarted = val;
+      },
+      setSlideArrowComplete(val: boolean) {
+        self.slideArrowComplete = val;
       }
     };
   });

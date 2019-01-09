@@ -146,6 +146,13 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     }
   }
 
+  private showSlideArrow = () => {
+    const {simulation} = this.stores;
+    if (!simulation.slideArrowStarted) {
+      simulation.setSlideArrowStarted(true);
+    }
+  }
+
   private handleClickLeftMagnetCoilButton = () => {
     this.addOrUpdateMagnet(0, "coil");
   }
@@ -155,9 +162,11 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   private handleClickRightMagnetCoilButton = () => {
     this.addOrUpdateMagnet(1, "coil");
+    this.showSlideArrow();
   }
   private handleClickRightMagnetBarButton = () => {
     this.addOrUpdateMagnet(1, "bar");
+    this.showSlideArrow();
   }
   private handleClickRightMagnetRemoveButton = () => {
     const {simulation} = this.stores;
