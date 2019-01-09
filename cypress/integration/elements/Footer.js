@@ -6,13 +6,16 @@ class Footer {
         return cy.get('.polarity-panel.center-bar > .vertical-container > .switch-button > .container > .label') //chose the label selector so text can also be checked
     }
     getCenterStrengthSlider(){
-        return cy.get('.strength-panel.center-bar > .slider-container > input.slider')
+        return cy.get('.strength-panel.center-bar > .vertical-container > .horizontal-container > .slider-container > .slider')
     }
     getCenterCoilPolaritySlider(){
 
     }
-    getMagneticFieldFieldLineToggle(){
-
+    getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
+        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > .button > .switch-button > .container > .label')
+    }
+    getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
+        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > .button > .switch-button > .container > .label')
     }
      
     getLeftBarPolarityToggle() {
