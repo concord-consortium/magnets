@@ -62,6 +62,7 @@ function drawFieldLineDirectionArrow(
   let currLength = 0;
 
   // Retrace your steps until you roughly hit the center
+  // XXX: It would be faster to track calculations as they're made and find the center in near-constant time instead
   for (let i = 0; i < 5000; i++) {
     const fieldDirection = getFieldVectorAtPosition(magnets, magnetModels, currPos.x, currPos.y);
     if (Math.abs(currLength - middleLength) < 10) {

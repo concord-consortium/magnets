@@ -44,7 +44,7 @@ export function getFieldVectorAtPosition(
 
   const bField1 = getBFieldForMagnet(dx, dy, magnetModel1, magnetModel1.magnetLength);
   if (distanceSqFromMagnet(magnet1, magnetModel1, x, y) === 0) {
-    return magnetModel1.flipped
+    return !magnetModel1.flipped
       ? new Vector(-1, 0).multiply(bField1.length())
       : new Vector(1, 0).multiply(bField1.length());
   }
@@ -57,7 +57,7 @@ export function getFieldVectorAtPosition(
 
     const bField2 = getBFieldForMagnet(dx2, dy2, magnetModel2, magnetModel2.magnetLength);
     if (distanceSqFromMagnet(magnet2, magnetModel2, x, y) === 0) {
-      return magnetModel2.flipped
+      return !magnetModel2.flipped
         ? new Vector(-1, 0).multiply(bField2.length())
         : new Vector(1, 0).multiply(bField2.length());
     } else {
