@@ -1,6 +1,6 @@
 {
   "name": "magnets",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Concord Consortium Magnets",
   "main": "index.js",
   "jest": {
