@@ -12,11 +12,13 @@ interface IProps {
 }
 
 function renderFieldLine(x: number, y: number, props: IProps, index: number, length?: number) {
-  const { magnets, magnetModels } = props;
+  const { magnets, magnetModels, width, height } = props;
   return (
     <FieldLine key={index}
       x={x}
       y={y}
+      width={width}
+      height={height}
       magnets={magnets}
       magnetModels={magnetModels}
       fixedInternalLength={length}
@@ -34,16 +36,16 @@ export default function FieldLines(props: IProps) {
       if (magnetModel.type === "coil" && magnetModel.coilPolarity === "off") {
         return;
       }
-      const negEndOutsideX = magnetModel.flipped
+      const negEndOutsideX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2) - 10
         : magnet.x + (magnetModel.magnetLength  / 2) + 10;
-      const negEndMiddleX = magnetModel.flipped
+      const negEndMiddleX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength  / 2)
         : magnet.x + (magnetModel.magnetLength  / 2);
-      const negEndInnerX = magnetModel.flipped
+      const negEndInnerX = !magnetModel.flipped
         ? magnet.x - (magnetModel.magnetLength / 2) + 10
         : magnet.x + (magnetModel.magnetLength / 2) - 10;
-      const internalLineLength = magnetModel.flipped
+      const internalLineLength = !magnetModel.flipped
         ? -(magnetModel.magnetLength + 20)
         : magnetModel.magnetLength + 20;
 
@@ -80,7 +82,7 @@ export default function FieldLines(props: IProps) {
         renderFieldLine(negEndInnerX, magnet.y - 30, props, index++)
       );
 
-      // // Internal lines, same as the points above, but backwards and inside
+      // Internal lines, same as the points above, but backwards and inside
       fieldLines.push(
         renderFieldLine(negEndOutsideX, magnet.y + 6, props, index++, internalLineLength)
       );

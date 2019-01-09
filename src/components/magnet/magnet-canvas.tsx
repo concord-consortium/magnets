@@ -8,6 +8,8 @@ import GradientField from "./gradient-field";
 import { MagnetType } from "../../models/simulation-magnet";
 import FieldLines from "./field-lines";
 import { reaction, IReactionDisposer } from "mobx";
+import ForceVectors from "./force-vectors";
+import { kAppMaxWidth } from "../app";
 
 export const kMagnetHeight = 40;
 
@@ -34,13 +36,15 @@ interface IState {
   rotating2?: boolean;
 }
 
+const initialY = 300;
+
 @inject("stores")
 @observer
 export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public static getDerivedStateFromProps(props: IProps, state: IState) {
     const newState: IState = {};
-    const y = 300;
+    const y = initialY;
 
     if (props.showMagnet1) {
       if (!state.magnet1) {
@@ -95,6 +99,29 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public componentWillUnmount() {
     this.modelReactionDisposer();
+  }
+
+  public componentDidUpdate() {
+    const {simulation} = this.stores;
+    if (simulation.showMagneticForces && this.state.magnet2) {
+      // lock y and limit x
+      const m1 = this.state.magnet1!;
+      const m2 = this.state.magnet2;
+      const model1 = simulation.getMagnetAtIndex(0)!;
+      const model2 = simulation.getMagnetAtIndex(1)!;
+      const minX = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+      const maxX = kAppMaxWidth - (model2.magnetLength - model2.magnetLength / 2) - 10;
+      if (m2.y !== initialY || m2.x < minX || m2.x > maxX) {
+        const newState: IState = {
+          magnet1: m1
+        };
+        newState.magnet2 = {
+          y: initialY,
+          x: Math.min(maxX, Math.max(minX, m2.x))
+        };
+        this.setState(newState);
+      }
+    }
   }
 
   public render() {
@@ -191,6 +218,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             updatePosition={this.handleUpdateMagnetPosition(2)}
             updateRotating={this.handleUpdateRotating(2)}
           />
+        }
+        {
+          simulation.showMagneticForces && !rotating1 && !rotating2 &&
+          <ForceVectors magnets={magnets} magnetModels={magnetModels} />
         }
       </Stage>
     );
