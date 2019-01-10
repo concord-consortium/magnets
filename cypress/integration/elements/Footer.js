@@ -12,12 +12,14 @@ class Footer {
 
     }
     getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
-        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > .button > .switch-button > .container > .label')
+        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="field-lines-toggle"] > .switch-button > .container > .label')
     }
-    getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
-        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > .button > .switch-button > .container > .label')
+    getMagneticFieldCloudToggle(){ //Use the label selector so text can also be checked
+        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="cloud-toggle"] > .switch-button > .container > .label')
     }
-     
+    getMagneticFieldPointersToggle(){ //Use the label selector so text can also be checked
+        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="pointers-toggle"] > .switch-button > .container > .label')
+    }
     getLeftBarPolarityToggle() {
         return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > .label'); //chose the label selector so text can also be checked
     }
@@ -34,22 +36,22 @@ class Footer {
         return cy.get('[data-test=compass]');
     }
     turnOnFieldLines(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Field Lines').click();
+        this.getMagneticFieldFieldLinesToggle().click();
     }
     turnOffFieldLines(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Field Lines').click();
+        this.getMagneticFieldFieldLinesToggle().click();
     }
     turnOnCloud(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Cloud').click();
+        this.getMagneticFieldCloudToggle().click();
     }
     turnOffCloud(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Cloud').click();
+        this.getMagneticFieldCloudToggle().click();
     }
     turnOnPointers(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Pointers').click();
+        this.getMagneticFieldPointersToggle().click();
     }
     turnOffPointers(){
-        cy.get('.mag-field-control-panel>.checkbox-container>.container').contains('Pointers').click();
+        this.getMagneticFieldPointersToggle().click();
     }
     changeFieldStrength(num){
         this.getCenterStrengthSlider().as('range')
