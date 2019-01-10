@@ -26,7 +26,7 @@ context('Test footer area', ()=>{
         it('will turn on mag field representations separately', ()=>{ //Need to turn field representations first so that changing field strength is more visible
             footer.turnOnFieldLines();
             footer.getMagneticFieldFieldLinesToggle().should('contain','ON');
-            //TODO: take snapshot
+            cy.get('.main-content').matchImageSnapshot('field_lines_on');
             footer.turnOffFieldLines();
             footer.getMagneticFieldFieldLinesToggle().should('contain','OFF');
             //TODO: take snapshot
