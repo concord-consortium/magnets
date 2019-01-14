@@ -1,6 +1,6 @@
-import Header from './elements/Header'
-import Footer from './elements/Footer'
-import MainSpace from './elements/MainSpace'
+import Header from '../support/elements/Header'
+import Footer from '../support/elements/Footer'
+import MainSpace from '../support/elements/MainSpace'
 
 const header = new Header;
 const footer = new Footer;
@@ -54,30 +54,29 @@ context('Test header area', ()=>{
         it('will verify that different combinations of left and right magnets come up correctly', ()=>{
             header.selectBarMagLeft();
             header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('exist');
-            //mainapp shows bar magnet - cypress take a screenshot?
+            cy.get('.main-content').matchImageSnapshot('left_bar');
             //mainapp should not be able to move the magnet
             header.selectBarMagRight();
             header.getSelectedMagRight().siblings('.nav-magnet.right.bar').should('exist');
             //mainapp shows two bar magnets
-            //mainapp should have one bar that cannot be moved, and another that can be moved
+            cy.get('.main-content').matchImageSnapshot('left_bar_right_bar');
             header.selectCoilMagLeft();
             header.getSelectedMagLeft().siblings('.nav-magnet.left.coil').should('exist');
             //mainapp shows a coil magnet and a bar magnet
-            //mainapp should have one coil that cannot be moved, and a bar that can be moved
+            cy.get('.main-content').matchImageSnapshot('left_coil_right_bar');
             header.selectCoilMagRight();
             header.getSelectedMagRight().siblings('.nav-magnet.right.coil').should('exist');
             //mainapp shows two coil magnets
-            //mainapp should have one coil that cannot be moved, and another that can be moved
+            cy.get('.main-content').matchImageSnapshot('left_coil_right_coil');
             header.selectBarMagLeft();
             header.getSelectedMagLeft().siblings('.nav-magnet.left.bar').should('exist');
             //mainapp shows a bar and a coil
-            //mainapp should have one coil that cannot be moved, and the bar that can be moved
+            cy.get('.main-content').matchImageSnapshot('left_bar_right_coil');
         });
-        it('will verify only right magnet is removed when both left and right magnets are present', ()=>{
+        it('will verify only right magnet is removed when both left and right magnets are present', ()=> {
             header.removeMagRight();
             header.getUnselectMagnetRight().should('be.visible');
-            //mainspace should have a fixed bar magnet
+            cy.get('.main-content').matchImageSnapshot('remove_right_mag');
         });
-
     })
-})
+});
