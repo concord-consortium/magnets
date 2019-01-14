@@ -14,26 +14,32 @@ class Footer {
     getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
         return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="field-lines-toggle"] > .switch-button > .container > .label')
     }
+    getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
+        return cy.get ('.mag-field-panel > .vertical-container > .horizontal-container > [data-test="field-lines-toggle"] > .switch-button > .container > .label')
+    }
     getMagneticFieldCloudToggle(){ //Use the label selector so text can also be checked
-        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="cloud-toggle"] > .switch-button > .container > .label')
+        return cy.get ('.mag-field-panel > .vertical-container > .horizontal-container > [data-test="cloud-toggle"] > .switch-button > .container > .label')
     }
     getMagneticFieldPointersToggle(){ //Use the label selector so text can also be checked
-        return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="pointers-toggle"] > .switch-button > .container > .label')
+        return cy.get ('.mag-field-panel > .vertical-container > .horizontal-container > [data-test="pointers-toggle"] > .switch-button > .container > .label')
     }
     getLeftBarPolarityToggle() {
         return cy.get('.polarity-panel.left-bar > .vertical-container > div.switch-button > .container > .label'); //chose the label selector so text can also be checked
     }
     getLeftStrengthSlider(){
-        return cy.get('.bottom-bar > div > .strength-control-panel > div > .slider')
+        return cy.get('.strength-panel.left-bar > .vertical-container > .horizontal-container > .slider-container > .slider')
     }
     getRightBarPolarityToggle() {
         return cy.get('.polarity-panel.right-bar > .vertical-container > div.switch-button > .container > .label'); //choose the label selector so text can also be checked
     }
     getRightStrengthSlider(){
-        return cy.get('.bottom-bar.unrolled > .row > .row > .strength-control-panel > div > .slider')
+        return cy.get('.strength-panel.right-bar > .vertical-container > .horizontal-container > .slider-container > .slider')
     }
     getCompass(){
         return cy.get('[data-test=compass]');
+    }
+    getMagneticForceToggle(){
+        return cy.get('.mag-forces-panel > .vertical-container > .horizontal-container > .switch-button > .container > .label')
     }
     turnOnFieldLines(){
         this.getMagneticFieldFieldLinesToggle().click();
@@ -53,7 +59,7 @@ class Footer {
     turnOffPointers(){
         this.getMagneticFieldPointersToggle().click();
     }
-    changeFieldStrength(num){
+    changeCenterFieldStrength(num){
         this.getCenterStrengthSlider().as('range')
             .invoke('val', num)
             .trigger('change')
@@ -66,6 +72,11 @@ class Footer {
     }
     changeRightPolarity(){
         this.getRightBarPolarityToggle().click();
+    }
+    changeRightFieldStrength(num){
+        this.getRightStrengthSlider().as('range')
+            .invoke('val', num)
+            .trigger('change')
     }
 }
 
