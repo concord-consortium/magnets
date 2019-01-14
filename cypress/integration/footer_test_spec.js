@@ -1,6 +1,6 @@
-import Header from './elements/Header'
-import Footer from './elements/Footer'
-import MainSpace from './elements/MainSpace'
+import Header from '../support/elements/Header'
+import Footer from '../support/elements/Footer'
+import MainSpace from '../support/elements/MainSpace'
 
 const header = new Header;
 const footer = new Footer;
@@ -18,9 +18,12 @@ context('Test footer area', ()=>{
         it('will toggle the polarity for center bar and verify correct polarity',()=>{
             footer.changeCenterPolarity();
             footer.getCenterBarPolarityToggle().should('have.text', 'S-N');
-            //TODO: verify magnet in canvas is showing correct polarity
+            cy.wait(2111);
+            cy.get('.main-content').matchImageSnapshot('polarity_S-N');
             footer.changeCenterPolarity();
-            footer.getCenterBarPolarityToggle().should('have.text','N-S')
+            footer.getCenterBarPolarityToggle().should('have.text','N-S');
+            cy.wait(2111);
+            cy.get('.main-content').matchImageSnapshot('polarity_N-S');
         });
         it('will turn on mag field representations separately', ()=>{ //Need to turn field representations first so that changing field strength is more visible
 
@@ -66,16 +69,24 @@ context('Test footer area', ()=>{
             cy.get('.main-content').matchImageSnapshot('field_lines_on-cloud_on_pointers_on');
         });
         it('will change field strength', ()=>{
-            footer.changeFieldStrength(2);
-            cy.get('.main-content').matchImageSnapshot('field_strength_2');
-            footer.changeFieldStrength(3);
-            cy.get('.main-content').matchImageSnapshot('field_strength_3');
             footer.changeFieldStrength(1);
-            cy.get('.main-content').matchImageSnapshot('field_strength_1');
-            footer.changeFieldStrength(3);
-            cy.get('.main-content').matchImageSnapshot('field_strength_3_1');
+            cy.wait(1111);
+            cy.get('.main-content').matchImageSnapshot('field_strength_2_1');
             footer.changeFieldStrength(2);
+            cy.wait(1111);
+            cy.get('.main-content').matchImageSnapshot('field_strength_1_2');
+            footer.changeFieldStrength(3);
+            cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_2_3');
+            footer.changeFieldStrength(1);
+            cy.wait(1111);
+            cy.get('.main-content').matchImageSnapshot('field_strength_3_1');
+            footer.changeFieldStrength(3);
+            cy.wait(1111);
+            cy.get('.main-content').matchImageSnapshot('field_strength_1_3');
+            footer.changeFieldStrength(2);
+            cy.wait(1111);
+            cy.get('.main-content').matchImageSnapshot('field_strength_3_2');
         })
 
     })
