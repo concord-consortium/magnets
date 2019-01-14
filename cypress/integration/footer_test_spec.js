@@ -10,7 +10,7 @@ context('Test footer area', ()=>{
     before(() => {
         cy.visit("localhost:8080");
     });
-    it('setup for single bar magnet', ()=>{
+    it('setup for single bar magnet', ()=> {
         header.selectMagnetLeft();
         header.selectBarMagLeft();
     });
