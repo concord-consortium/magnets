@@ -9,11 +9,13 @@ const mainSpace = new MainSpace;
 context('Test footer area', ()=>{
     before(() => {
         cy.visit("localhost:8080");
+
     });
     it('setup for single magnet', ()=>{
 
         header.selectMagnetLeft();
         header.selectBarMagLeft();
+        cy.matchImageSnapshot();
     })
     describe('Footer', ()=>{
         it('will toggle the polarity for center bar and verify correct polarity',()=>{
@@ -24,9 +26,14 @@ context('Test footer area', ()=>{
             footer.getCenterBarPolarityToggle().should('have.text','N-S')
         });
         it('will turn on mag field representations separately', ()=>{ //Need to turn field representations first so that changing field strength is more visible
+
             footer.turnOnFieldLines();
             footer.getMagneticFieldFieldLinesToggle().should('contain','ON');
-            cy.get('.main-content').matchImageSnapshot('field_lines_on');
+            cy.screenshot('field_lines_on');
+            // cy.get('.main-content').matchImageSnapshot('field_lines_on');
+            // addMatchImageSnapshotCommand('field_lines_on');
+            cy.matchImageSnapshot();
+
             footer.turnOffFieldLines();
             footer.getMagneticFieldFieldLinesToggle().should('contain','OFF');
             //TODO: take snapshot
