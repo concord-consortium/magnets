@@ -1,6 +1,6 @@
-import Header from './elements/Header'
-import Footer from './elements/Footer'
-import MainSpace from './elements/MainSpace'
+import Header from '../support/elements/Header'
+import Footer from '../support/elements/Footer'
+import MainSpace from '../support/elements/MainSpace'
 
 const header = new Header;
 const footer = new Footer;
