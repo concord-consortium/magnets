@@ -10,8 +10,8 @@ context('Two magnets tests', ()=>{
     before(() => {
         cy.visit("localhost:8080");
     });
-    describe('setup',()=>{
-        it('will add two magnets', ()=>{
+    describe('setup two bar magnets',()=>{
+        it('will add two bar magnets', ()=>{
             header.selectMagnetLeft();
             header.getTopBar().should('be.visible');
             header.selectBarMagLeft();
@@ -63,22 +63,22 @@ context('Two magnets tests', ()=>{
             cy.get('.main-content').matchImageSnapshot('field_lines_on-cloud_on_pointers_on');
         });
         it('will change right field strength', ()=>{
-            footer.changeRightFieldStrength(1);
+            footer.changeRightBarFieldStrength(1);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_2_1');
-            footer.changeRightFieldStrength(2);
+            footer.changeRightBarFieldStrength(2);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_1_2');
-            footer.changeRightFieldStrength(3);
+            footer.changeRightBarFieldStrength(3);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_2_3');
-            footer.changeRightFieldStrength(1);
+            footer.changeRightBarFieldStrength(1);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_3_1');
-            footer.changeRightFieldStrength(3);
+            footer.changeRightBarFieldStrength(3);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_1_3');
-            footer.changeRightFieldStrength(2);
+            footer.changeRightBarFieldStrength(2);
             cy.wait(1111);
             cy.get('.main-content').matchImageSnapshot('field_strength_3_2');
         });

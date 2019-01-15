@@ -7,8 +7,8 @@ const footer = new Footer;
 const mainSpace = new MainSpace;
 
 context('Test whole workspace layout', ()=>{
-    before(() => {
-        cy.visit("localhost:8080");
-    });
+    // before(() => {
+    //     cy.visit("localhost:8080");
+    // });
 
 })

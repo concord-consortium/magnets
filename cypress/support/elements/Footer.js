@@ -9,7 +9,13 @@ class Footer {
         return cy.get('.strength-panel.center-bar > .vertical-container > .horizontal-container > .slider-container > .slider')
     }
     getCenterCoilPolaritySlider(){
-
+        return cy.get('.polarity-panel.center-coil > .vertical-container > .slider-container > .slider')
+    }
+    getCenterCoilNumCoilSlider(){
+        return cy.get('.strength-panel.center-coil > .vertical-container >.horizontal-container > .slider-container > div:nth-child(1)>.slider')
+    }
+    getCenterCoilCurrentSlider(){
+        return cy.get('.strength-panel.center-coil > .vertical-container >.horizontal-container > .slider-container > div:nth-child(2)>.slider')
     }
     getMagneticFieldFieldLinesToggle(){ //Use the label selector so text can also be checked
         return cy.get ('.mag-field-panel.center > .vertical-container > .horizontal-container > [data-test="field-lines-toggle"] > .switch-button > .container > .label')
@@ -59,21 +65,36 @@ class Footer {
     turnOffPointers(){
         this.getMagneticFieldPointersToggle().click();
     }
-    changeCenterFieldStrength(num){
+    changeCenterBarFieldStrength(num){
         this.getCenterStrengthSlider().as('range')
             .invoke('val', num)
             .trigger('change')
     }
-    changeCenterPolarity(){
+    changeCenterBarPolarity(){
         this.getCenterBarPolarityToggle().click();
     }
-    changeLeftPolarity(){
+    changeCenterCoilPolarity(num){
+        this.getCenterCoilPolaritySlider().as('range')
+            .invoke('val', num)
+            .trigger('change')
+    }
+    changeCenterCoilNumCoils(num){
+        this.getCenterCoilNumCoilSlider().as('range')
+            .invoke('val', num)
+            .trigger('change')
+    }
+    changeCenterCoilCurrent(num){
+        this.getCenterCoilCurrentSlider().as('range')
+            .invoke('val', num)
+            .trigger('change')
+    }
+    changeLeftBarPolarity(){
         this.getLeftBarPolarityToggle().click();
     }
-    changeRightPolarity(){
+    changeRightBarPolarity(){
         this.getRightBarPolarityToggle().click();
     }
-    changeRightFieldStrength(num){
+    changeRightBarFieldStrength(num){
         this.getRightStrengthSlider().as('range')
             .invoke('val', num)
             .trigger('change')
