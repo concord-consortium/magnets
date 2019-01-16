@@ -89,7 +89,10 @@ context('Test footer area', ()=>{
             cy.get('.main-content').matchImageSnapshot('field_strength_3_2');
         });
     })
-    describe.only('Footer or One coil test', ()=>{
+    describe('Footer or One coil test', ()=>{
+        before(() => {
+            cy.visit("localhost:8080");
+        });
         it('setup for single coil magnet', ()=>{
             header.selectMagnetLeft();
             header.selectCoilMagLeft();
