@@ -8,6 +8,10 @@ import { TopBarComponent } from "./top-bar";
 import { MainContentComponent } from "./main-content";
 import { BottomBarComponent } from "./bottom-bar";
 
+import { TopBarComponent } from "./top-bar";
+import { MainContentComponent } from "./main-content";
+import { BottomBarComponent } from "./bottom-bar";
+
 interface IProps extends IBaseProps {}
 interface IState {
   width: number;
