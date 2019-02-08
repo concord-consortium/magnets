@@ -41,7 +41,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
           <svg className="divider">
             <use xlinkHref="#icon-divider"/>
           </svg>
-          <div className={"label add right " + rightDisabledClass}>Add a 2nd magnet (movable)</div>
+          <div className={"label add right " + rightDisabledClass}>Add a 2nd magnet</div>
           {this.renderBarButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetBarButton)}
           {this.renderCoilButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetCoilButton)}
           {this.renderRemoveButton(removeDisabledClass)}
@@ -155,18 +155,18 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   private handleClickLeftMagnetCoilButton = () => {
     this.addOrUpdateMagnet(0, "coil");
+    this.showSlideArrow();
   }
   private handleClickLeftMagnetBarButton = () => {
     this.addOrUpdateMagnet(0, "bar");
+    this.showSlideArrow();
   }
 
   private handleClickRightMagnetCoilButton = () => {
     this.addOrUpdateMagnet(1, "coil");
-    this.showSlideArrow();
   }
   private handleClickRightMagnetBarButton = () => {
     this.addOrUpdateMagnet(1, "bar");
-    this.showSlideArrow();
   }
   private handleClickRightMagnetRemoveButton = () => {
     const {simulation} = this.stores;

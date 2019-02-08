@@ -59,7 +59,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         };
       } else {
         newState.magnet1 = state.magnet1;
-        newState.magnet1.x = props.showMagnet2 ? props.width / 4 : props.width / 2;
+        // TO DO: should the position of magnet 1 change when we place magnet 2?
+        // newState.magnet1.x = props.showMagnet2 ? props.width / 4 : props.width / 2;
       }
     }
 
@@ -113,15 +114,21 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       const m2 = this.state.magnet2;
       const model1 = simulation.getMagnetAtIndex(0)!;
       const model2 = simulation.getMagnetAtIndex(1)!;
-      const minX = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
-      const maxX = kAppMaxWidth - (model2.magnetLength - model2.magnetLength / 2) - 10;
-      if (m2.y !== initialY || m2.x < minX || m2.x > maxX) {
-        const newState: IState = {
-          magnet1: m1
+      const minMag1X = (model1.magnetLength / 2) + 10;
+      const maxMag1X = (kAppMaxWidth / 2) - ((model1.magnetLength / 2) + 20);
+      const minMag2X = (kAppMaxWidth / 2) + (model2.magnetLength / 2) + 20;
+      const maxMag2X = kAppMaxWidth - (model2.magnetLength / 2) - 10;
+      if (m1.y !== initialY || m2.y !== initialY ||
+        m1.x < minMag1X || m1.x > maxMag1X ||
+        m2.x < minMag2X || m2.x > maxMag2X) {
+        const newState: IState = {};
+        newState.magnet1 = {
+          y: initialY,
+          x: Math.min(maxMag1X, Math.max(minMag1X, m1.x))
         };
         newState.magnet2 = {
           y: initialY,
-          x: Math.min(maxX, Math.max(minX, m2.x))
+          x: Math.min(maxMag2X, Math.max(minMag2X, m2.x))
         };
         this.setState(newState);
       }
@@ -189,7 +196,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           magnet1 &&
           <MagWithApp
             magnet={magnet1}
-            draggable={false}
+            draggable={true}
             type={primaryMagType}
             flip={primaryFlip}
             rotation={primaryRotation}
