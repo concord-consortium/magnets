@@ -37,6 +37,7 @@ interface IState {
   magnet2?: IMagnetProps;
   rotating1?: boolean;
   rotating2?: boolean;
+  movedMagIndex?: number;
 }
 
 const initialY = 260;
@@ -59,8 +60,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         };
       } else {
         newState.magnet1 = state.magnet1;
-        // TO DO: should the position of magnet 1 change when we place magnet 2?
-        // newState.magnet1.x = props.showMagnet2 ? props.width / 4 : props.width / 2;
       }
     }
 
@@ -72,6 +71,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           x,
           y
         };
+        // adjust magnet 1 position if needed
+        newState.magnet1 = state.magnet1;
+        if (newState.magnet1 && newState.magnet1.x > (x - 250)) {
+          newState.magnet1.x = (x - 250);
+        }
+
       } else {
         newState.magnet2 = state.magnet2;
       }
@@ -115,13 +120,18 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       const model1 = simulation.getMagnetAtIndex(0)!;
       const model2 = simulation.getMagnetAtIndex(1)!;
       const minMag1X = (model1.magnetLength / 2) + 10;
-      const maxMag1X = (kAppMaxWidth / 2) - ((model1.magnetLength / 2) + 20);
-      const minMag2X = (kAppMaxWidth / 2) + (model2.magnetLength / 2) + 20;
+      let maxMag1X = (m2.x - model2.magnetLength / 2) - (model1.magnetLength / 2) - 40;
+      let minMag2X = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
       const maxMag2X = kAppMaxWidth - (model2.magnetLength / 2) - 10;
       if (m1.y !== initialY || m2.y !== initialY ||
         m1.x < minMag1X || m1.x > maxMag1X ||
         m2.x < minMag2X || m2.x > maxMag2X) {
         const newState: IState = {};
+        if (this.state.movedMagIndex === 1) {
+          minMag2X = m2.x;
+        } else {
+          maxMag1X = m1.x;
+        }
         newState.magnet1 = {
           y: initialY,
           x: Math.min(maxMag1X, Math.max(minMag1X, m1.x))
@@ -251,7 +261,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       [`magnet${which}`]: {
         x,
         y
-      }
+      },
+      movedMagIndex: which
     });
   }
 
