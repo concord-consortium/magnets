@@ -28,6 +28,8 @@ interface IState {
   dragData: PIXI.interaction.InteractionData | null;
   rotation: number;
   yOffset: number;
+  dragOffsetX: number;
+  dragOffsetY: number;
 }
 
 export default class Magnet extends React.Component<IProps, IState> {
@@ -38,6 +40,8 @@ export default class Magnet extends React.Component<IProps, IState> {
       dragData: null,
       rotation: 0,
       yOffset: 0,
+      dragOffsetX: 0,
+      dragOffsetY: 0
     };
   }
 
@@ -202,9 +206,12 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   private onPointerDown = (event: PIXI.interaction.InteractionEvent) => {
     event.data.target = event.target;
+    const positionOffset = event.data.getLocalPosition(event.target);
     this.setState({
       isDragging: true,
-      dragData: event.data
+      dragData: event.data,
+      dragOffsetX: positionOffset.x,
+      dragOffsetY: positionOffset.y
     });
   }
 
@@ -218,9 +225,9 @@ export default class Magnet extends React.Component<IProps, IState> {
   private onPointerMove = (event: PIXI.interaction.InteractionEvent) => {
     if (this.state.isDragging && this.state.dragData)
     {
-      const { dragData } = this.state;
+      const { dragData, dragOffsetX, dragOffsetY } = this.state;
       const newPosition = dragData.getLocalPosition(dragData.target.parent);
-      this.props.updatePosition(newPosition.x, newPosition.y);
+      this.props.updatePosition(newPosition.x - (.5 * dragOffsetX), newPosition.y - (.5 * dragOffsetY));
     }
   }
 }

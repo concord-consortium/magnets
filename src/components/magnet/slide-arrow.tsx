@@ -17,8 +17,8 @@ interface IState {
 const kCompleteTime = 2500;
 const kFadeStartTime = 2000;
 const kFadeTime = 500;
-const minX = 700;
-const maxX = 740;
+const minX = 460;
+const maxX = 500;
 
 export default class SlideArrow extends React.Component<IProps, IState> {
   constructor(props: IProps) {

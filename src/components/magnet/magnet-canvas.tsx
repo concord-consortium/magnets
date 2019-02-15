@@ -37,6 +37,7 @@ interface IState {
   magnet2?: IMagnetProps;
   rotating1?: boolean;
   rotating2?: boolean;
+  movedMagIndex?: number;
 }
 
 const initialY = 260;
@@ -59,7 +60,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         };
       } else {
         newState.magnet1 = state.magnet1;
-        newState.magnet1.x = props.showMagnet2 ? props.width / 4 : props.width / 2;
       }
     }
 
@@ -71,6 +71,12 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           x,
           y
         };
+        // adjust magnet 1 position if needed
+        newState.magnet1 = state.magnet1;
+        if (newState.magnet1 && newState.magnet1.x > (x - 250)) {
+          newState.magnet1.x = (x - 250);
+        }
+
       } else {
         newState.magnet2 = state.magnet2;
       }
@@ -113,16 +119,41 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       const m2 = this.state.magnet2;
       const model1 = simulation.getMagnetAtIndex(0)!;
       const model2 = simulation.getMagnetAtIndex(1)!;
-      const minX = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
-      const maxX = kAppMaxWidth - (model2.magnetLength - model2.magnetLength / 2) - 10;
-      if (m2.y !== initialY || m2.x < minX || m2.x > maxX) {
-        const newState: IState = {
-          magnet1: m1
+
+      // check if mag1 or mag2 y is out of bounds
+      // check if mag1 or mag2 x is outside screen bounds
+      // check if mag 1 or mag2 x are overlapped/reversed - if so, adjust the last moved magnet
+      const minMag1X = (model1.magnetLength / 2) + 10;
+      let maxMag1X = kAppMaxWidth - (3 * model2.magnetLength / 2) - 50;
+      let minMag2X = (3 * model1.magnetLength / 2) + 50;
+      const maxMag2X = kAppMaxWidth - (model2.magnetLength / 2) - 10;
+      const newState: IState = {};
+      if (this.state.movedMagIndex === 1) {
+        // last moved was magnet 1, so keep magnet 2 in place while obeying screen bounds
+        const mag2X = Math.min(maxMag2X, Math.max(minMag2X, m2.x));
+        const maxMag1BlockedX = (mag2X - model2.magnetLength / 2) - (model1.magnetLength / 2) - 40;
+        maxMag1X = Math.min(maxMag1X, maxMag1BlockedX);
+        newState.movedMagIndex = 0;
+      } else if (this.state.movedMagIndex === 2) {
+        // last moved was magnet 2 so keep magnet 1 in place while obeying screen bounds
+        const  mag1X = Math.min(maxMag1X, Math.max(minMag1X, m1.x));
+        const maxMag2BlockedX = (mag1X + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+        minMag2X = Math.max(minMag2X, maxMag2BlockedX);
+        newState.movedMagIndex = 0;
+      }
+      if (m1.y !== initialY || m1.x < minMag1X || m1.x > maxMag1X) {
+        newState.magnet1 = {
+          y: initialY,
+          x: Math.min(maxMag1X, Math.max(minMag1X, m1.x))
         };
+      }
+      if (m2.y !== initialY || m2.x < minMag2X || m2.x > maxMag2X) {
         newState.magnet2 = {
           y: initialY,
-          x: Math.min(maxX, Math.max(minX, m2.x))
+          x: Math.min(maxMag2X, Math.max(minMag2X, m2.x))
         };
+      }
+      if (newState.magnet1 || newState.magnet2) {
         this.setState(newState);
       }
     }
@@ -189,7 +220,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           magnet1 &&
           <MagWithApp
             magnet={magnet1}
-            draggable={false}
+            draggable={true}
             type={primaryMagType}
             flip={primaryFlip}
             rotation={primaryRotation}
@@ -244,7 +275,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       [`magnet${which}`]: {
         x,
         y
-      }
+      },
+      movedMagIndex: which
     });
   }
 
