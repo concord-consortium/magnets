@@ -8,7 +8,7 @@ export const SimulationModel = types
   .model("Simulation", {
     showFieldLines: false,
     showCloud: false,
-    showPointers: false,
+    showPointers: true,
     showMagneticForces: false,
     magnets: types.array(SimulationMagnet),
     slideArrowStarted: false,

@@ -11,7 +11,7 @@ describe("simulation model", () => {
     expect(simulation.magnets).toEqual([]);
     expect(simulation.showFieldLines).toBe(false);
     expect(simulation.showCloud).toBe(false);
-    expect(simulation.showPointers).toBe(false);
+    expect(simulation.showPointers).toBe(true);
     expect(simulation.showMagneticForces).toBe(false);
   });
 
