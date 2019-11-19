@@ -42,6 +42,11 @@ export const SimulationModel = types
           self.magnets[index].type = type;
         }
       },
+      setMagnetIsBattery(index: number, val: boolean) {
+        if (index < self.magnets.length ) {
+          self.magnets[index].isBattery = val;
+        }
+      },
       toggleMagnetBarPolarity(index: number) {
         if (index < self.magnets.length ) {
           const newVal: PolarityType = self.magnets[index].barPolarity === "N-S" ? "S-N" : "N-S";

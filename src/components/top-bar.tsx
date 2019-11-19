@@ -145,12 +145,15 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   private addOrUpdateMagnet = (index: number, magType: any) => {
     const {simulation} = this.stores;
+    const {battery} = urlParams;
     const mag = simulation.getMagnetAtIndex(index);
+    const showBattery = magType === "coil" ? (battery ? battery.toLowerCase() !== "false" : true) : false;
     if (mag == null) {
       simulation.addMagnet(SimulationMagnet.create({active: true, type: magType}));
     } else {
       simulation.setMagnetType(index, magType);
     }
+    simulation.setMagnetIsBattery(index, showBattery);
   }
 
   private showSlideArrow = () => {

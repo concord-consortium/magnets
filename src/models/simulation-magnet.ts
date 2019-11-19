@@ -32,6 +32,7 @@ export const SimulationMagnet = types
     coilPolarity: types.optional(CoilPolarityTypeEnum, "plus-minus"),
     coilStrength: .75,
     currentStrength: .75,
+    isBattery: false,
     id: types.optional(types.identifier, () => uuid()),
   })
   .views((self) => {
@@ -72,11 +73,11 @@ export const SimulationMagnet = types
         else {
           switch (self.coilStrength) {
             case kCoilStrengthStrong:
-              return "assets/magnet-coil-3.png";
+              return self.isBattery ? "assets/magnet-coil-battery-3.png" : "assets/magnet-coil-3.png";
             case kCoilStrengthMedium:
-              return "assets/magnet-coil-2.png";
+              return self.isBattery ? "assets/magnet-coil-battery-2.png" : "assets/magnet-coil-2.png";
             default:
-              return "assets/magnet-coil-1.png";
+              return self.isBattery ? "assets/magnet-coil-battery-1.png" : "assets/magnet-coil-1.png";
           }
         }
       },
