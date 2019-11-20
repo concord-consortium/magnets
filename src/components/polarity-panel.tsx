@@ -71,7 +71,9 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-bar-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title no-jitter">{showFlipPanel ? "Flip" : "Polarity"}</div>
+          <div className={`title no-jitter ${!showFlipPanel && "medium"}`}>
+            {showFlipPanel ? "Flip" : "Polarity/Flip"}
+          </div>
           <SwitchComponent
             switchOn={polarityOn}
             label={polaritylabel}
@@ -118,7 +120,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-coil-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title no-jitter">Polarity/Current</div>
+          <div className="title medium no-jitter">Polarity/Current Direction</div>
           <div className="slider-container">
             <input className={"slider " + sliderClass} type="range" min="1" max="3"
                   value={sliderVal} onChange={this.handlePolarityCurrentSliderChange}/>
