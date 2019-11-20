@@ -137,9 +137,22 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       } else if (this.state.movedMagIndex === 2) {
         // last moved was magnet 2 so keep magnet 1 in place while obeying screen bounds
         const  mag1X = Math.min(maxMag1X, Math.max(minMag1X, m1.x));
-        const maxMag2BlockedX = (mag1X + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
-        minMag2X = Math.max(minMag2X, maxMag2BlockedX);
+        const minMag2BlockedX = (mag1X + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+        minMag2X = Math.max(minMag2X, minMag2BlockedX);
         newState.movedMagIndex = 0;
+      } else {
+        // no magnet was moved, but they may have changed size
+        const maxMag1BlockedX = (m2.x - model2.magnetLength / 2) - (model1.magnetLength / 2) - 40;
+        const minMag2BlockedX = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+        if (m1.x > maxMag1BlockedX) {
+          const potentialMaxMag1X = maxMag1BlockedX;
+          // if moving mag 1 puts it too far to the left, move mag 2 instead
+          if (potentialMaxMag1X <= minMag1X) {
+            minMag2X = minMag2BlockedX;
+          } else {
+            maxMag1X = maxMag1BlockedX;
+          }
+        }
       }
       if (m1.y !== initialY || m1.x < minMag1X || m1.x > maxMag1X) {
         newState.magnet1 = {
