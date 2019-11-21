@@ -78,7 +78,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);
-    const magCoilPolarityVal = mag != null ? mag.coilPolarity : "plus-minus";
+    const magCoilPolarityVal = mag != null ? mag.coilPolarity : "minus-plus";
     let posClass = "center";
     if (this.props.index === 0 && magRight) {
       posClass = "left";
@@ -89,11 +89,11 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     let sliderVal = 2;
     let sliderClass = "";
     const showOffLabel = magCoilPolarityVal === "off" ? true : false;
-    if (magCoilPolarityVal === "plus-minus") {
+    if (magCoilPolarityVal === "minus-plus") {
       sliderVal = 1;
       sliderClass = "left";
     }
-    else if (magCoilPolarityVal === "minus-plus") {
+    else if (magCoilPolarityVal === "plus-minus") {
       sliderVal = 3;
       sliderClass = "right";
     }
@@ -118,8 +118,8 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
             </div>
           </div>
           <div className="horizontal-container">
-            <div className="polarity-label no-jitter">+-</div>
             <div className="polarity-label no-jitter">-+</div>
+            <div className="polarity-label no-jitter">+-</div>
           </div>
         </div>
       </div>
@@ -135,12 +135,12 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const index = parseInt(event.target.value, 10);
-    let newVal: CoilPolarityType = "plus-minus";
+    let newVal: CoilPolarityType = "minus-plus";
     if (index === 2) {
       newVal = "off";
     }
     else if (index === 3) {
-      newVal = "minus-plus";
+      newVal = "plus-minus";
     }
     if (mag != null) {
       simulation.setMagnetCoilPolarity(this.props.index, newVal);

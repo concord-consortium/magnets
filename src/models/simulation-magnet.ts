@@ -29,7 +29,7 @@ export const SimulationMagnet = types
     type: types.optional(MagnetTypeEnum, "bar"),
     barPolarity: types.optional(PolarityTypeEnum, "N-S"),
     barStrength: .6,
-    coilPolarity: types.optional(CoilPolarityTypeEnum, "plus-minus"),
+    coilPolarity: types.optional(CoilPolarityTypeEnum, "minus-plus"),
     coilStrength: .75,
     currentStrength: .75,
     id: types.optional(types.identifier, () => uuid()),
@@ -105,14 +105,14 @@ export const SimulationMagnet = types
       get leftPoleImage(): string {
         let image = "";
         if (self.type === "coil" && self.coilPolarity !== "off") {
-          image = self.coilPolarity === "plus-minus" ? "./assets/N.png" : "./assets/S.png";
+          image = self.coilPolarity === "minus-plus" ? "./assets/N.png" : "./assets/S.png";
         }
         return image;
       },
       get rightPoleImage(): string {
         let image = "";
         if (self.type === "coil" && self.coilPolarity !== "off") {
-          image = self.coilPolarity === "plus-minus" ? "./assets/S.png" : "./assets/N.png";
+          image = self.coilPolarity === "minus-plus" ? "./assets/S.png" : "./assets/N.png";
         }
         return image;
       },

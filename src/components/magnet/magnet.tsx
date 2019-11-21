@@ -102,11 +102,11 @@ export default class Magnet extends React.Component<IProps, IState> {
     const magRotation = type === "bar" ? this.state.rotation * Math.PI / 180 : 0;
     const voltRotation = voltageFlip && type === "coil" ? 180 * Math.PI / 180 : 0;
     const scale = [.5, .5] as unknown as ObservablePoint;
-    const leftCurrRotation = voltageFlip ? 180 * Math.PI / 180 : 0;
-    const rightCurrRotation = !voltageFlip ? 180 * Math.PI / 180 : 0;
-    const voltFlipFactor = voltageFlip ? -1 : 1;
-    const leftCurrAniStart = voltageFlip ? 110 : 30;
-    const rightCurrAniStart = voltageFlip ? 30 : 110;
+    const leftCurrRotation = !voltageFlip ? 180 * Math.PI / 180 : 0;
+    const rightCurrRotation = voltageFlip ? 180 * Math.PI / 180 : 0;
+    const voltFlipFactor = !voltageFlip ? -1 : 1;
+    const leftCurrAniStart = !voltageFlip ? 110 : 30;
+    const rightCurrAniStart = !voltageFlip ? 30 : 110;
     const yOffset = this.state.yOffset;
     let yOffset2 = this.state.yOffset + 40;
     if (yOffset2 > 80) {
