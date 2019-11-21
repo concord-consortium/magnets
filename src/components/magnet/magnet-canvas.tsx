@@ -229,6 +229,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           simulation.showFieldLines && !rotating1 && !rotating2 &&
           <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
         }
+        {magnet2 && simulation.showMagneticForces
+          ? <LockArrows/>
+          : null
+        }
         {
           magnet1 &&
           <MagWithApp
@@ -273,10 +277,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         }
         {simulation.slideArrowStarted && !simulation.slideArrowComplete
           ? <SlideArrowWithApp arrowComplete={this.handleSlideArrowComplete}/>
-          : null
-        }
-        {magnet2 && simulation.showMagneticForces
-          ? <LockArrows/>
           : null
         }
       </Stage>
