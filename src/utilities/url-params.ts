@@ -9,6 +9,8 @@ export interface QueryParams {
   magnets?: string;
   // toggle between battery and coil, ?battery=false to use coil
   battery?: string;
+  // turn strength control on/off, ?strength=true to enable
+  strength?: string;
 }
 
 const params = parse(location.search);
@@ -18,6 +20,7 @@ export const DefaultUrlParams: QueryParams = {
   fieldRepresentations: "false",
   magnets: "2",
   battery: "true",
+  strength: "false",
 };
 
 export const urlParams: QueryParams = params;

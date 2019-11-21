@@ -5,6 +5,7 @@ import { BaseComponent, IBaseProps } from "./base";
 import "./polarity-panel.sass";
 import { SwitchComponent } from "./switch";
 import { CoilPolarityType, MagnetType } from "../models/simulation-magnet";
+import { urlParams } from "../utilities/url-params";
 
 interface IProps extends IBaseProps {
   index: number;
@@ -40,6 +41,8 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
 
   private renderBarPolarityPanel = () => {
     const {simulation} = this.stores;
+    const {strength} = urlParams;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);
@@ -51,7 +54,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     } else if (this.props.index === 1) {
       posClass = "right";
     }
-    posClass = posClass + "-" + magType;
+    posClass = `${posClass}-${magType}${showStrengthPanel ? "" : " no-strength"}`;
     return (
       <div className={"polarity-panel " + posClass}>
         <svg className="icon bar-magnet-polarity-back2">
@@ -75,6 +78,8 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
 
   private renderCoilPolarityPanel = () => {
     const {simulation} = this.stores;
+    const {strength} = urlParams;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);
@@ -85,7 +90,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     } else if (this.props.index === 1) {
       posClass = "right";
     }
-    posClass = posClass + "-" + magType;
+    posClass = `${posClass}-${magType}${showStrengthPanel ? "" : " no-strength"}`;
     let sliderVal = 2;
     let sliderClass = "";
     const showOffLabel = magCoilPolarityVal === "off" ? true : false;

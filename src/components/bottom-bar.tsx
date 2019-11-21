@@ -18,12 +18,13 @@ interface IState {}
 export class BottomBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
-    const {fieldRepresentations} = urlParams;
+    const {fieldRepresentations, strength} = urlParams;
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const showMagFieldPanel: boolean = fieldRepresentations ? fieldRepresentations.toLowerCase() === "true" : false;
     const showMagForces: boolean = primaryMag != null && secondaryMag != null;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
     if (!primaryMag) {
       return (
         <div className="bottom-bar">
@@ -34,11 +35,11 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
       return (
         <div className="bottom-bar">
           <PolarityPanelComponent index={0}/>
-          <StrengthPanelComponent index={0}/>
+          {showStrengthPanel && <StrengthPanelComponent index={0}/>}
           {secondaryMag
           ? <div>
               <PolarityPanelComponent index={1}/>
-              <StrengthPanelComponent index={1}/>
+              {showStrengthPanel && <StrengthPanelComponent index={1}/>}
             </div>
           : null
           }
