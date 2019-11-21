@@ -18,18 +18,23 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
 
   public render() {
     const {simulation} = this.stores;
+    const {current} = urlParams;
+    const showFlipPanel: boolean = current ? current.toLowerCase() !== "show" : true;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     if (magType === "coil") {
       return (
         <div>
-          {this.renderCoilPolarityPanel()}
+          {showFlipPanel
+            ? this.renderPolarityPanel(showFlipPanel)
+            : this.renderCoilPolarityPanel()
+          }
         </div>
       );
     } else if (magType === "bar") {
       return (
         <div>
-          {this.renderBarPolarityPanel()}
+          {this.renderPolarityPanel(showFlipPanel)}
         </div>
       );
     } else {
@@ -39,14 +44,16 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     }
   }
 
-  private renderBarPolarityPanel = () => {
+  private renderPolarityPanel = (showFlipPanel: boolean) => {
     const {simulation} = this.stores;
     const {strength} = urlParams;
     const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);
-    const polaritylabel = mag && mag.barPolarity ? mag.barPolarity : "N-S";
+    const polaritylabel = magType === "bar"
+          ? mag && mag.barPolarity ? mag.barPolarity : "N-S"
+          : mag ? (mag.coilPolarity === "plus-minus" ? "N-S" : "S-N") : "N-S";
     const polarityOn = polaritylabel === "S-N" ? true : false;
     let posClass = "center";
     if (this.props.index === 0 && magRight) {
@@ -54,7 +61,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     } else if (this.props.index === 1) {
       posClass = "right";
     }
-    posClass = `${posClass}-${magType}${showStrengthPanel ? "" : " no-strength"}`;
+    posClass = `${posClass}-${showFlipPanel ? "bar" : "-" + magType}${showStrengthPanel ? "" : " no-strength"}`;
     return (
       <div className={"polarity-panel " + posClass}>
         <svg className="icon bar-magnet-polarity-back2">
@@ -64,7 +71,9 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-bar-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title no-jitter">Polarity</div>
+          <div className={`title no-jitter ${!showFlipPanel && "medium"}`}>
+            {showFlipPanel ? "Flip" : "Polarity/Flip"}
+          </div>
           <SwitchComponent
             switchOn={polarityOn}
             label={polaritylabel}
@@ -111,7 +120,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
           <use xlinkHref="#icon-coil-magnet-polarity-back1"/>
         </svg>
         <div className="vertical-container">
-          <div className="title no-jitter">Polarity/Current</div>
+          <div className="title medium no-jitter">Polarity/Current Direction</div>
           <div className="slider-container">
             <input className={"slider " + sliderClass} type="range" min="1" max="3"
                   value={sliderVal} onChange={this.handlePolarityCurrentSliderChange}/>
@@ -133,7 +142,20 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
 
   private handleClickPolarityButton = () => {
     const {simulation} = this.stores;
-    simulation.toggleMagnetBarPolarity(this.props.index);
+    const mag = simulation.getMagnetAtIndex(this.props.index);
+    const magType: MagnetType | null = mag ? mag.type : null;
+    if (mag) {
+      if (magType === "coil") {
+        if (mag.coilPolarity === "plus-minus") {
+          simulation.setMagnetCoilPolarity(this.props.index, "minus-plus");
+        }
+        else {
+          simulation.setMagnetCoilPolarity(this.props.index, "plus-minus");
+        }
+      } else {
+        simulation.toggleMagnetBarPolarity(this.props.index);
+      }
+    }
   }
 
   private handlePolarityCurrentSliderChange = (event: any) => {
