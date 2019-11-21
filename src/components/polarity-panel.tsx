@@ -61,7 +61,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
     } else if (this.props.index === 1) {
       posClass = "right";
     }
-    posClass = `${posClass}-${showFlipPanel ? "-bar" : "-" + magType}${showStrengthPanel ? "" : " no-strength"}`;
+    posClass = `${posClass}-${showFlipPanel ? "bar" : "-" + magType}${showStrengthPanel ? "" : " no-strength"}`;
     return (
       <div className={"polarity-panel " + posClass}>
         <svg className="icon bar-magnet-polarity-back2">
