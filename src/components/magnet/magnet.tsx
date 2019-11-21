@@ -5,6 +5,10 @@ import { IMagnetProps } from "./magnet-canvas";
 
 const kVoltageImageYOffset = 84;
 const kSideImageXOffset = 66;
+const kMaxDragX = 950;
+const kMinDragX = 10;
+const kMaxDragY = 650;
+const kMinDragY = 100;
 
 interface IProps {
   app: Application;
@@ -47,10 +51,21 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   public componentDidMount() {
     this.props.app.ticker.add(this.tick);
+    window.addEventListener("pointerup", this.handlePointerUp);
   }
 
   public componentWillUnmount() {
     this.props.app.ticker.remove(this.tick);
+    window.removeEventListener("pointerup", this.handlePointerUp);
+  }
+
+  public handlePointerUp = (e: any) => {
+    if (e.offsetX > kMinDragX && e.offsetX < kMaxDragX && e.offsetY > kMinDragY && e.offsetY < kMaxDragY) {
+      this.setState({
+        isDragging: false,
+        dragData: null
+      });
+    }
   }
 
   public calculateRotation = (delta: any) => {
