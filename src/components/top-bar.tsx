@@ -4,6 +4,7 @@ import { BaseComponent, IBaseProps } from "./base";
 
 import "./top-bar.sass";
 import { MagnetType, SimulationMagnet } from "../models/simulation-magnet";
+import { urlParams } from "../utilities/url-params";
 
 interface IProps extends IBaseProps {}
 interface IState {}
@@ -13,6 +14,8 @@ interface IState {}
 export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
+    const {magnets} = urlParams;
+    const showRight = !magnets || (parseInt(magnets, 10) !== 1);
     const {ui, simulation} = this.stores;
     const curtainClass = ui.showTopBarCurtain ? "curtain unrolled" : "curtain";
     const leftMagText = "Select a magnet";
@@ -38,16 +41,20 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
           <div className="label add left">Select a magnet</div>
           {this.renderBarButton(leftMagType, "left", primaryDisabledClass, this.handleClickLeftMagnetBarButton)}
           {this.renderCoilButton(leftMagType, "left", primaryDisabledClass, this.handleClickLeftMagnetCoilButton)}
-          <svg className="divider">
-            <use xlinkHref="#icon-divider"/>
-          </svg>
-          <div className={"label add right " + rightDisabledClass}>Add a 2nd magnet</div>
-          {this.renderBarButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetBarButton)}
-          {this.renderCoilButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetCoilButton)}
-          {this.renderRemoveButton(removeDisabledClass)}
+          {showRight &&
+            <div>
+              <svg className="divider">
+                <use xlinkHref="#icon-divider"/>
+              </svg>
+              <div className={"label add right " + rightDisabledClass}>Add a 2nd magnet</div>
+              {this.renderBarButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetBarButton)}
+              {this.renderCoilButton(rightMagType, "right", rightDisabledClass, this.handleClickRightMagnetCoilButton)}
+              {this.renderRemoveButton(removeDisabledClass)}
+            </div>
+          }
         </div>
         {this.renderMagnetButton(leftMagText, leftMagType, "left")}
-        {this.renderMagnetButton(rightMagText, rightMagType, "right")}
+        {showRight && this.renderMagnetButton(rightMagText, rightMagType, "right")}
       </div>
     );
   }
