@@ -5,10 +5,10 @@ import { BaseComponent, IBaseProps } from "./base";
 import "./bottom-bar.sass";
 
 import { MagFieldPanelComponent } from "./mag-field-control-panel";
-import { CompassComponent } from "./compass";
 import { StrengthPanelComponent } from "./strength-panel";
 import { MagForcesPanelComponent } from "./mag-forces-panel";
 import { PolarityPanelComponent } from "./polarity-panel";
+import { urlParams } from "../utilities/url-params";
 
 interface IProps extends IBaseProps {}
 interface IState {}
@@ -18,9 +18,11 @@ interface IState {}
 export class BottomBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
+    const {fieldRepresentations} = urlParams;
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
     const secondaryMag = simulation.getMagnetAtIndex(1);
+    const showMagFieldPanel: boolean = fieldRepresentations ? fieldRepresentations.toLowerCase() === "true" : false;
     const showMagForces: boolean = primaryMag != null && secondaryMag != null;
     if (!primaryMag) {
       return (
@@ -40,7 +42,7 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
             </div>
           : null
           }
-          <MagFieldPanelComponent/>
+          {showMagFieldPanel && <MagFieldPanelComponent/>}
           {showMagForces ?
             <MagForcesPanelComponent/>
             : null}
