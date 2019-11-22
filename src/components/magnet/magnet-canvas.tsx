@@ -73,8 +73,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         };
         // adjust magnet 1 position if needed
         newState.magnet1 = state.magnet1;
-        if (newState.magnet1 && newState.magnet1.x > (x - 250)) {
-          newState.magnet1.x = (x - 250);
+        if (newState.magnet1 && newState.magnet1.x > (x - 340)) {
+          newState.magnet1.x = (x - 340);
         }
 
       } else {
