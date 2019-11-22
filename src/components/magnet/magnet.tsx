@@ -16,7 +16,6 @@ interface IProps {
   draggable?: boolean;
   type?: string;
   flip?: boolean;
-  batteryFlip?: boolean;
   rotation: number;
   image?: string;
   leftPoleImage?: string;
@@ -111,13 +110,12 @@ export default class Magnet extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { draggable, flip, batteryFlip, type, image, voltageFlip, imageOffset, isBattery } = this.props;
+    const { draggable, flip, type, image, voltageFlip, imageOffset, isBattery } = this.props;
     const { x, y } = this.props.magnet;
     // react-pixi typing issue
     const anchor = [0.5, 0.5] as unknown as ObservablePoint;
-    const xFlipFactor = batteryFlip ? -1 : 1;
-    const magScale = [xFlipFactor * .5, .5] as unknown as ObservablePoint;
-    const magRotation = type === "bar" ? this.state.rotation * Math.PI / 180 : 0;
+    const magScale = [.5, .5] as unknown as ObservablePoint;
+    const magRotation = (type === "bar" || isBattery) ? this.state.rotation * Math.PI / 180 : 0;
     const voltRotation = voltageFlip && type === "coil" ? 180 * Math.PI / 180 : 0;
     const scale = [.5, .5] as unknown as ObservablePoint;
     const leftCurrRotation = voltageFlip ? 180 * Math.PI / 180 : 0;
@@ -225,12 +223,13 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   private onPointerDown = (event: PIXI.interaction.InteractionEvent) => {
     event.data.target = event.target;
+    const multiplier = Math.cos(this.state.rotation * Math.PI / 180);
     const positionOffset = event.data.getLocalPosition(event.target);
     this.setState({
       isDragging: true,
       dragData: event.data,
-      dragOffsetX: positionOffset.x,
-      dragOffsetY: positionOffset.y
+      dragOffsetX: positionOffset.x * multiplier,
+      dragOffsetY: positionOffset.y * multiplier
     });
   }
 
