@@ -19,7 +19,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const {current} = urlParams;
-    const showFlipPanel: boolean = current ? current.toLowerCase() !== "show" : true;
+    const showFlipPanel: boolean = current ? current.toLowerCase() !== "true" : true;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     if (magType === "coil") {
