@@ -12,7 +12,7 @@ export interface QueryParams {
   // turn strength control on/off, ?strength=true to enable
   strength?: string;
   // toggle polarity control panel mode (flip/polarity)
-  // ?current=show changes flip panel to polarity panel
+  // ?current=true changes flip panel to polarity panel
   current?: string;
 }
 
@@ -24,7 +24,7 @@ export const DefaultUrlParams: QueryParams = {
   magnets: "2",
   battery: "true",
   strength: "false",
-  current: "hide"
+  current: "false"
 };
 
 export const urlParams: QueryParams = params;
