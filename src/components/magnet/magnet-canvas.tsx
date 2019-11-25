@@ -176,9 +176,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
     const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
-    const primaryFlip = primaryMag && primaryMagType === "bar" ? primaryMag.flipped : false;
+    const primaryFlip = primaryMag && (primaryMagType === "bar" || primaryMag.isBattery) ? primaryMag.flipped : false;
     const primaryIsBattery = primaryMag ? primaryMag.isBattery : false;
-    const primaryBatteryFlip: boolean = primaryMag && primaryIsBattery ? primaryMag.flipped : false;
     const primaryRotation = primaryFlip ? 180 : 0;
     const primaryImage = primaryMag ? primaryMag.magnetImage : "";
     const primaryImageOffset: number = primaryMag ? primaryMag.polarityCurrentImageOffset : 0;
@@ -190,9 +189,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
-    const secondaryFlip = secondaryMag && secondaryMagType === "bar" ? secondaryMag.flipped : false;
+    const secondaryFlip = secondaryMag && (secondaryMagType === "bar" || secondaryMag.isBattery)
+                          ? secondaryMag.flipped
+                          : false;
     const secondaryIsBattery = secondaryMag ? secondaryMag.isBattery : false;
-    const secondaryBatteryFlip: boolean = secondaryMag && secondaryIsBattery ? secondaryMag.flipped : false;
     const secondaryRotation = secondaryFlip ? 180 : 0;
     const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
     const secondaryImageOffset: number = secondaryMag ? secondaryMag.polarityCurrentImageOffset : 0;
@@ -243,7 +243,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             draggable={true}
             type={primaryMagType}
             flip={primaryFlip}
-            batteryFlip={primaryBatteryFlip}
             rotation={primaryRotation}
             image={primaryImage}
             leftPoleImage={primaryLeftPoleImage}
@@ -264,7 +263,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             draggable={true}
             type={secondaryMagType}
             flip={secondaryFlip}
-            batteryFlip={secondaryBatteryFlip}
             rotation={secondaryRotation}
             image={secondaryImage}
             leftPoleImage={secondaryLeftPoleImage}
