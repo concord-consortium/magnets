@@ -1,5 +1,19 @@
 # Changelog
 
+## Version 0.3.0 - released November 26, 2019
+
+- Add URL parameters to adjust UI component visibility
+- Fix magnet drag bug 
+- Fix magnet positions when changing strength with force arrows showing
+- Fix z-order of force arrows
+
+### Asset Sizes
+
+| File | Size | % Change from Previous Release |
+|---|---|---|
+| index.css | 26 KB | n/a |
+| index.js | 796 KB | n/a |
+
 ## Version 0.2.0 - released February 15, 2019
 
 - Make left magnet draggable
