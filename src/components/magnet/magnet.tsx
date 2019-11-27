@@ -5,6 +5,10 @@ import { IMagnetProps } from "./magnet-canvas";
 
 const kVoltageImageYOffset = 84;
 const kSideImageXOffset = 66;
+const kMaxDragX = 950;
+const kMinDragX = 10;
+const kMaxDragY = 650;
+const kMinDragY = 100;
 
 interface IProps {
   app: Application;
@@ -20,6 +24,7 @@ interface IProps {
   voltageFlip?: boolean;
   imageOffset: number;
   currentArrowImage?: string;
+  isBattery?: boolean;
   updatePosition: (x: number, y: number) => void;
   updateRotating: (isRotating: boolean) => void;
 }
@@ -47,10 +52,21 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   public componentDidMount() {
     this.props.app.ticker.add(this.tick);
+    window.addEventListener("pointerup", this.handlePointerUp);
   }
 
   public componentWillUnmount() {
     this.props.app.ticker.remove(this.tick);
+    window.removeEventListener("pointerup", this.handlePointerUp);
+  }
+
+  public handlePointerUp = (e: any) => {
+    if (e.offsetX > kMinDragX && e.offsetX < kMaxDragX && e.offsetY > kMinDragY && e.offsetY < kMaxDragY) {
+      this.setState({
+        isDragging: false,
+        dragData: null
+      });
+    }
   }
 
   public calculateRotation = (delta: any) => {
@@ -94,12 +110,12 @@ export default class Magnet extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { draggable, flip, type, image, voltageFlip, imageOffset } = this.props;
+    const { draggable, flip, type, image, voltageFlip, imageOffset, isBattery } = this.props;
     const { x, y } = this.props.magnet;
     // react-pixi typing issue
     const anchor = [0.5, 0.5] as unknown as ObservablePoint;
     const magScale = [.5, .5] as unknown as ObservablePoint;
-    const magRotation = type === "bar" ? this.state.rotation * Math.PI / 180 : 0;
+    const magRotation = (type === "bar" || isBattery) ? this.state.rotation * Math.PI / 180 : 0;
     const voltRotation = voltageFlip && type === "coil" ? 180 * Math.PI / 180 : 0;
     const scale = [.5, .5] as unknown as ObservablePoint;
     const leftCurrRotation = voltageFlip ? 180 * Math.PI / 180 : 0;
@@ -114,6 +130,7 @@ export default class Magnet extends React.Component<IProps, IState> {
     }
     const alpha = this.calculateAlpha(yOffset);
     const alpha2 = this.calculateAlpha(yOffset2);
+
     return (
       <Container>
         <Sprite
@@ -127,7 +144,7 @@ export default class Magnet extends React.Component<IProps, IState> {
           pointermove={draggable ? this.onPointerMove : undefined}
           rotation={magRotation}
         />
-        { this.props.voltageImage !== ""
+        { !isBattery && this.props.voltageImage !== ""
           ? <Sprite
               image={this.props.voltageImage} x={x} y={y + kVoltageImageYOffset}
               scale={scale}
@@ -152,7 +169,7 @@ export default class Magnet extends React.Component<IProps, IState> {
             />
           : null
         }
-        { this.props.currentArrowImage !== ""
+        { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x - (kSideImageXOffset + imageOffset)}
@@ -164,7 +181,7 @@ export default class Magnet extends React.Component<IProps, IState> {
             />
           : null
         }
-        { this.props.currentArrowImage !== ""
+        { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x - (kSideImageXOffset + imageOffset)}
@@ -176,7 +193,7 @@ export default class Magnet extends React.Component<IProps, IState> {
             />
           : null
         }
-        { this.props.currentArrowImage !== ""
+        { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x + (kSideImageXOffset + imageOffset)}
@@ -188,7 +205,7 @@ export default class Magnet extends React.Component<IProps, IState> {
             />
           : null
         }
-        { this.props.currentArrowImage !== ""
+        { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
               x={x + (kSideImageXOffset + imageOffset)}
@@ -206,12 +223,13 @@ export default class Magnet extends React.Component<IProps, IState> {
 
   private onPointerDown = (event: PIXI.interaction.InteractionEvent) => {
     event.data.target = event.target;
+    const multiplier = Math.cos(this.state.rotation * Math.PI / 180);
     const positionOffset = event.data.getLocalPosition(event.target);
     this.setState({
       isDragging: true,
       dragData: event.data,
-      dragOffsetX: positionOffset.x,
-      dragOffsetY: positionOffset.y
+      dragOffsetX: positionOffset.x * multiplier,
+      dragOffsetY: positionOffset.y * multiplier
     });
   }
 

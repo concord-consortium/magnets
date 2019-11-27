@@ -73,8 +73,8 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         };
         // adjust magnet 1 position if needed
         newState.magnet1 = state.magnet1;
-        if (newState.magnet1 && newState.magnet1.x > (x - 250)) {
-          newState.magnet1.x = (x - 250);
+        if (newState.magnet1 && newState.magnet1.x > (x - 340)) {
+          newState.magnet1.x = (x - 340);
         }
 
       } else {
@@ -137,9 +137,22 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
       } else if (this.state.movedMagIndex === 2) {
         // last moved was magnet 2 so keep magnet 1 in place while obeying screen bounds
         const  mag1X = Math.min(maxMag1X, Math.max(minMag1X, m1.x));
-        const maxMag2BlockedX = (mag1X + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
-        minMag2X = Math.max(minMag2X, maxMag2BlockedX);
+        const minMag2BlockedX = (mag1X + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+        minMag2X = Math.max(minMag2X, minMag2BlockedX);
         newState.movedMagIndex = 0;
+      } else {
+        // no magnet was moved, but they may have changed size
+        const maxMag1BlockedX = (m2.x - model2.magnetLength / 2) - (model1.magnetLength / 2) - 40;
+        const minMag2BlockedX = (m1.x + model1.magnetLength / 2) + (model2.magnetLength / 2) + 40;
+        if (m1.x > maxMag1BlockedX) {
+          const potentialMaxMag1X = maxMag1BlockedX;
+          // if moving mag 1 puts it too far to the left, move mag 2 instead
+          if (potentialMaxMag1X <= minMag1X) {
+            minMag2X = minMag2BlockedX;
+          } else {
+            maxMag1X = maxMag1BlockedX;
+          }
+        }
       }
       if (m1.y !== initialY || m1.x < minMag1X || m1.x > maxMag1X) {
         newState.magnet1 = {
@@ -161,10 +174,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
   public render() {
     const {simulation} = this.stores;
-
     const primaryMag = simulation.getMagnetAtIndex(0);
     const primaryMagType: MagnetType | undefined = primaryMag ? primaryMag.type : undefined;
-    const primaryFlip = primaryMag && primaryMagType === "bar" ? primaryMag.flipped : false;
+    const primaryFlip = primaryMag && (primaryMagType === "bar" || primaryMag.isBattery) ? primaryMag.flipped : false;
+    const primaryIsBattery = primaryMag ? primaryMag.isBattery : false;
     const primaryRotation = primaryFlip ? 180 : 0;
     const primaryImage = primaryMag ? primaryMag.magnetImage : "";
     const primaryImageOffset: number = primaryMag ? primaryMag.polarityCurrentImageOffset : 0;
@@ -176,7 +189,10 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const secondaryMagType: MagnetType | undefined = secondaryMag !== null ? secondaryMag.type : undefined;
-    const secondaryFlip = secondaryMag && secondaryMagType === "bar" ? secondaryMag.flipped : false;
+    const secondaryFlip = secondaryMag && (secondaryMagType === "bar" || secondaryMag.isBattery)
+                          ? secondaryMag.flipped
+                          : false;
+    const secondaryIsBattery = secondaryMag ? secondaryMag.isBattery : false;
     const secondaryRotation = secondaryFlip ? 180 : 0;
     const secondaryImage = secondaryMag ? secondaryMag.magnetImage : "";
     const secondaryImageOffset: number = secondaryMag ? secondaryMag.polarityCurrentImageOffset : 0;
@@ -209,12 +225,16 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
           <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={10} />
         }
         {
-          simulation.showPointers && !rotating1 && !rotating2 &&
+          simulation.showPointers && !rotating1 && !rotating2 && (magnet1 || magnet2) &&
           <VectorField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={30} />
         }
         {
           simulation.showFieldLines && !rotating1 && !rotating2 &&
           <FieldLines magnets={magnets} magnetModels={magnetModels} width={width} height={height} />
+        }
+        {magnet2 && simulation.showMagneticForces
+          ? <LockArrows/>
+          : null
         }
         {
           magnet1 &&
@@ -231,6 +251,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             voltageFlip={primaryVoltageFlip}
             currentArrowImage={primaryCurrentArrowImage}
             imageOffset={primaryImageOffset}
+            isBattery={primaryIsBattery}
             updatePosition={this.handleUpdateMagnetPosition(1)}
             updateRotating={this.handleUpdateRotating(1)}
           />
@@ -250,6 +271,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
             voltageFlip={secondaryVoltageFlip}
             currentArrowImage={secondaryCurrentArrowImage}
             imageOffset={secondaryImageOffset}
+            isBattery={secondaryIsBattery}
             updatePosition={this.handleUpdateMagnetPosition(2)}
             updateRotating={this.handleUpdateRotating(2)}
           />
@@ -260,10 +282,6 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
         }
         {simulation.slideArrowStarted && !simulation.slideArrowComplete
           ? <SlideArrowWithApp arrowComplete={this.handleSlideArrowComplete}/>
-          : null
-        }
-        {magnet2 && simulation.showMagneticForces
-          ? <LockArrows/>
           : null
         }
       </Stage>

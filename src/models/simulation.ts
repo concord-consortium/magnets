@@ -8,7 +8,7 @@ export const SimulationModel = types
   .model("Simulation", {
     showFieldLines: false,
     showCloud: false,
-    showPointers: false,
+    showPointers: true,
     showMagneticForces: false,
     magnets: types.array(SimulationMagnet),
     slideArrowStarted: false,
@@ -40,6 +40,11 @@ export const SimulationModel = types
       setMagnetType(index: number, type: MagnetType) {
         if (index < self.magnets.length ) {
           self.magnets[index].type = type;
+        }
+      },
+      setMagnetIsBattery(index: number, val: boolean) {
+        if (index < self.magnets.length ) {
+          self.magnets[index].isBattery = val;
         }
       },
       toggleMagnetBarPolarity(index: number) {
