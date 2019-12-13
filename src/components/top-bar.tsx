@@ -147,7 +147,7 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
     const {simulation} = this.stores;
     const {battery} = urlParams;
     const mag = simulation.getMagnetAtIndex(index);
-    const showBattery = magType === "coil" ? (battery ? battery.toLowerCase() !== "false" : true) : false;
+    const showBattery = magType === "coil" ? (battery ? battery.toLowerCase() === "true" : false) : false;
     if (mag == null) {
       simulation.addMagnet(SimulationMagnet.create({active: true, type: magType}));
     } else {
