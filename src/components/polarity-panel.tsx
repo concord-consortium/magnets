@@ -19,7 +19,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   public render() {
     const {simulation} = this.stores;
     const {current} = urlParams;
-    const showFlipPanel: boolean = current ? current.toLowerCase() !== "true" : true;
+    const showFlipPanel: boolean = current ? current.toLowerCase() === "false" : false;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     if (magType === "coil") {
@@ -47,7 +47,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   private renderPolarityPanel = (showFlipPanel: boolean) => {
     const {simulation} = this.stores;
     const {strength} = urlParams;
-    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() !== "false" : true;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);
@@ -88,7 +88,7 @@ export class PolarityPanelComponent extends BaseComponent<IProps, IState> {
   private renderCoilPolarityPanel = () => {
     const {simulation} = this.stores;
     const {strength} = urlParams;
-    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() !== "false" : true;
     const mag = simulation.getMagnetAtIndex(this.props.index);
     const magType: MagnetType | null = mag ? mag.type : null;
     const magRight = simulation.getMagnetAtIndex(1);

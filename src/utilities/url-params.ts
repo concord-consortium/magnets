@@ -22,9 +22,9 @@ export const DefaultUrlParams: QueryParams = {
   appMode: "dev",
   fieldRepresentations: "false",
   magnets: "2",
-  battery: "true",
-  strength: "false",
-  current: "false"
+  battery: "false",
+  strength: "true",
+  current: "true"
 };
 
 export const urlParams: QueryParams = params;

@@ -24,7 +24,7 @@ export class BottomBarComponent extends BaseComponent<IProps, IState> {
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const showMagFieldPanel: boolean = fieldRepresentations ? fieldRepresentations.toLowerCase() === "true" : false;
     const showMagForces: boolean = primaryMag != null && secondaryMag != null;
-    const showStrengthPanel: boolean = strength ? strength.toLowerCase() === "true" : false;
+    const showStrengthPanel: boolean = strength ? strength.toLowerCase() !== "false" : true;
     if (!primaryMag) {
       return (
         <div className="bottom-bar">
