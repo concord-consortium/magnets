@@ -5,6 +5,7 @@ import { IMagnetProps } from "./magnet-canvas";
 
 const kVoltageImageYOffset = 84;
 const kSideImageXOffset = 66;
+const kArrowmageXOffset = 40;
 const kMaxDragX = 950;
 const kMinDragX = 10;
 const kMaxDragY = 650;
@@ -121,8 +122,8 @@ export default class Magnet extends React.Component<IProps, IState> {
     const leftCurrRotation = voltageFlip ? 180 * Math.PI / 180 : 0;
     const rightCurrRotation = !voltageFlip ? 180 * Math.PI / 180 : 0;
     const voltFlipFactor = voltageFlip ? -1 : 1;
-    const leftCurrAniStart = voltageFlip ? 110 : 30;
-    const rightCurrAniStart = voltageFlip ? 30 : 110;
+    const leftCurrAniStart = voltageFlip ? 80 : 0;
+    const rightCurrAniStart = voltageFlip ? 0 : 80;
     const yOffset = this.state.yOffset;
     let yOffset2 = this.state.yOffset + 40;
     if (yOffset2 > 80) {
@@ -172,7 +173,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x - (kSideImageXOffset + imageOffset)}
+              x={x - (kArrowmageXOffset + imageOffset)}
               y={y + leftCurrAniStart + yOffset * voltFlipFactor}
               scale={scale}
               anchor={anchor}
@@ -184,7 +185,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x - (kSideImageXOffset + imageOffset)}
+              x={x - (kArrowmageXOffset + imageOffset)}
               y={y + leftCurrAniStart + yOffset2 * voltFlipFactor}
               scale={scale}
               anchor={anchor}
@@ -196,7 +197,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x + (kSideImageXOffset + imageOffset)}
+              x={x + (kArrowmageXOffset + imageOffset)}
               y={(y + rightCurrAniStart - yOffset * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
@@ -208,7 +209,7 @@ export default class Magnet extends React.Component<IProps, IState> {
         { !isBattery && this.props.currentArrowImage !== ""
           ? <Sprite
               image={this.props.currentArrowImage}
-              x={x + (kSideImageXOffset + imageOffset)}
+              x={x + (kArrowmageXOffset + imageOffset)}
               y={(y + rightCurrAniStart - yOffset2 * voltFlipFactor)}
               scale={scale}
               anchor={anchor}
