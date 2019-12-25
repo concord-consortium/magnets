@@ -91,7 +91,7 @@ export const SimulationMagnet = types
         if (self.type && self.type === "coil") {
           switch (self.coilStrength) {
             case kCoilStrengthStrong:
-              offset = 75;
+              offset = 74;
               break;
             case kCoilStrengthMedium:
               offset = 20;

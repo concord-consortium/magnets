@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 1.0.0 - released Decemeber 24, 2019
+
+- Revise current arrow layout
+
+### Asset Sizes
+
+| File | Size | % Change from Previous Release |
+|---|---|---|
+| index.css | 26 KB | n/a |
+| index.js | 796 KB | n/a |
+
 ## Version 0.4.0 - released Decemeber 12, 2019
 
 - Change default URL param state (strength on, current on, battery off)
