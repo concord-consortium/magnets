@@ -18,12 +18,12 @@ interface IState {}
 export class BottomBarComponent extends BaseComponent<IProps, IState> {
 
   public render() {
-    const {fieldRepresentations, strength} = urlParams;
+    const {fieldRepresentations, strength, forceArrowsPanel} = urlParams;
     const {simulation} = this.stores;
     const primaryMag = simulation.getMagnetAtIndex(0);
     const secondaryMag = simulation.getMagnetAtIndex(1);
     const showMagFieldPanel: boolean = fieldRepresentations ? fieldRepresentations.toLowerCase() === "true" : false;
-    const showMagForces: boolean = primaryMag != null && secondaryMag != null;
+    const showMagForces: boolean = forceArrowsPanel === "true" && primaryMag != null && secondaryMag != null;
     const showStrengthPanel: boolean = strength ? strength.toLowerCase() !== "false" : true;
     if (!primaryMag) {
       return (

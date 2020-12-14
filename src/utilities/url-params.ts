@@ -14,6 +14,14 @@ export interface QueryParams {
   // toggle polarity control panel mode (flip/polarity)
   // ?current=true changes flip panel to polarity panel
   current?: string;
+  // toggle the top bar UI letting user pick magnet type
+  // ?topBar=false hides the UI and loads the simulation with defaults magnets in place
+  topBar?: string;
+  // turn magnetic force arrows panel on/off, ?forceArrows=true to enable
+  forceArrowsPanel: string;
+  // default value of magnetic force arrows rendering and X axis locking
+  // ?foreArrows=true shows force arrows and locks X axis on simulation load
+  forceArrows: string;
 }
 
 const params = parse(location.search);
@@ -24,7 +32,10 @@ export const DefaultUrlParams: QueryParams = {
   magnets: "2",
   battery: "false",
   strength: "true",
-  current: "true"
+  current: "true",
+  topBar: "true",
+  forceArrowsPanel: "true",
+  forceArrows: "false"
 };
 
-export const urlParams: QueryParams = params;
+export const urlParams: QueryParams = {...DefaultUrlParams, ...params };
