@@ -1,15 +1,17 @@
 import { types } from "mobx-state-tree";
 import { SimulationMagnetType, SimulationMagnet, MagnetType,
         CoilPolarityType, PolarityType } from "./simulation-magnet";
+import { urlParams } from "../utilities/url-params";
 
+const { forceArrows, fieldArrows } = urlParams;
 const kMaxMagnets = 2;
 
 export const SimulationModel = types
   .model("Simulation", {
     showFieldLines: false,
     showCloud: false,
-    showPointers: true,
-    showMagneticForces: false,
+    showPointers: fieldArrows === "true",
+    showMagneticForces: forceArrows === "true",
     magnets: types.array(SimulationMagnet),
     slideArrowStarted: false,
     slideArrowComplete: false,

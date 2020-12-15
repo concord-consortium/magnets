@@ -1,5 +1,6 @@
 import { types } from "mobx-state-tree";
 import uuid = require("uuid");
+import { urlParams } from "../utilities/url-params";
 
 export const MagnetTypeEnum = types.enumeration("type", ["bar", "coil"]);
 export type MagnetType = typeof MagnetTypeEnum.Type;
@@ -61,6 +62,9 @@ export const SimulationMagnet = types
       },
       get magnetImage(): string {
         if (self.type === "bar") {
+          if (urlParams.multipleBars === "false") {
+            return "assets/magnet-bar-1.png";
+          }
           switch (self.barStrength) {
             case kBarStrengthStrong:
               return "assets/magnet-bar-3.png";

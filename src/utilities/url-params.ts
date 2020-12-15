@@ -22,6 +22,15 @@ export interface QueryParams {
   // default value of magnetic force arrows rendering and X axis locking
   // ?foreArrows=true shows force arrows and locks X axis on simulation load
   forceArrows: string;
+  // default value of magnetic field arrows rendering
+  // ?fieldArrows=true shows field arrows
+  fieldArrows: string;
+  // initial strength of the magnet when it's added
+  // ?initialStrength=weak/medium/strong
+  initialStrength: "weak" | "medium" | "strong";
+  // toggle rendering of multiple bars for stronger magnets
+  // ?multipleBars=false renders only one bar for each magnet strength
+  multipleBars: string;
 }
 
 const params = parse(location.search);
@@ -35,7 +44,10 @@ export const DefaultUrlParams: QueryParams = {
   current: "true",
   topBar: "true",
   forceArrowsPanel: "true",
-  forceArrows: "false"
+  forceArrows: "false",
+  fieldArrows: "true",
+  initialStrength: "weak",
+  multipleBars: "true"
 };
 
 export const urlParams: QueryParams = {...DefaultUrlParams, ...params };
