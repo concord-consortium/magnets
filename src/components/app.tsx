@@ -5,7 +5,9 @@ import { urlParams } from "../utilities/url-params";
 import { TopBarComponent } from "./top-bar";
 import { MainContentComponent } from "./main-content";
 import { BottomBarComponent } from "./bottom-bar";
-import { SimulationMagnet } from "../models/simulation-magnet";
+import {
+  kBarStrengthMedium, kBarStrengthStrong, kBarStrengthWeak, SimulationMagnet
+} from "../models/simulation-magnet";
 
 import "./app.sass";
 
@@ -50,16 +52,17 @@ export class AppComponent extends BaseComponent<IProps, IState> {
   }
 
   public setupDefaultSimulation() {
-    const {topBar, magnets, forceArrows} = urlParams;
+    const {topBar, magnets, initialStrength} = urlParams;
     const {simulation} = this.stores;
     if (topBar === "false") {
+      const barStrength = initialStrength === "strong" ? kBarStrengthStrong :
+        (initialStrength === "medium" ? kBarStrengthMedium : kBarStrengthWeak);
       // Add default magnets, as user wouldn't be able to do it without top bar.
-      simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar"}));
+      simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar", barStrength}));
       if (magnets === "2") {
-        simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar"}));
+        simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar", barStrength}));
       }
     }
-    simulation.setShowMagneticForces(forceArrows === "true");
   }
 
   public render() {

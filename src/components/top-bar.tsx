@@ -3,7 +3,13 @@ import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
 
 import "./top-bar.sass";
-import { MagnetType, SimulationMagnet } from "../models/simulation-magnet";
+import {
+  kBarStrengthMedium,
+  kBarStrengthStrong,
+  kBarStrengthWeak, kCoilStrengthMedium, kCoilStrengthStrong, kCoilStrengthWeak,
+  MagnetType,
+  SimulationMagnet
+} from "../models/simulation-magnet";
 import { urlParams } from "../utilities/url-params";
 
 interface IProps extends IBaseProps {}
@@ -145,11 +151,19 @@ export class TopBarComponent extends BaseComponent<IProps, IState> {
 
   private addOrUpdateMagnet = (index: number, magType: any) => {
     const {simulation} = this.stores;
-    const {battery} = urlParams;
+    const {battery, initialStrength} = urlParams;
     const mag = simulation.getMagnetAtIndex(index);
     const showBattery = magType === "coil" ? (battery ? battery.toLowerCase() === "true" : false) : false;
     if (mag == null) {
-      simulation.addMagnet(SimulationMagnet.create({active: true, type: magType}));
+      if (magType === "bar") {
+        const barStrength = initialStrength === "strong" ? kBarStrengthStrong :
+          (initialStrength === "medium" ? kBarStrengthMedium : kBarStrengthWeak);
+        simulation.addMagnet(SimulationMagnet.create({active: true, type: magType, barStrength}));
+      } else {
+        const coilStrength = initialStrength === "strong" ? kCoilStrengthStrong :
+          (initialStrength === "medium" ? kCoilStrengthMedium : kCoilStrengthWeak);
+        simulation.addMagnet(SimulationMagnet.create({active: true, type: magType, coilStrength}));
+      }
     } else {
       simulation.setMagnetType(index, magType);
     }
