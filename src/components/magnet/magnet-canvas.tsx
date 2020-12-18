@@ -1,6 +1,6 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
-import { BaseComponent, IBaseProps } from "../base";
+import { BaseComponent } from "../base";
 import { Stage, withPixiApp } from "@inlet/react-pixi";
 import Magnet from "./magnet";
 import VectorField from "./vector-field";
@@ -12,11 +12,13 @@ import ForceVectors from "./force-vectors";
 import { kAppMaxWidth } from "../app";
 import SlideArrow from "./slide-arrow";
 import LockArrows from "./lock-arrows";
+import { PixiShutterbugSupport } from "../pixi-shutterbug-support";
 
 export const kMagnetHeight = 40;
 
 const MagWithApp = withPixiApp(Magnet);
 const SlideArrowWithApp = withPixiApp(SlideArrow);
+const PixiShutterbugSupportWithApp = withPixiApp(PixiShutterbugSupport);
 
 export interface IMagnetProps {
   x: number;
@@ -220,6 +222,7 @@ export class MagnetCanvas extends BaseComponent<IProps, IState> {
 
     return (
       <Stage options={options} style={{width, height}}>
+        <PixiShutterbugSupportWithApp />
         {
           simulation.showCloud && !rotating1 && !rotating2 &&
           <GradientField magnets={magnets} magnetModels={magnetModels} width={width} height={height} cellSize={10} />

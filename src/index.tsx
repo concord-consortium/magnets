@@ -9,7 +9,7 @@ import "./index.sass";
 
 const stores = createStores({ });
 
-Shutterbug.enable();
+Shutterbug.enable("#app");
 
 ReactDOM.render(
   <Provider stores={stores}>
