@@ -1,12 +1,15 @@
 import { inject, observer } from "mobx-react";
 import * as React from "react";
 import { BaseComponent, IBaseProps } from "./base";
-
-import "./app.sass";
-
+import { urlParams } from "../utilities/url-params";
 import { TopBarComponent } from "./top-bar";
 import { MainContentComponent } from "./main-content";
 import { BottomBarComponent } from "./bottom-bar";
+import {
+  kBarStrengthMedium, kBarStrengthStrong, kBarStrengthWeak, SimulationMagnet
+} from "../models/simulation-magnet";
+
+import "./app.sass";
 
 interface IProps extends IBaseProps {}
 interface IState {
@@ -32,6 +35,12 @@ export class AppComponent extends BaseComponent<IProps, IState> {
   public componentDidMount() {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
+    // setTimeout is a consequence of the hacky implementation of MagnetCanvas. MagnetCanvas setups simulation
+    // observing in its own componentDidMount method. So without timeout, these changes wouldn't be fully picked
+    // up by the MagnetCanvas and the initial rendering would be half broken.
+    setTimeout(() => {
+      this.setupDefaultSimulation();
+    }, 0);
   }
 
   public componentWillUnmount() {
@@ -42,7 +51,22 @@ export class AppComponent extends BaseComponent<IProps, IState> {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   }
 
+  public setupDefaultSimulation() {
+    const {topBar, magnets, initialStrength} = urlParams;
+    const {simulation} = this.stores;
+    if (topBar === "false") {
+      const barStrength = initialStrength === "strong" ? kBarStrengthStrong :
+        (initialStrength === "medium" ? kBarStrengthMedium : kBarStrengthWeak);
+      // Add default magnets, as user wouldn't be able to do it without top bar.
+      simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar", barStrength}));
+      if (magnets === "2") {
+        simulation.addMagnet(SimulationMagnet.create({active: true, type: "bar", barStrength}));
+      }
+    }
+  }
+
   public render() {
+    const {topBar} = urlParams;
     const widthRatio = this.state.width / kAppMaxWidth;
     const heightRatio = this.state.height / kAppMaxHeight;
     const scalePercent = widthRatio > heightRatio ? heightRatio : widthRatio;
@@ -53,7 +77,7 @@ export class AppComponent extends BaseComponent<IProps, IState> {
     return (
       <div style={styles} className="app-container">
         <MainContentComponent />
-        <TopBarComponent />
+        { topBar === "true" && <TopBarComponent /> }
         <BottomBarComponent />
         <div className="cover"/>
       </div>
